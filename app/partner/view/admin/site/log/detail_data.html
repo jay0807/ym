@@ -1,0 +1,16 @@
+<table width=98%>
+    <tr>
+        <td width="60"><b><{t}>操作者<{/t}></b></td>
+        <td width="120"><b><{t}>操作内容<{/t}></b></td>
+        <td width="500"><b><{t}>操作结果<{/t}></b></td>
+        <td width="120"><b><{t}>操作时间<{/t}></b></td>
+    </tr>
+    <{foreach from=$log item=item }>
+    <tr>
+        <td><{if $item.user}><{$item.user}><{else}>system<{/if}></td>
+        <td><{$item.log}></td>
+        <td><{$item.log_result}></td>
+        <td><{$item.date|cdate}></td>
+    </tr>
+    <{/foreach}>
+</table>

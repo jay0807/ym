@@ -1,0 +1,2 @@
+<?php exit(); ?>a:3:{s:5:"value";a:5:{s:3:"key";s:17:"ecos.install.lock";s:6:"prefix";s:12:"setting/base";s:5:"value";s:138:"If you want to reinstall system, delete this file! <?php exit();?> 
+code: 0372d757bac6d6060288d592df74e03f78cef6a3c354c403bb98be547d643982";s:3:"ttl";i:0;s:8:"dateline";i:1369721255;}s:3:"ttl";i:0;s:8:"dateline";i:1369721255;}

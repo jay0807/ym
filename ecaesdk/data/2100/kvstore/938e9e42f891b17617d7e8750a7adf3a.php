@@ -1,0 +1,1 @@
+<?php exit(); ?>a:3:{s:5:"value";a:5:{s:3:"key";s:26:"desktop_task.finder_colset";s:6:"prefix";s:7:"service";s:5:"value";a:1:{s:4:"list";a:1:{s:21:"desktop_finder_colset";s:21:"desktop_finder_colset";}}s:3:"ttl";i:0;s:8:"dateline";i:1369721273;}s:3:"ttl";i:0;s:8:"dateline";i:1369721273;}

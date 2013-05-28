@@ -1,0 +1,22 @@
+<app version="1.0">
+  <name>ECAE Partner</name>
+
+  <description>ECAE Partner</description>
+
+  <author>
+	  <name>shopex开发团队</name>
+	  <email>dev@shopex.cn</email>
+	  <url>www.shopex.cn</url>
+  </author>
+
+  <version>0.1</version>
+
+  <license>Commercial</license>
+  <depends>
+	<app>site</app>
+	<app>desktop</app>
+	<app>content</app>
+	<app>ecaeapi</app>
+  </depends>
+
+</app>

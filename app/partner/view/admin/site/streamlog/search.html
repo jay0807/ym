@@ -1,0 +1,75 @@
+<div class="division">	
+	<form id="search-log-form-<{$log_type}>">
+	<input type="hidden" name="search_type" value="<{$log_type}>" />
+	<table width="98%">
+		<tr>
+			<{if $log_type=="queue"}>
+			<td width="50">
+      				<label>查询类型:</label>
+			</td>
+			<td width="40">
+				<select name="search_name">
+					<option value="curl">curl</option>
+					<option value="php_loop">php_loop</option>
+				</select>
+			</td>
+			<{/if}>
+			<td width="50">
+      				<label>开始时间:</label>
+			</td>
+			<td width="230">
+				<{input type="time" name="time" value="{$time_now}"}>
+			</td>
+<{*
+			<td width="50">
+      				<label>结束时间:</label>
+			</td>
+			<td width="230">
+				<{input type="time" name="end_time"}>
+			</td>
+*}>
+			<td width="30">
+      				<label>offset:</label>
+			</td>
+			<td width="10">
+				<{input type="text" name="offset" value="0" size="2"}>
+			</td>
+			<td width="30">
+      				<label>limit:</label>
+			</td>
+			<td width="10">
+				<{input type="text" name="limit" value="10" size="2"}>
+			</td>
+			<td width="200">
+                                Status:
+				<label><input type="radio" name="status" value="1" />SUCCEED</label>
+				<label><input type="radio" name="status" value="0" checked="checked" />OTHER</label>
+			</td>
+			<td width="50">
+				<input type="button" value="查询" id="search-log-button-<{$log_type}>" />
+			</td>
+			<td>&nbsp;</td>
+		</tr>
+	</table>
+	</form>
+</div>
+
+<div class="division" id="log-<{$log_type}>">	
+</div>
+
+<script>
+$('search-log-button-<{$log_type}>').addEvent('click',function(i){
+	new Request.HTML({
+                update:$('log-<{$log_type}>'),
+                url:'<{link app=partner ctl=admin_streamlog act=search site=$site}>',method:'post',
+                data:$('search-log-form-<{$log_type}>'),
+                onRequest:function(s){
+                    MessageBox.success('数据查询中....');
+                },
+                onComplete: function(tt) {
+console.info(tt);
+                    W.render(this.options.update);
+                }
+            }).send();
+});
+</script>

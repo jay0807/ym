@@ -1,0 +1,35 @@
+<div id="cat-config" style="display:none;"></div>
+<div  class="tableform widgetconfig">
+  <h4><{t app='yunmall'}>资源显示设置<{/t}></h4>
+  
+  <div class="division">
+    <table width="100%" cellpadding="0" cellspacing="0"> 
+      <tr>
+        <th><{t app='yunmall'}>显示数量：<{/t}></th>
+        <td><{input name="limit" value=$setting.limit|default:'4' required="true" type="digits"}></td>
+      </tr>
+      <tr>
+        <th><{t app='yunmall'}>排序设定：<{/t}></th>
+        <td>
+			<select name="orderby">
+				<{foreach from=$data item=orderby key=key}>
+					<option value="<{$key}>" <{if $setting.orderby == $key}>selected<{/if}>> <{$orderby}> </option>
+				<{/foreach}>
+			</select>
+          </td>
+      </tr>
+      <tr >
+        <th><{t app='yunmall'}>最长显示长度：<{/t}></th>
+        <td><{input name="max_length" value=$setting.max_length|default:'36'}></td>
+      </tr>
+      <tr >
+        <th><{t app='yunmall'}>标题名称：<{/t}></th>
+        <td><{input name="title" value=$setting.title}></td>
+      </tr>
+      <tr >
+        <th><{t app='yunmall'}>更多链接：<{/t}></th>
+        <td><{input name="link" value=$setting.link}></td>
+      </tr>
+    </table>
+  </div>
+</div>

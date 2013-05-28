@@ -1,0 +1,1 @@
+<?php exit(); ?>a:3:{s:5:"value";a:5:{s:3:"key";s:32:"custom_template_yunmall_all_tmpl";s:6:"prefix";s:12:"setting/site";s:5:"value";a:2:{i:0;s:12:"default.html";i:1;s:10:"index.html";}s:3:"ttl";i:0;s:8:"dateline";i:1369721288;}s:3:"ttl";i:0;s:8:"dateline";i:1369721288;}

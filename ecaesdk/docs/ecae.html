@@ -1,0 +1,1061 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<META NAME="generator" CONTENT="http://txt2tags.org">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=utf-8">
+<TITLE>ECAE Platform API文档</TITLE>
+</HEAD><BODY BGCOLOR="white" TEXT="black">
+<CENTER>
+<H1>ECAE Platform API文档</H1>
+<FONT SIZE="4"><I>bluefrog(wubin@shopex.cn)</I></FONT><BR>
+<FONT SIZE="4">since: 02-29-2012</FONT>
+</CENTER>
+
+<P></P>
+<HR NOSHADE SIZE=1>
+<P></P>
+
+  <UL>
+  <LI><A HREF="#toc1">API接口定义</A>
+    <UL>
+    <LI><A HREF="#toc2">Cache相关(内存存储)</A>
+      <UL>
+      <LI><A HREF="#toc3">获取指定key的值(ecae_cache_read)</A>
+      <LI><A HREF="#toc4">设置指定key的值(ecae_cache_write)</A>
+      <LI><A HREF="#toc5">获取当前memcache的状态(ecae_cache_stats)</A>
+      </UL>
+    <LI><A HREF="#toc6">KVStore相关(K-V永久存储)</A>
+      <UL>
+      <LI><A HREF="#toc7">获取指定key的值(ecae_kvstore_read)</A>
+      <LI><A HREF="#toc8">设置指定key的值(ecae_kvstore_write)</A>
+      <LI><A HREF="#toc9">删除指定key的值(ecae_kvstore_delete)</A>
+      </UL>
+    <LI><A HREF="#toc10">Storage相关(文件存储)</A>
+      <UL>
+      <LI><A HREF="#toc11">将文件保存在指定的bucket里(ecae_file_save)</A>
+      <LI><A HREF="#toc12">将指定文件替换为新的文件(ecae_file_replace)</A>
+      <LI><A HREF="#toc13">删除指定文件(ecae_file_delete)</A>
+      <LI><A HREF="#toc14">获取指定文件的访问地址(ecae_file_url)</A>
+      </UL>
+    <LI><A HREF="#toc15">Crypto (加解密服务)</A>
+      <UL>
+      <LI><A HREF="#toc16">初始化密钥 (ecae_rsa_init)</A>
+      <LI><A HREF="#toc17">对传入的字串进行加密处理 (ecae_rsa_encrypt)</A>
+      <LI><A HREF="#toc18">对传入的字串进行解密处理 (ecae_rsa_decrypt)</A>
+      </UL>
+    <LI><A HREF="#toc19">Image相关(ECAE 图片处理服务)</A>
+    </UL>
+  <LI><A HREF="#toc20">相关备注</A>
+  <LI><A HREF="#toc21">更新日志</A>
+  </UL>
+
+<P></P>
+<HR NOSHADE SIZE=1>
+<P></P>
+
+<A NAME="toc1"></A>
+<H1>API接口定义</H1>
+
+<A NAME="toc2"></A>
+<H2>Cache相关(内存存储)</H2>
+
+<P>
+ 需要先开启Memcache服务 Memcache服务是ECAE平台上提供的一个内存存储的解决方案
+</P>
+
+<A NAME="toc3"></A>
+<H3>获取指定key的值(ecae_cache_read)</H3>
+
+<UL>
+<LI>接口名称: ecae_cache_read
+<LI>接口说明: 获取指定key的值
+<P></P>
+</UL>
+
+<TABLE BORDER="1" CELLPADDING="4">
+<TR>
+<TH><B>参数名称</B></TH>
+<TH><B>数据类型</B></TH>
+<TH><B>是否必填</B></TH>
+<TH><B>默认</B></TH>
+<TH COLSPAN="2"><B>参数说明</B></TH>
+</TR>
+<TR>
+<TD>$key</TD>
+<TD>String</TD>
+<TD>是</TD>
+<TD>无</TD>
+<TD>key</TD>
+</TR>
+</TABLE>
+
+<UL>
+<LI>语法
+<PRE>
+  /**
+   * 获取指定key的值
+   *  
+   * @param string $key
+   * @return string
+   **/
+  ecae_cache_read($key)
+</PRE>
+
+<P></P>
+<LI>例子:
+<P></P>
+<PRE>
+  &lt;?php 
+      $key = 'newid'; 
+      $val = "abcde"; 
+      ecae_cache_write($key,$val); 
+  
+      var_dump(ecae_cache_read($key));
+</PRE>
+
+<P></P>
+<LI>运行结果
+<P></P>
+<PRE>
+  string(5) "abcde"
+</PRE>
+
+</UL>
+
+<A NAME="toc4"></A>
+<H3>设置指定key的值(ecae_cache_write)</H3>
+
+<UL>
+<LI>接口名称: ecae_cache_write
+<LI>接口说明: 设置指定key的值
+<P></P>
+</UL>
+
+<TABLE BORDER="1" CELLPADDING="4">
+<TR>
+<TH><B>参数名称</B></TH>
+<TH><B>数据类型</B></TH>
+<TH><B>是否必填</B></TH>
+<TH><B>默认</B></TH>
+<TH COLSPAN="2"><B>参数说明</B></TH>
+</TR>
+<TR>
+<TD>$key</TD>
+<TD>String</TD>
+<TD>是</TD>
+<TD>无</TD>
+<TD>取回时所需的key</TD>
+</TR>
+<TR>
+<TD>$value</TD>
+<TD>String</TD>
+<TD>是</TD>
+<TD>无</TD>
+<TD>要存储的值</TD>
+</TR>
+</TABLE>
+
+<UL>
+<LI>语法
+<PRE>
+  /**
+   * 设置指定key的值
+   *  
+   * @param string $key
+   * @param string $value
+   * @return boolean
+   **/
+  ecae_cache_write($key,$value)
+</PRE>
+
+<P></P>
+<LI>例子:
+<P></P>
+<PRE>
+  &lt;?php 
+      $key = 'newid'; 
+      $val = time(); 
+      var_dump(ecae_cache_write($key,$val)); 
+</PRE>
+
+<P></P>
+<LI>运行结果
+<P></P>
+<PRE>
+  bool(true)
+</PRE>
+
+</UL>
+
+<A NAME="toc5"></A>
+<H3>获取当前memcache的状态(ecae_cache_stats)</H3>
+
+<UL>
+<LI>接口名称: ecae_cache_stats
+<LI>接口说明: 获取当前memcache的状态
+<P></P>
+</UL>
+
+<TABLE BORDER="1" CELLPADDING="4">
+<TR>
+<TH><B>参数名称</B></TH>
+<TH><B>数据类型</B></TH>
+<TH><B>是否必填</B></TH>
+<TH><B>默认</B></TH>
+<TH COLSPAN="2"><B>参数说明</B></TH>
+</TR>
+<TR>
+<TD ALIGN="center">无参数</TD>
+</TR>
+</TABLE>
+
+<UL>
+<LI>语法
+<PRE>
+  /**
+   *  获取当前memcache的状态
+   *  
+   * @return array
+   **/
+  ecae_cache_stats()
+</PRE>
+
+<P></P>
+<LI>例子:
+<P></P>
+<PRE>
+  &lt;?php 
+      var_dump(ecae_cache_stats()); 
+</PRE>
+
+<P></P>
+<LI>运行结果
+<P></P>
+<PRE>
+  array(2) {
+    ["192.168.11.10:20022"]=&gt;
+    array(39) {
+      ["pid"]=&gt;
+      string(5) "15380"
+      ["uptime"]=&gt;
+      string(5) "81155"
+      ["time"]=&gt;
+  	...
+</PRE>
+
+<P></P>
+<LI>返回结果相关信息说明
+<P></P>
+</UL>
+
+<TABLE BORDER="1" CELLPADDING="4">
+<TR>
+<TH><B>返回数组的key</B></TH>
+<TH COLSPAN="2"><B>相关说明</B></TH>
+</TR>
+<TR>
+<TD>pid</TD>
+<TD>Process id of this server process</TD>
+</TR>
+<TR>
+<TD>uptime</TD>
+<TD>Number of seconds this server has been running</TD>
+</TR>
+<TR>
+<TD>rime</TD>
+<TD>Current UNIX time according to the server</TD>
+</TR>
+<TR>
+<TD>version</TD>
+<TD>Version string of this server</TD>
+</TR>
+<TR>
+<TD>rusage_user</TD>
+<TD>Accumulated user time for this process</TD>
+</TR>
+<TR>
+<TD>rusage_system</TD>
+<TD>Accumulated system time for this process</TD>
+</TR>
+<TR>
+<TD>curr_items</TD>
+<TD>Current number of items stored by the server</TD>
+</TR>
+<TR>
+<TD>total_items</TD>
+<TD>Total number of items stored by this server ever since it started</TD>
+</TR>
+<TR>
+<TD>bytes</TD>
+<TD>Current number of bytes used by this server to store items</TD>
+</TR>
+<TR>
+<TD>curr_connections</TD>
+<TD>Number of open connections</TD>
+</TR>
+<TR>
+<TD>total_connections</TD>
+<TD>Total number of connections opened since the server started running</TD>
+</TR>
+<TR>
+<TD>connection_structures</TD>
+<TD>Number of connection structures allocated by the server</TD>
+</TR>
+<TR>
+<TD>cmd_get</TD>
+<TD>Cumulative number of retrieval requests</TD>
+</TR>
+<TR>
+<TD>cmd_set</TD>
+<TD>Cumulative number of storage requests</TD>
+</TR>
+<TR>
+<TD>get_hits</TD>
+<TD>Number of keys that have been requested and found present</TD>
+</TR>
+<TR>
+<TD>get_misses</TD>
+<TD>Number of items that have been requested and not found</TD>
+</TR>
+<TR>
+<TD>bytes_read</TD>
+<TD>Total number of bytes read by this server from network</TD>
+</TR>
+<TR>
+<TD>bytes_written</TD>
+<TD>Total number of bytes sent by this server to network</TD>
+</TR>
+<TR>
+<TD>limit_maxbytes</TD>
+<TD>Number of bytes this server is allowed to use for storage</TD>
+</TR>
+</TABLE>
+
+<A NAME="toc6"></A>
+<H2>KVStore相关(K-V永久存储)</H2>
+
+<P>
+ 需要先开启KVDB服务, KVDB是 ECAE平台提供的key-value永久存储的解决方案
+</P>
+
+<A NAME="toc7"></A>
+<H3>获取指定key的值(ecae_kvstore_read)</H3>
+
+<UL>
+<LI>接口名称: ecae_kvstore_read
+<LI>接口说明: 获取指定key的值
+<P></P>
+</UL>
+
+<TABLE BORDER="1" CELLPADDING="4">
+<TR>
+<TH><B>参数名称</B></TH>
+<TH><B>数据类型</B></TH>
+<TH><B>是否必填</B></TH>
+<TH><B>默认</B></TH>
+<TH COLSPAN="2"><B>参数说明</B></TH>
+</TR>
+<TR>
+<TD>$key</TD>
+<TD>String</TD>
+<TD>是</TD>
+<TD>无</TD>
+<TD>key</TD>
+</TR>
+<TR>
+<TD>$value</TD>
+<TD>Mix</TD>
+<TD>是</TD>
+<TD>无</TD>
+<TD>值以引用的方式返回</TD>
+</TR>
+</TABLE>
+
+<UL>
+<LI>语法
+<PRE>
+  /**
+   * 获取指定key的值
+   *  
+   * @param string $key
+   * @param string &amp;$value // 值以引用返回
+   * @return boolean
+   **/
+  ecae_kvstore_read($key,&amp;$value)
+</PRE>
+
+<P></P>
+<LI>例子:
+<P></P>
+<PRE>
+  &lt;?php 
+      $key = 'newid'; 
+      $val = "abcde"; 
+      ecae_kvstore_write($key,$val); 
+  
+  	$value = null;
+      var_dump(ecae_kvstore_read($key,$value));
+  	var_dump($value);
+</PRE>
+
+<P></P>
+<LI>运行结果
+<P></P>
+<PRE>
+  bool(true)
+  string(5) "abcde"
+</PRE>
+
+</UL>
+
+<A NAME="toc8"></A>
+<H3>设置指定key的值(ecae_kvstore_write)</H3>
+
+<UL>
+<LI>接口名称: ecae_kvstore_write
+<LI>接口说明: 设置指定key的值
+<P></P>
+</UL>
+
+<TABLE BORDER="1" CELLPADDING="4">
+<TR>
+<TH><B>参数名称</B></TH>
+<TH><B>数据类型</B></TH>
+<TH><B>是否必填</B></TH>
+<TH><B>默认</B></TH>
+<TH COLSPAN="2"><B>参数说明</B></TH>
+</TR>
+<TR>
+<TD>$key</TD>
+<TD>String</TD>
+<TD>是</TD>
+<TD>无</TD>
+<TD>key</TD>
+</TR>
+<TR>
+<TD>$value</TD>
+<TD>Mix</TD>
+<TD>是</TD>
+<TD>无</TD>
+<TD>值以引用的方式返回</TD>
+</TR>
+</TABLE>
+
+<UL>
+<LI>语法
+<PRE>
+  /**
+   * 获取指定key的值
+   *  
+   * @param string $key
+   * @param string $value
+   * @return boolean
+   **/
+  ecae_kvstore_write($key,$value)
+</PRE>
+
+<P></P>
+<LI>例子:
+<P></P>
+<PRE>
+  &lt;?php 
+      $key = 'newid'; 
+      $val = "abcde"; 
+      var_dump(ecae_kvstore_write($key,$val)); 
+</PRE>
+
+<P></P>
+<LI>运行结果
+<P></P>
+<PRE>
+  bool(true)
+</PRE>
+
+</UL>
+
+<A NAME="toc9"></A>
+<H3>删除指定key的值(ecae_kvstore_delete)</H3>
+
+<UL>
+<LI>接口名称: ecae_kvstore_delete
+<LI>接口说明: 删除指定key的值
+<P></P>
+</UL>
+
+<TABLE BORDER="1" CELLPADDING="4">
+<TR>
+<TH><B>参数名称</B></TH>
+<TH><B>数据类型</B></TH>
+<TH><B>是否必填</B></TH>
+<TH><B>默认</B></TH>
+<TH COLSPAN="2"><B>参数说明</B></TH>
+</TR>
+<TR>
+<TD>$key</TD>
+<TD>String</TD>
+<TD>是</TD>
+<TD>无</TD>
+<TD>key</TD>
+</TR>
+</TABLE>
+
+<UL>
+<LI>语法
+<PRE>
+  /**
+   * 删除指定key的值
+   *  
+   * @param string $key
+   * @return boolean
+   **/
+  ecae_kvstore_delete($key)
+</PRE>
+
+<P></P>
+<LI>例子:
+<P></P>
+<PRE>
+  &lt;?php 
+      $key = 'newid'; 
+      $val = "abcde"; 
+      var_dump(ecae_kvstore_write($key,$val)); 
+  	var_dump(ecae_kvstore_delete($key));
+  
+  	$value = "1234";
+  	ecae_kvstore_read($key,$value);
+  	var_dump($value);
+</PRE>
+
+<P></P>
+<LI>运行结果
+<P></P>
+<PRE>
+  bool(true)
+  bool(true)
+  null
+</PRE>
+
+</UL>
+
+<A NAME="toc10"></A>
+<H2>Storage相关(文件存储)</H2>
+
+<P>
+     需要先开启Storage服务, Storage是 ECAE平台提供的一个文件永久存储的解决方案
+ 开启Storage服务,默认创建"public","private","images"三个bucket
+ 如果需要其它的bucket,自己在后台进行添加
+ 默认开通的bucket属性及相关说明如下
+</P>
+
+<TABLE ALIGN="center" BORDER="1" CELLPADDING="4">
+<TR>
+<TH><B>bucket名称</B></TH>
+<TH><B>属性</B></TH>
+<TH COLSPAN="2"><B>说明</B></TH>
+</TR>
+<TR>
+<TD ALIGN="center">public</TD>
+<TD>public</TD>
+<TD>公有的bucket ECstore/shopex485上传的文件将存储于此</TD>
+</TR>
+<TR>
+<TD ALIGN="center">private</TD>
+<TD>private</TD>
+<TD>私有的bucket ecae_file_url不能生成公开访问URL,只能使用ecae_file_fetch进行获取</TD>
+</TR>
+<TR>
+<TD ALIGN="center">images</TD>
+<TD>public</TD>
+<TD>公有的bucket ECstore/shopex485上传的图片将存储于此</TD>
+</TR>
+</TABLE>
+
+<P>
+ 注: 删除bucket bucket相关存储文件将被删除,请谨慎删除bucket
+</P>
+
+<A NAME="toc11"></A>
+<H3>将文件保存在指定的bucket里(ecae_file_save)</H3>
+
+<UL>
+<LI>接口名称: ecae_file_save
+<LI>接口说明: 将文件保存在指定的bucket里
+<P></P>
+</UL>
+
+<TABLE BORDER="1" CELLPADDING="4">
+<TR>
+<TH><B>参数名称</B></TH>
+<TH><B>数据类型</B></TH>
+<TH><B>是否必填</B></TH>
+<TH><B>默认</B></TH>
+<TH COLSPAN="2"><B>参数说明</B></TH>
+</TR>
+<TR>
+<TD>$bucket</TD>
+<TD>String</TD>
+<TD>是</TD>
+<TD>无</TD>
+<TD>要将文件存放的bucket</TD>
+</TR>
+<TR>
+<TD>$file</TD>
+<TD>String</TD>
+<TD>是</TD>
+<TD>无</TD>
+<TD>文件所在地址如$_FILES[file][tmp_name]</TD>
+</TR>
+<TR>
+<TD>$options</TD>
+<TD>array</TD>
+<TD>否</TD>
+<TD>null</TD>
+<TD>name:要保存的文件名,path:要保存的路径</TD>
+</TR>
+</TABLE>
+
+<UL>
+<LI>语法
+<PRE>
+  /**
+   * 将文件保存在指定的bucket里
+   *  
+   * @param string $bucket     // 大于3小于30的字母数字的串
+   * @param string $file       // 要上传的文件 
+   * @param array  $options    // 默认为null 详细说明查看例子 
+   * @return string
+   **/
+  ecae_file_save($bucket,$file,$options = null)
+</PRE>
+
+<P></P>
+<LI>例子:
+<P></P>
+<PRE>
+  &lt;?php 
+      $options = array("name"=&gt;"new.txt","path"=&gt;"php");
+      var_dump(ecae_file_save("public",__FILE__,$options));
+</PRE>
+
+<P></P>
+<LI>运行结果
+<P></P>
+<PRE>
+  string(18) "public:php/new.txt"
+</PRE>
+
+</UL>
+
+<A NAME="toc12"></A>
+<H3>将指定文件替换为新的文件(ecae_file_replace)</H3>
+
+<UL>
+<LI>接口名称: ecae_file_replace
+<LI>接口说明: 将指定文件替换为新的文件
+<P></P>
+</UL>
+
+<TABLE BORDER="1" CELLPADDING="4">
+<TR>
+<TH><B>参数名称</B></TH>
+<TH><B>数据类型</B></TH>
+<TH><B>是否必填</B></TH>
+<TH><B>默认</B></TH>
+<TH COLSPAN="2"><B>参数说明</B></TH>
+</TR>
+<TR>
+<TD>$file_id</TD>
+<TD>String</TD>
+<TD>是</TD>
+<TD>无</TD>
+<TD>保存在Storage上的编号</TD>
+</TR>
+<TR>
+<TD>$local_file</TD>
+<TD>String</TD>
+<TD>是</TD>
+<TD>无</TD>
+<TD>文件所在地址如$_FILES[file][tmp_name]</TD>
+</TR>
+</TABLE>
+
+<UL>
+<LI>语法
+<PRE>
+  /**
+   * 将指定文件替换为新的文件
+   *  
+   * @param string $file_id    
+   * @param string $local_file // 要替换成的文件 
+   * @return string
+   **/
+  ecae_file_replace($file_id,$file)
+</PRE>
+
+<P></P>
+<LI>例子:
+<P></P>
+<PRE>
+  &lt;?php 
+  	$options = array("name"=&gt;"new.txt","path"=&gt;"php");
+      $file_id = ecae_file_save("public",__FILE__,$options);
+  	ecae_file_replace($file_id,dirname(__FILE__)."/test.txt");
+  	var_dump(ecae_file_fetch($file_id));
+</PRE>
+
+<P></P>
+<LI>运行结果
+<P></P>
+<PRE>
+  //运行程序目录下test.txt文件里的内容
+</PRE>
+
+</UL>
+
+<A NAME="toc13"></A>
+<H3>删除指定文件(ecae_file_delete)</H3>
+
+<UL>
+<LI>接口名称: ecae_file_delete
+<LI>接口说明: 删除指定文件
+<P></P>
+</UL>
+
+<TABLE BORDER="1" CELLPADDING="4">
+<TR>
+<TH><B>参数名称</B></TH>
+<TH><B>数据类型</B></TH>
+<TH><B>是否必填</B></TH>
+<TH><B>默认</B></TH>
+<TH COLSPAN="2"><B>参数说明</B></TH>
+</TR>
+<TR>
+<TD>$file_id</TD>
+<TD>String</TD>
+<TD>是</TD>
+<TD>无</TD>
+<TD>保存在Storage上的编号</TD>
+</TR>
+</TABLE>
+
+<UL>
+<LI>语法
+<PRE>
+  /**
+   * 删除指定文件
+   *  
+   * @param string $file_id    
+   * @return boolean
+   **/
+  ecae_file_delete($file_id)
+</PRE>
+
+<P></P>
+<LI>例子:
+<P></P>
+<PRE>
+  &lt;?php 
+  	$options = array("name"=&gt;"new.txt","path"=&gt;"php");
+      $file_id = ecae_file_save("public",__FILE__,$options);
+  	var_dump(ecae_file_delete($file_id));
+</PRE>
+
+<P></P>
+<LI>运行结果
+<P></P>
+<PRE>
+  bool(true)
+</PRE>
+
+<P></P>
+  === 获取指定文件的内容(ecae_file_fetch) ===
+<LI>接口名称: ecae_file_fetch
+<LI>接口说明: 获取指定文件的内容
+<P></P>
+</UL>
+
+<TABLE BORDER="1" CELLPADDING="4">
+<TR>
+<TH><B>参数名称</B></TH>
+<TH><B>数据类型</B></TH>
+<TH><B>是否必填</B></TH>
+<TH><B>默认</B></TH>
+<TH COLSPAN="2"><B>参数说明</B></TH>
+</TR>
+<TR>
+<TD>$file_id</TD>
+<TD>String</TD>
+<TD>是</TD>
+<TD>无</TD>
+<TD>保存在Storage上的编号</TD>
+</TR>
+</TABLE>
+
+<UL>
+<LI>语法
+<PRE>
+  /**
+   * 获取指定文件的内容
+   *  
+   * @param string $file_id    
+   * @return string
+   **/
+  ecae_file_fetch($file_id)
+</PRE>
+
+<P></P>
+<LI>例子:
+<P></P>
+<PRE>
+  &lt;?php 
+  	$options = array("name"=&gt;"new.txt","path"=&gt;"php");
+      $file_id = ecae_file_save("public",__FILE__,$options);
+  	var_dump(ecae_file_fetch($file_id));
+</PRE>
+
+<P></P>
+<LI>运行结果
+<P></P>
+<PRE>
+  // 为测试文件的内容
+</PRE>
+
+</UL>
+
+<A NAME="toc14"></A>
+<H3>获取指定文件的访问地址(ecae_file_url)</H3>
+
+<UL>
+<LI>接口名称: ecae_file_url
+<LI>接口说明: 获取指定文件的访问地址(只有是公开的bucket下的文件可以生成访问地址)
+<P></P>
+</UL>
+
+<TABLE BORDER="1" CELLPADDING="4">
+<TR>
+<TH><B>参数名称</B></TH>
+<TH><B>数据类型</B></TH>
+<TH><B>是否必填</B></TH>
+<TH><B>默认</B></TH>
+<TH COLSPAN="2"><B>参数说明</B></TH>
+</TR>
+<TR>
+<TD>$file_id</TD>
+<TD>String</TD>
+<TD>是</TD>
+<TD>无</TD>
+<TD>保存在Storage上的编号</TD>
+</TR>
+</TABLE>
+
+<UL>
+<LI>语法
+<PRE>
+  /**
+   * 获取指定文件的访问地址(只有是公开的bucket下的文件可以生成访问地址)
+   *  
+   * @param string $file_id    
+   * @return string
+   **/
+  ecae_file_url($file_id)
+</PRE>
+
+<P></P>
+<LI>例子:
+<P></P>
+<PRE>
+  &lt;?php 
+  	$options = array("name"=&gt;"new.txt","path"=&gt;"php");
+      $file_id = ecae_file_save("public",__FILE__,$options);
+  	var_dump(ecae_file_url($file_id));
+</PRE>
+
+<P></P>
+<LI>运行结果
+<P></P>
+<PRE>
+  http://xxx-public.s3.ec-ae.com/php/new.txt
+</PRE>
+
+</UL>
+
+<A NAME="toc15"></A>
+<H2>Crypto (加解密服务)</H2>
+
+<P>
+     需要先开启Crypto服务, Crypto是 ECAE平台提供的一个安全加解密的服务
+</P>
+
+<A NAME="toc16"></A>
+<H3>初始化密钥 (ecae_rsa_init)</H3>
+
+<UL>
+<LI>接口名称: ecae_rsa_init
+<LI>接口说明: 初始化密钥
+<P></P>
+</UL>
+
+<TABLE BORDER="1" CELLPADDING="4">
+<TR>
+<TH><B>参数名称</B></TH>
+<TH><B>数据类型</B></TH>
+<TH><B>是否必填</B></TH>
+<TH><B>默认</B></TH>
+<TH COLSPAN="2"><B>参数说明</B></TH>
+</TR>
+<TR>
+<TD ALIGN="center">无参数</TD>
+</TR>
+</TABLE>
+
+<UL>
+<LI>语法
+<PRE>
+  /**
+   * 初始化密钥
+   *  
+   **/
+  ecae_rsa_init()
+</PRE>
+
+<P></P>
+<LI>例子:
+<P></P>
+<PRE>
+  &lt;?php 
+  	ecae_rsa_init(); 
+</PRE>
+
+</UL>
+
+<A NAME="toc17"></A>
+<H3>对传入的字串进行加密处理 (ecae_rsa_encrypt)</H3>
+
+<UL>
+<LI>接口名称: ecae_rsa_encrypt
+<LI>接口说明: 对传入的字串进行加密处理
+<P></P>
+</UL>
+
+<TABLE BORDER="1" CELLPADDING="4">
+<TR>
+<TH><B>参数名称</B></TH>
+<TH><B>数据类型</B></TH>
+<TH><B>是否必填</B></TH>
+<TH><B>默认</B></TH>
+<TH COLSPAN="2"><B>参数说明</B></TH>
+</TR>
+<TR>
+<TD>$encode</TD>
+<TD>String</TD>
+<TD>是</TD>
+<TD>无</TD>
+<TD>要进行加密的字符串</TD>
+</TR>
+</TABLE>
+
+<UL>
+<LI>语法
+<PRE>
+  /**
+   * 对传入的字串进行加密处理
+   *  
+   * @param string $encode
+   * @return string(bin)
+   **/
+  ecae_ras_encrypt($encode)
+</PRE>
+
+<P></P>
+<LI>例子:
+<P></P>
+<PRE>
+  &lt;?php 
+      // 初始化 
+      ecae_rsa_init(); 
+  
+      $str = "中华人民共和国"; 
+  
+      // 加密 
+      $str_v = ecae_rsa_encrypt($str);  
+</PRE>
+
+</UL>
+
+<A NAME="toc18"></A>
+<H3>对传入的字串进行解密处理 (ecae_rsa_decrypt)</H3>
+
+<UL>
+<LI>接口名称: ecae_rsa_decrypt
+<LI>接口说明: 对传入的字串进行解密处理
+<P></P>
+</UL>
+
+<TABLE BORDER="1" CELLPADDING="4">
+<TR>
+<TH><B>参数名称</B></TH>
+<TH><B>数据类型</B></TH>
+<TH><B>是否必填</B></TH>
+<TH><B>默认</B></TH>
+<TH COLSPAN="2"><B>参数说明</B></TH>
+</TR>
+<TR>
+<TD>$encode</TD>
+<TD>String(bin)</TD>
+<TD>是</TD>
+<TD>无</TD>
+<TD>要进行解密的字符串</TD>
+</TR>
+</TABLE>
+
+<UL>
+<LI>语法
+<PRE>
+  /**
+   * 对传入的字串进行解密处理
+   *  
+   * @param string(bin) $decode
+   * @return string
+   **/
+  ecae_ras_decrypt($decode)
+</PRE>
+
+<P></P>
+<LI>例子:
+<P></P>
+<PRE>
+  &lt;?php 
+      // 初始化 
+      ecae_rsa_init(); 
+      $str = "中华人民共和国"; 
+      // 加密 
+      $str_v = ecae_rsa_encrypt($str);  
+  	//解密
+  	ecae_rsa_decrypt($str_v);
+</PRE>
+
+</UL>
+
+<A NAME="toc19"></A>
+<H2>Image相关(ECAE 图片处理服务)</H2>
+
+<P>
+ 需要开启ECAE Image 相关服务 ECAE Image 是 ECAE平台提供的一个图片处理服务,用于 图片的缩放,水印,锐化等处理
+</P>
+
+<A NAME="toc20"></A>
+<H1>相关备注</H1>
+
+<A NAME="toc21"></A>
+<H1>更新日志</H1>
+
+<OL>
+<LI>2012.02.24 文档生成
+<LI>2012.02.24 Cache,KVStore API文档完成
+<LI>2012.02.25 Crypto API文档完成
+<LI>2012.02.29 Storage API文档完成
+</OL>
+
+<!-- html code generated by txt2tags 2.6 (http://txt2tags.org) -->
+<!-- cmdline: txt2tags -t html -\-toc ecae.t2t -->
+</BODY></HTML>

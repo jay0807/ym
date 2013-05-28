@@ -1,0 +1,116 @@
+<div class="tableform">
+<form method="post" id='member-form'  action="index.php?app=partner&ctl=admin_user&act=save&finder_id=<{$env.get.finder_id}>">
+    <input type="hidden" name="data[id]" value='<{$id}>'/>
+    <div class="division">
+        <table width=98%>
+            <tr>
+                <th><font color="red">*</font><{t}>用户名<{/t}>:</th>
+                <td>
+                    <{if $data}>
+                        <{$data.user.id.1}><input type='hidden' value='<{$data.user.id.1}>' name="data[username]"  />
+                    <{else}>
+                        <input type='text' value="" name="data[username]" vtype="required&&alphaint" maxlength=20 />
+                    <{/if}>
+                </td>
+            </tr>
+            <{if empty($data)}>
+            <tr>
+                <th><font color="red">*</font><{t}>新的密码<{/t}>:</th>
+                <td><input type='password' name="data[password]" vtype="required" /></td>
+            </tr>
+            <tr>
+                <th><font color="red">*</font><{t}>确认密码<{/t}>:</th>
+                <td><input type='password' name="data[confirm_password]" vtype="required" /></td>
+            </tr>
+            <{/if}>
+            <tr>
+                <th><font color="red">*</font><{t}>邮箱<{/t}>:</th>
+                <td>
+                    <{if $data}>
+                        <{$data.attr.email}><input type='hidden' name="data[email]" value='<{$data.attr.email}>' />                       
+                    <{else}>
+                        <input type='text' name="data[email]" value='<{$data.attr.email}>' vtype="required&&email1" />
+                    <{/if}>
+                </td>
+            </tr>
+            <tr>
+                <th><{t}>状态<{/t}>:</th>
+                <td>
+                    <label><input type="radio" name="data[status]" value="1"  <{if !isset($data.user.active) || $data.user.active != false }>checked<{/if}>/>启用</label>
+                    <label><input type="radio" name="data[status]" value="0"  <{if  isset($data.user.active) && $data.user.active == false }>checked<{/if}>/>禁用</label>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+     <div class="division">
+        <table width=98%>
+            <tr>
+                <th><{t}>姓  名<{/t}>:</th>
+                <td><input type='text' value='<{$data.attr.username}>' name="data[name]"  /></td>
+            </tr>
+            <tr>
+                <th><font color="red">*</font><{t}>联系电话<{/t}>:</th>
+                <td><input type='text' name='data[tel]'  value='<{$data.attr.tel}>' vtype="required&&tel"/></td>
+            </tr>
+            <tr>
+                <th><{t}>邮  编<{/t}>:</th>
+                <td> <input type='text' name='data[pcode]' value='<{$data.attr.pcode}>' vtype="postcode"/></td>
+            </tr>
+            <tr>
+                <th><{t}>联系地址<{/t}>:</th>
+                <td> <input type='text' name='data[address]' value='<{$data.attr.address}>'/></td>
+            </tr>
+        </table>
+    </div>
+
+
+    <div>
+        <div class="table-action"><{button type="submit" label=$___partner="保存"|t:'' id='member-form-submit'}></div>
+    </div>
+
+</form>
+</div>
+<script>
+validatorMap['email1'] = ["请输入正确的邮件格式", function(element,v) {
+    var re = /^(?:[a-z\d]+[_\-\+\.]?)*[a-z\d]+@(?:([a-z\d]+\-?)*[a-z\d]+\.)+([a-z]{2,})+$/i;
+    return v == null || v == '' || re.test(v);
+}];
+validatorMap['postcode'] = ["请输入6位数字的邮编", function(element,v) {
+    return v == null || v == '' || /^\d{6}$/.test(v);
+}];
+validatorMap['tel'] = ["请输入正确的电话或手机号码", function(element,v) {
+    return v == null || v == '' ||  /^[0][1-9]{2,3}-[0-9]{5,8}(-[0-9]{1,6})?$/.test(v) || /^([\+]?[0]?86)?[1][3,5][0-9]{9}$/.test(v);
+}];
+
+(function(){
+    var _form = $('member-form');
+    var btn =$('member-form-submit');
+    var finder = finderGroup['<{$env.get.finder_id}>'];
+    
+    _form.store('target',{
+        onComplete:function() {
+        },
+        onSuccess:function(response) {
+            var hash_res_obj = JSON.decode(response);
+            if (hash_res_obj.success != undefined && hash_res_obj.success != "") {
+                try {
+                    var _dialogIns = btn.getParent('.dialog').retrieve('instance');
+                } catch(e){}
+                
+                if(_dialogIns) {
+                    _dialogIns.close();
+                    finder.refresh.delay(400,finder);
+                }
+            }else{
+                //alert(hash_res_obj.error);
+            }            
+        }
+    });
+    
+    btn.addEvent('click',function(){
+        _form.fireEvent('submit',{stop:$empty});
+    });
+    
+})();
+</script>

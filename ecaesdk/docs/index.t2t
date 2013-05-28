@@ -1,0 +1,35 @@
+ECAE Platform API文档(首页)
+bluefrog(wubin@shopex.cn)
+since: %%date(%m-%d-%Y)
+
+%!encoding:utf-8
+%!Target:html
+
+= ECAE开放API =
+
+[ECAE API ecae.html]
+
+= ECAE代理商API =
+
+[站点相关 agent-site.html]
+
+[会员相关 agent-user.html]
+
+[产品相关 agent-product.html]
+
+[下级代理商相关 agent-agent.html]
+
+= ECAE SDK 开发包 =
+
+[最新ecaesdk下载(0.1.2)  sdk/ecaesdk0.1.2.tar.gz]
+
+[其它历史版本 sdk.html] 
+
+= 更新日志 =
+
++ 2012.2.23 首页文档生成
++ 2012.2.25 SDK文档页加入
+
+
+= 其它介绍 =
+本文档使用txt2tags生成 [txt2tags官网传送门  http://txt2tags.org]

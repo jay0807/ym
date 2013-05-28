@@ -1,0 +1,14 @@
+<services>
+	<service id="openapi.passport">
+        <class>yunmall_openapi_passport</class>
+    </service>
+
+    <service id="site.site_theme_tmpl">
+        <class>yunmall_view_tmpl</class>
+    </service>
+
+    <service id="desktop_finder.yunmall_mdl_user">
+        <class>yunmall_finder_user</class>
+    </service>
+
+</services>

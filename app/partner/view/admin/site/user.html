@@ -1,0 +1,80 @@
+<div class="spage-main-box">
+<form id="site-user-form">
+    <div class="division" class=" tableform">
+        <table width=100% cellspacing="2">
+            <tr>
+                <td><b><{t}>创建者<{/t}><b>:<{$site.user.1}>
+                <hr width="100%"></td>
+            </tr>
+            <tr>
+                <td>
+                    <span><h6><{t}>管理者<{/t}></h6> (拥有整个项目的提交权限)</span>
+                    <textarea name="data[admin]"     style="width:100%" rows="8"><{$data.admin}></textarea>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span><h6><{t}>提交者<{/t}></h6> (拥有指定目录的提交权限)</span>
+                    <textarea name="data[committer]" style="width:100%" rows="8"><{$data.committer}></textarea>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span><h6><{t}>观察者<{/t}></h6> (拥有指定目录的查看权限)</span>
+                    <textarea name="data[readonly]"  style="width:100%"rows="8"><{$data.readonly}></textarea>
+                </td>
+            </tr>
+            </tr>
+        </table>
+    </div>
+
+</form>
+</div>
+
+<{capture name='footbar'}>
+<table cellspacing="0" cellpadding="0" class="table-action">
+    <tbody>
+        <tr valign="middle"><td>
+        <{assign var="___c"  value=$___partner='确定退出?'|t:'partner'}>
+        <{button type="button" label=$___partner="保存"|t:'' id='site-user-form-submit'}>
+        <{button label=$___partner="关闭"|t:'partner' class="btn-secondary" type="button" onclick="if(confirm('{$___c}'))window.close()"}>
+        </td></tr>
+    </tbody>
+</table>
+<script>
+if( $('site-user-form-submit') ){
+    $('site-user-form-submit').addEvent('click',function(){
+        this.set('_v',this.value);
+        this.set('value','loading...');
+        this.disabled = true;
+        var e = this;
+        new Request({
+            url: '<{link app="partner" ctl="admin_site" act="user"}>&p[0]=<{$site_id}>',
+                method: 'post',
+                evalScripts:true,
+                data:$('site-user-form'),
+                async:false,
+                onRequest : function() {
+                    e.disabled = true;
+                },
+                onComplete: function(re) {
+                    e.disabled = false;
+                    e.set('value',e.get('_v'));
+                    var json;
+                    try {
+                        json = JSON.decode(re);
+                    } catch(e) {}
+                    
+                    if(json && json.success) {
+                        MessageBox.success(json.success);
+                        window.close();
+                    } else {
+                        if(json.error) MessageBox.error(json.error);
+                    }
+                }
+            }).send();
+        return false;
+    });
+}
+</script>
+<{/capture}>

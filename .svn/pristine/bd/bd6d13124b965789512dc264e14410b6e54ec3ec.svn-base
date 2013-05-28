@@ -1,0 +1,213 @@
+<div class="spage-main-box">
+    
+    <div class="tableform">
+        <div id="domain-msg-info" class="division" style="color:red;">独立域名绑定需要验证,请RTX联系chenxiaoxiao</div>
+
+        <div class="division">
+        <h6>站点绑定域名列表</h6>
+        <table width=98% border=1 id="domain-table">
+            <tr>
+                <td><{t}>域名<{/t}></td>
+                <td><{t}>状态<{/t}></td>
+                <td><{t}>操作<{/t}></td>
+            </tr>
+            <{foreach from=$data item=item }>
+            <tr>
+                <td>&nbsp;http://<{$item.url}></td>
+                <td>
+                    <{if $item.verify}>
+                        <{if $item.active}><font color="green">开启</font><{else}><font color="red">关闭</font><{/if}>
+                    <{else}>
+                        <font color="blue">验证中</font> 
+                    <{/if}>
+                </td>
+                <td>
+                    <{if $item.default}>
+                        默认
+                    <{else}>
+                        <{if $item.verify}>
+                            <{if $item.active}>
+                                <a href="javascript:void(0);" domain="<{$item.url}>"  class="domain-deactive">关闭</a>
+                            <{else}>
+                                <a href="javascript:void(0);" domain="<{$item.url}>" class="domain-active">开启</a>
+                            <{/if}>
+                        <{/if}>
+                        <a href="javascript:void(0);" domain="<{$item.url}>" class="domain-delete">删除</a>
+                    <{/if}>
+                </td>
+            </tr>
+            <{/foreach}>
+        </table>
+        </div>
+
+        <div class="division">
+            <h6>绑定域名</h6>
+            <form>
+            <table width=100%>
+                <tr>
+                    <th><b><{t}>域名<{/t}>:</b></th>
+                    <td>http://<input size="30" type="text" id="add-domain" name="data[domain]" maxlength="30"  /></td>
+                </tr>
+            </table>
+            <div>
+                <div class="table-action"><{button type="button" label=$___partner="保存"|t:'' id='site-domain-form-submit'}></div>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+if( $('site-domain-form-submit') ){
+	$('site-domain-form-submit').addEvent('click',function(){
+		var url = $("add-domain").get("value").trim();
+		if(!url) {
+			alert("域名不能为空"); return false;
+		}
+		var e = this;
+		e.set('_v',e.value);
+		e.set('value','loading...');
+		e.disabled = true;
+		new Request({
+			url: '<{link app="partner" ctl="admin_site" act="domain"}>&p[0]=<{$site_id}>&action=add',
+				method: 'post',
+				evalScripts:true,
+				data:{domain:url,action:"add"},
+				async:false,
+				onRequest : function(){
+					e.disabled = true;
+				},
+				onComplete: function(re){
+					e.disabled = false;
+					e.set('value',e.get('_v'));
+					var json;
+					try{
+						json = JSON.decode(re);
+					}catch(e){
+						alert(re);
+					}
+					
+					if(json && json.success){
+						MessageBox.success(json.success);
+						var base_tr = $("domain-table").getElements("tr").getLast();
+						var tr = new Element("tr");
+						tr.set("html","<td>&nbsp;http://"+ url +"</td> \
+							   <td><font color=\"blue\">验证中</font></td><td> \
+							   <a href=\"javascript:void(0);\" domain=\""+ url +"\" class=\"domain-delete\">删除</a></td>").inject(base_tr,"after");
+						domain_manager();
+					}else{
+						if(json.error) MessageBox.error(json.error);
+					}
+				}
+			}).send();
+		return false;
+	});
+}
+
+
+var domain_manager = function() {
+	// 删除绑定的事件
+	$$(".domain-delete").removeEvents();
+	$$(".domain-delete").addEvent('click',function(item) {
+		if(!confirm("确定删除域名( " + this.get("domain") + " )绑定?!")) return false;
+		item.disabled = true;
+		var e = this;
+		new Request({
+				url: '<{link app="partner" ctl="admin_site" act="domain"}>&p[0]=<{$site_id}>',
+				method: 'post',
+				data:{domain:e.get("domain"),action:"delete"},
+				async:false,
+				onRequest : function(){ item.disabled = true; },
+				onComplete: function(re){
+					item.disabled = false;
+					var json;
+					try{
+						json = JSON.decode(re);
+					}catch(e){
+						alert(re);
+					}
+					
+					if(json && json.success){
+						e.getParent("tr").remove();
+						MessageBox.success(json.success);
+					}else{
+						if(json.error) MessageBox.error(json.error);
+					}
+				}
+		}).send();
+	});
+	
+	$$(".domain-active").removeEvents();
+	$$(".domain-active").addEvent('click',function(item){
+		item.disabled = true;
+		var e = this;
+		new Request({
+				url: '<{link app="partner" ctl="admin_site" act="domain"}>&p[0]=<{$site_id}>',
+				method: 'post',
+				data:{domain:e.get("domain"),action:"active"},
+				async:false,
+				onRequest : function(){ item.disabled = true; },
+				onComplete: function(re){
+					item.disabled = false;
+					var json;
+					try{
+						json = JSON.decode(re);
+					}catch(e){
+						alert(re);
+					}
+					
+					if(json && json.success){
+						e.set('text',"关闭");
+						e.set('class',"domain-deactive");
+						e.getParent("td").getPrevious().set("html","<font color='green'>开启</font>");
+						domain_manager();
+						MessageBox.success(json.success);
+					}else{
+						if(json.error) MessageBox.error(json.error);
+					}
+				}
+		}).send();
+	});
+
+	$$(".domain-deactive").removeEvents();
+	$$(".domain-deactive").addEvent('click',function(item){
+		item.disabled = true;
+		var e = this;
+		new Request({
+				url: '<{link app="partner" ctl="admin_site" act="domain"}>&p[0]=<{$site_id}>',
+				method: 'post',
+				data:{domain:e.get("domain"),action:"deactive"},
+				async:false,
+				onRequest : function(){ item.disabled = true; },
+				onComplete: function(re){
+					item.disabled = false;
+					var json;
+					try{
+						json = JSON.decode(re);
+					}catch(e){}
+					
+					if(json && json.success){
+						e.set('text',"开启");
+						e.set('class',"domain-active");
+						e.getParent("td").getPrevious().set("html","<font color='red'>关闭</font>");
+						domain_manager();
+						MessageBox.success(json.success);
+					}else{
+						if(json.error) MessageBox.error(json.error);
+					}
+				}
+		}).send();
+	});
+}
+
+domain_manager();
+</script>
+
+<{capture name='footbar'}>
+<table cellspacing="0" cellpadding="0" class="table-action">
+    <tbody>
+        <tr valign="middle"><td>
+        <{button label=$___partner="关闭"|t:'partner' class="btn-secondary" type="button" onclick="window.close();"}>
+        </td></tr>
+    </tbody>
+</table>
+<{/capture}>

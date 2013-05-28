@@ -1,0 +1,17 @@
+<services>
+    <service id="desktop_finder.partner_mdl_user">
+        <class>partner_finder_user</class>
+    </service>
+    <service id="desktop_finder.partner_mdl_site">
+        <class>partner_finder_site</class>
+    </service>
+    <service id="desktop_finder.partner_mdl_application">
+        <class>partner_finder_application</class>
+    </service>
+    <service id="desktop_finder.partner_mdl_package">
+        <class>partner_finder_package</class>
+    </service>
+    <service id="desktop_finder.partner_mdl_domain">
+        <class>partner_finder_domain</class>
+    </service>
+</services>

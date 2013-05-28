@@ -1,0 +1,24 @@
+ECAE Platform SDK文档
+bluefrog(wubin@shopex.cn)
+since: %%date(%m-%d-%Y)
+
+%!encoding:utf-8
+%!Target:html
+
+= 最新版本 =
+
+[ecaesdk.0.1.2.tar.gz  sdk/ecaesdk0.1.2.tar.gz] 
+
+= 历史版本 =
++ ecaesdk0.1.2 [下载  sdk/ecaesdk0.1.2.tar.gz] 2012.07.23
++ ecaesdk0.1.1 [下载  sdk/ecaesdk0.1.1.tar.gz] 2012.03.21
++ ecaesdk0.1.0 [下载  sdk/ecaesdk0.1.0.tar.gz] 2012.02.29
+
+  模拟了ECAE上 Storage,MemCache,Mysql,KVDB,Crypto等服务提供的方法接口
+
+
+= 更新日志 =
++ 2012.2.25 SDK文档页生成
++ 2012.2.29 0.1.0版本提供下载
++ 2012.3.21 0.1.1版本 修复0.1.0中的bug
++ 2012.3.21 0.1.2版本 修复bad bucket的bug,增加file的测试用例

@@ -1,0 +1,22 @@
+<form method="post" id="site-job-form">
+  <div>
+     <{include file="admin/site/job/page.html" app=partner}>
+  </div>
+</form>
+<script>
+$('site-job-form').retrieve('setTabs',function(){
+		 var gtabs=$ES('#menu-desktop .spage-side-nav li.l-handle');
+		 new ItemAgg(gtabs,$ES('#site-job-form .spage-main-box'),{
+			activeName:'cur',
+			onActive:function(tab,item){
+				 var anotherItems=$$($A(this.items).remove(item));
+                  if(tab.hasClass('all')){
+                     anotherItems.show();
+                  }else{
+                     anotherItems.hide();
+                  }
+        	}
+		 });
+}());
+
+</script>

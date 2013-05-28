@@ -1,0 +1,18 @@
+<div class="header">
+    <h5 class="pen"><{$setting.title}></h5>
+</div>
+<ul>
+    <{if $data }>
+    <{foreach from=$data item=item key=key}>
+    <li>
+        <a href="<{link app='yunmall' ctl='site_resource' act='index' arg0=$item.link_id }>" alt="<{$item.title|escape:html}>" >
+            <{if $item.image_id}>
+                <img src="<{$item.image_id|storager}>" width="178" height="118" />
+            <{else}>
+                <{img app='yunmall' src="default.jpg" width="178" height="118"}>
+            <{/if}>
+        </a>
+    </li>
+    <{/foreach}>
+    <{/if}> 
+</ul>

@@ -1,0 +1,47 @@
+<div class="tableform">
+	<table width=98%>
+		<tr>
+			<th><{t}>应用编号<{/t}>:</th>
+			<td><{$data.id}></td>
+		</tr>
+		<tr>
+			<th><{t}>应用名称<{/t}>:</th>
+			<td><{$data.name}></td>
+		</tr>
+		<tr>
+			<th><{t}>应用价格<{/t}>:</th>
+            <td><{$data.price}></td>
+		</tr>
+		<tr>
+			<th><{t}>应用类型<{/t}>:</th>
+			<td><{$data.type}></td>
+		</tr>
+		<tr>
+			<th><{t}>源站点名称<{/t}>:</th>
+			<td><{$data.site}></td>
+		</tr>
+		<tr>
+			<th><{t}>发布路径<{/t}>:</th>
+			<td><{$data.path}></td>
+		</tr>
+		<tr>
+			<th><{t}>路径版本号<{/t}>:</th>
+			<td><{$data.version}></td>
+		</tr>
+		<tr>
+			<th><{t}>应用状态<{/t}>:</th>
+            <td>
+                <{if $data.status == "up"}>
+                    <font color="green">已上架</font>
+                <{else}>
+                    <font color="red">已下架</font>
+                <{/if}>
+            </td>
+		</tr>
+		<tr>
+			<th><{t}>应用描述<{/t}>:</th>
+			<td><{$data.desc}></td>
+		</tr>
+
+	</table>
+</div>

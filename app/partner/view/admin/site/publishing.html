@@ -1,0 +1,67 @@
+<{if $static}>
+静态站点没有发布功能
+<{else}>
+<div class="spage-main-box tableform">
+
+    <h3>发布分支列表</h3>
+    <div class="division" >
+        <table  width=100% cellspacing="2" id="publish-table">
+            <tr>
+                <td width="30">&nbsp;</td>
+                <td><b><{t}>svn路径<{/t}></b></td>
+                <td><b><{t}>cookie<{/t}></b></td>
+                <td width="80"><b><{t}>版本<{/t}></b></td>
+                <td width="80"><b><{t}>访问概率<{/t}></b></td>
+            </tr>
+            <{foreach from=$data item=item key=key }>    
+            <tr>
+                <td><input type="radio" name="default_publish" value="<{$key}>" class="publish-radio" <{if $item.path == $default_publish.path && $item.ver == $default_publish.ver }>checked<{/if}> /></td>
+                <td><input type="text" value="<{$item.path}>" name="publish[<{$key}>][path]" class="item-path" style="width:200px" /></td>
+                <td><{$item.cookie}></td>
+                <td><input type="text" value="<{$item.ver}>" name="publish[<{$key}>][ver]"   class="item-ver" style="width:60px" /></td>  
+                <td>
+                    <input type="text" name="publish[<{$key}>][rate]" id="" value="<{$item.rate}>" vtype="number" class="item-rate" style="width:40px" />
+                </td>
+            </tr>
+            <{/foreach}>
+        </table>
+    </div>
+
+    <h3>正在的发布分支列表</h3>
+    <div class="division" >
+        <table  width=100% cellspacing="2" id="publish-table">
+            <tr>
+                <td width="30">&nbsp;</td>
+                <td><b><{t}>svn路径<{/t}></b></td>
+                <td><b><{t}>cookie<{/t}></b></td>
+                <td width="80"><b><{t}>版本<{/t}></b></td>
+                <td width="80"><b><{t}>访问概率<{/t}></b></td>
+            </tr>
+            <{foreach from=$publishing item=item key=key }>    
+            <tr>
+                <td><input type="radio" name="default_publishing" value="<{$key}>" class="publish-radio" <{if $item.path == $default_publish.path && $item.ver == $default_publish.ver }>checked<{/if}> /></td>
+                <td><input type="text" value="<{$item.path}>" name="publish[<{$key}>][path]" class="item-path" style="width:200px" /></td>
+                <td><{$item.cookie}></td>
+                <td><input type="text" value="<{$item.ver}>" name="publish[<{$key}>][ver]"   class="item-ver" style="width:60px" /></td>  
+                <td>
+                    <input type="text" name="publish[<{$key}>][rate]" id="" value="<{$item.rate}>" vtype="number" class="item-rate" style="width:40px" />
+                </td>
+            </tr>
+            <{/foreach}>
+        </table>
+    </div>
+
+
+</div>
+<{capture name='footbar'}>
+<table cellspacing="0" cellpadding="0" class="table-action">
+    <tbody>
+        <tr valign="middle"><td>
+        <{button type="button" label=$___partner="刷新"|t:'' onclick="top.location.reload();"}>
+        <{button label=$___partner="关闭"|t:'partner' class="btn-secondary" type="button" onclick="if(confirm('{$___c}'))window.close()"}>
+        </td></tr>
+    </tbody>
+</table>
+
+<{/capture}>
+<{/if}>

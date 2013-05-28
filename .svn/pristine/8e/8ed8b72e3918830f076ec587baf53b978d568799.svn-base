@@ -1,0 +1,19 @@
+<table width="98%">
+    <{if $log}>
+        <tr>
+            <td width="100"><label><{t}>时间<{/t}></label></td>
+            <td><{t}>日志内容<{/t}></td>
+        </tr>
+        <{foreach from=$log item=item}>
+        <tr>
+            <td><label><{$item.d_date|cdate}></label></td>
+            <td><{$item.log_txt}></td>
+        </tr>
+        <{/foreach}>
+    <{else}>
+        <tr>
+            <td width="100"><{t}>没有相关日志<{/t}></td>
+            <td>&nbsp;</td>
+        </tr>
+    <{/if}>
+</table>

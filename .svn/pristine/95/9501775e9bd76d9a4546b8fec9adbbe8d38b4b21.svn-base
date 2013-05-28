@@ -1,0 +1,24 @@
+<{require file="block/header.html"}>
+<div id="body" class="home">
+    <div class="position">
+            <p class="tips">
+            欢迎您使用云猫，请点击进入&nbsp;<a href="<{link app='yunmall' ctl='site_usercenter' act='login' }>">店铺信息配置</a>
+            </p>
+            <div class="section">
+                <div class="main">
+                    <{widgets id="ad_pic"}>
+                </div>
+                <div class="asider">
+                    <{widgets id="news"}>
+                </div>
+            </div>
+            <div class="wlist col-5">
+                <{widgets id="content1"}>               
+            </div>
+            <div class="wlist col-5">
+                <{widgets id="content2"}>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+</div>
+<{require file="block/footer.html"}>

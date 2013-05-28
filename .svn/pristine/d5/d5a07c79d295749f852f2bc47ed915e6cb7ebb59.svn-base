@@ -1,0 +1,16 @@
+<ul class="splist">
+    <li class="active">
+        <a href="" class="ico-cart">独立店</a>
+        <i></i>
+    </li>
+    <li>
+        <span href="" class="ico-sina">微博店</span>
+        <span class="ico-soon"></span>
+        <i></i>
+    </li>
+    <li>
+        <span href="" class="ico-weixin">微信店</span>
+        <span class="ico-soon"></span>
+        <i></i>
+    </li>
+</ul>

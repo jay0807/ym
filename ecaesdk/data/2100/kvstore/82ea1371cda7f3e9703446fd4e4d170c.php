@@ -1,0 +1,1 @@
+<?php exit(); ?>a:3:{s:5:"value";a:5:{s:3:"key";s:6:"banner";s:6:"prefix";s:15:"setting/desktop";s:5:"value";s:19:"ECAE代理商平台";s:3:"ttl";i:0;s:8:"dateline";i:1369721276;}s:3:"ttl";i:0;s:8:"dateline";i:1369721276;}

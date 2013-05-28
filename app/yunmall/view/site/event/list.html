@@ -1,0 +1,23 @@
+ <div id="body">
+        <div class="position"> 
+            <div class="wlist">
+                <{foreach from=$data key=key item=item}>
+                <div class="item">
+                    <div class="header">
+                        <strong>优质资源</strong>
+                    </div>
+                    <ul>
+                        <li>
+                        <a href="<{link app='yunmall' ctl='site_event' act='index' arg0=$item.link_id  }>">
+                                <img src="<{$item.image_id|storager}>" />
+                                <span><{$item.title}></span>
+                            </a>
+                        </li>
+                    </ul>
+                </div> 
+                <{/foreach}>
+
+            </div>
+            <div class="clearfix"></div>
+        </div>
+</div>

@@ -1,0 +1,22 @@
+<div class="tableform">
+<table width=98%>
+	<thead>
+		<tr>
+			<td><{t}>域名<{/t}></td>
+			<td><{t}>开启状态<{/t}></td>			
+			<td><{t}>审核状态<{/t}></td>
+			<td><{t}>默认<{/t}></td>
+		</tr>
+	</thead>
+	<tbody>
+	<{foreach from=$data item=item key=key}>
+		<tr>
+            <td><a href="http://<{$item.url}>" target="_open"><{$item.url}></a></td>
+            <td><{if $item.active}><font color="green">已开启</font><{else}><font color="red">已关闭</font><{/if}></td>
+            <td><{if $item.verify}><font color="green">通过审核</font><{else}><font color="red">审核中</font><{/if}></td>
+			<td><{if $item.default}><font color="green">是</font><{else}>-<{/if}></td>
+		</tr>
+	<{/foreach}>
+	</tbody>
+</table>
+</div>

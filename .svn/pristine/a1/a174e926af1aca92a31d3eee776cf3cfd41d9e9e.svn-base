@@ -1,0 +1,18 @@
+<div class="division">    
+    <form id="search-log-form-<{$log_type}>">
+    <input type="hidden" name="data[search_type]" value="<{$log_type}>" />
+    <{include file=$log_type_file}>
+    </form>
+</div>
+
+<div class="division" id="log-<{$log_type}>">    
+</div>
+<!--翻页的哦亲-->
+<div class="division" id="log-<{$log_type}>-page" style="display:none">    
+</div>
+
+<script>
+$('search-log-button-<{$log_type}>').addEvent('click',function(i){
+    log_query("<{$log_type}>",'');
+});
+</script>

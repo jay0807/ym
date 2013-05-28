@@ -1,0 +1,1 @@
+<?php exit(); ?>a:3:{s:5:"value";a:5:{s:3:"key";s:12:"account_type";s:6:"prefix";s:11:"setting/pam";s:5:"value";a:1:{s:7:"desktop";a:2:{s:4:"name";s:18:"后台管理系统";s:4:"type";s:9:"shopadmin";}}s:3:"ttl";i:0;s:8:"dateline";i:1369721276;}s:3:"ttl";i:0;s:8:"dateline";i:1369721276;}

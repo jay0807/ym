@@ -1,0 +1,33 @@
+<table width="98%">
+    <tr>
+        <td width="50"><label>日志内容:</label></td>
+        <td width="100"><input type="text" name="data[content]" /></td>
+
+        <td width="50">
+            <select name="data[type]">
+                <option  value="warning">warning</option>
+            </select>
+        </td>
+
+        <td width="140">
+            日期:
+            <{input type="date" name="data[time]"   value=$time_now }>
+        </td>
+
+        <td width="80">
+            每页:
+            <select name="data[limit]">
+                <option  value="10">10</option>
+                <option  value="20">20</option>
+                <option  value="30">30</option>
+                <option  value="50">50</option>
+                <option  value="100">100</option>
+            </select>
+        </td>
+
+        <td width="50">
+            <input type="button" value="显示" id="search-log-button-<{$log_type}>" />
+        </td>
+        <td>&nbsp;</td>
+    </tr>
+</table>

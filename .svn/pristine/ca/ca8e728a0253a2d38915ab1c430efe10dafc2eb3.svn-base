@@ -1,0 +1,100 @@
+<{script app="yunmall" src="jquery.min.js" pdir="."}>
+<{script app="yunmall" src="dev.debug.js" pdir="."}>
+<div id="body" class="enable-shop">
+        <div class="position splitlt">
+            <div class="asider">
+                <{include file="site/usercenter/menu.html"}> 
+            </div>
+            <div class="main">
+                <{if $user.site}>
+                <p class="tips">您的独立店默认二级域名为：<strong><a href="http://<{$user.site}>.cloudmall.shopex.cn" target="_blank">http://<{$user.site}>.cloudmall.shopex.cn</a></strong>&nbsp;&nbsp;<!--<a href="" target="_blank">[点此访问]</a>--></p>
+                <{else}>
+                <{/if}>
+                <form method="post" action="<{link app='yunmall' ctl='site_usercenter' act='save'}>">
+                    <input type="hidden" name="data[checkcode]" value="<{$checkcode}>" /`>
+                    <fieldset>
+                        <ul>
+                            <li>
+                                <div class="header">
+                                    <strong>网店信息</strong>
+                                </div>
+                            </li>
+                            <li class="text-wrap">
+                                <div>
+                                    <label for="j_spname">企业名称：</label>
+                                    <input id="j_spname" type="text" value="<{$user.ent_name}>" name="data[ent_name]" maxlength="100" data-tip="请填写企业名称" data-error="" />
+                                </div>
+                                <div class="msgbox">
+                                    <i></i>
+                                    <span></span>
+                                </div>
+                            </li>
+                            <li class="text-wrap">
+                                <div>
+                                    <label for="j_spurl">商城URL：</label>
+                                    <{if $user.site}>
+                                        <input id="j_spurl" type="text" disabled value="<{$user.ent_url}>" />
+                                    <{else}>
+                                        <input id="j_spurl" type="text" name="data[ent_url]" value="<{$user.ent_url}>" data-tip="请填写商城URL" data-error="" />
+                                    <{/if}>
+                                </div>
+                                <div class="msgbox">
+                                    <i></i>
+                                    <span></span>
+                                </div>
+                            </li>
+                            <li class="text-wrap">
+                                <div>
+                                    <label for="j_spicp">备案号：</label>
+                                    <input id="j_spicp" type="text" name="data[recordno]" value="<{$user.recordno}>" data-tip="请填写网站备案号" data-error="" />
+                                </div>
+                                <div class="msgbox">
+                                    <i></i>
+                                    <span></span>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="header">
+                                    <strong>网店信息</strong>
+                                </div>
+                            </li>
+                            <li class="text-wrap">
+                                <div>
+                                    <label for="j_name">联系人姓名：</label>
+                                    <input id="j_name" type="text" name="data[contact]" value="<{$user.contact}>" data-tip="请填写联系人姓名" data-error="" />
+                                </div>
+                                <div class="msgbox">
+                                    <i></i>
+                                    <span></span>
+                                </div>
+                            </li>
+                            <li class="text-wrap">
+                                <div>
+                                    <label for="j_mobile">手机号：</label>
+                                    <input id="j_mobile" type="text" name="data[phone]" value="<{$user.phone}>" data-tip="请填写手机号" data-error="" />
+                                </div>
+                                <div class="msgbox">
+                                    <i></i>
+                                    <span></span>
+                                </div>
+                            </li>
+                            <li class="text-wrap">
+                                <div>
+                                    <label for="j_email">邮箱：</label>
+                                    <input id="j_email" type="text" name="data[email]" value="<{$user.email}>" data-tip="请填写邮箱" data-error=""/>
+                                </div>
+                                <div class="msgbox">
+                                    <i></i>
+                                    <span></span>
+                                </div>
+                            </li>
+                            <li class="action">
+                                <input type="submit" class="btn-save" value="保存" />
+                            </li>
+                        </ul>
+                    </fieldset>
+                </form>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+</div>

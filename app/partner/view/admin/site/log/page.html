@@ -1,0 +1,15 @@
+<{if $page}>
+<table width="98%">
+    <tr>
+        <td width="200">
+            <{if $offset }>
+            <a href="javascript:log_query('<{$type}>',<{$page.pre + $limit}>);">上一页</a>
+            <{/if}>
+            <{if (($page.pre - $page.next) == $limit) &&  $page.next > 0}>
+            <a href="javascript:log_query('<{$type}>',<{$page.pre - $limit}>);">下一页</a>
+            <{/if}>
+        </td>
+        <td>&nbsp;</td>
+    </tr>
+</table>
+<{/if}>

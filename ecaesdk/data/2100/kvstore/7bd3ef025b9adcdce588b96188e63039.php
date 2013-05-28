@@ -1,0 +1,1 @@
+<?php exit(); ?>a:3:{s:5:"value";a:5:{s:3:"key";s:52:"service_last_modified.base_application_dbtable.image";s:6:"prefix";s:6:"system";s:5:"value";s:32:"0dfe54a98b126f547d6e46a86d497bd6";s:3:"ttl";i:0;s:8:"dateline";i:1369721277;}s:3:"ttl";i:0;s:8:"dateline";i:1369721277;}

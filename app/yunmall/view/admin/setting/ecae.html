@@ -1,0 +1,45 @@
+<form method="POST" action="index.php?app=yunmall&ctl=admin_setting&act=save" >
+<input type="hidden" name="action" value="ecae" />
+<div class="tableform">
+    <div class="division">
+    <table>
+    	<tr>
+        	<th><{t}>开通产品<{/t}></th>
+            <td>
+                <{input type="object" object="application@partner" size=30 vtype="required"  name="data[ecae.app]" value=$data.app}>
+            </td>
+		</tr>
+    	<tr>
+        	<th><{t}>默认套餐<{/t}></th>
+            <td>
+                <{input type="object" object="package@partner" size=30 vtype="required"  name="data[ecae.package]" value=$data.package}>
+            </td>
+		</tr>
+
+    </table>
+    </div>
+
+	<div class="table-action"><{button type="button" id="setting-basic-btn"  label=$___partner="保存"|t:'partner'}></div>
+
+</div>
+</form>
+<script>
+(function(){
+	if($("setting-basic-btn")) {
+		$("setting-basic-btn").addEvent("click",function(e){
+			var url = this.getParent("form").get("action");
+			new Request.JSON({
+				data:this.getParent("form"),
+				url:url,
+				update:$('setting'),
+				medthod:'post',
+				onSuccess:function(){
+					MessageBox.show("设置成功");
+					W.render($('setting'));
+				}
+			}).send();
+
+		});
+	}
+})();
+</script>

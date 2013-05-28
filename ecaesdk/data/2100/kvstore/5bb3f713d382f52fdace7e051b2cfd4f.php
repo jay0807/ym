@@ -1,0 +1,1 @@
+<?php exit(); ?>a:3:{s:5:"value";a:5:{s:3:"key";s:28:"desktop_finder.base_mdl_apps";s:6:"prefix";s:7:"service";s:5:"value";a:1:{s:4:"list";a:1:{s:19:"desktop_finder_apps";s:19:"desktop_finder_apps";}}s:3:"ttl";i:0;s:8:"dateline";i:1369721271;}s:3:"ttl";i:0;s:8:"dateline";i:1369721271;}

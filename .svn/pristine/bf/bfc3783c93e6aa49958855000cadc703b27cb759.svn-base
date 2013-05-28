@@ -1,0 +1,17 @@
+<desktop>
+
+    <permissions>
+        <permission id="yunmall.user" display='true'>云猫用户管理</permission>
+        <permission id="yunmall.setting" display='true'>云猫设置</permission>
+    </permissions>
+      
+    <workground name="Yunmall" id="yunmall" controller="admin_user" action="index">
+        <menugroup name="云猫用户管理">
+            <menu controller='admin_user' action='index' permission='yunmall.user' display='true' order="100" >云猫用户列表</menu>
+        </menugroup>
+        <menugroup name="云猫配置">
+            <menu controller='admin_setting' action='index' permission='yunmall.setting' display='true' order="100" >云猫设置</menu>
+        </menugroup>
+    </workground>
+
+</desktop>

@@ -1,0 +1,61 @@
+<form>
+<div class="division tableform">
+	<table width=100%>
+		<tr>
+			<td>
+				<label><input type="radio" name="data[type]" value="black" <{if $data.type  == "black"}>checked<{/if}> />黑名单</label>
+				<label><input type="radio" name="data[type]" id="site-ipfilter-white" value="white" <{if $data.type  == "white"}>checked<{/if}> />白名单</label>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<textarea name="data[ip]" id="site-ipfilter-ip" style="width:100%;resize:none;"  rows="12"><{$data.ip|implode:"\r\n"}></textarea>
+			</td>
+		</tr>
+	</table>
+</div>
+
+<div>
+	<div class="table-action"><{button type="submit" label=$___partner="保存"|t:'' id='site-ip-form-submit'}></div>
+</div>
+</form>
+
+<script>
+if( $('site-ip-form-submit') ){
+	$('site-ip-form-submit').addEvent('click',function(){
+        if($("site-ipfilter-white").get("checked") && !$("site-ipfilter-ip").get("value")) {
+            alert("<{t}>白名单不能为空<{/t}>");
+            return false;
+        }
+		this.set('_v',this.value);
+		this.set('value','loading...');
+		this.disabled = true;
+		var e = this;
+		new Request({
+			url: '<{link app="partner" ctl="admin_site" act="ip"}>&p[0]=<{$site_id}>',
+				method: 'post',
+				evalScripts:true,
+				data:e.getParent('form'),
+				async:false,
+				onRequest : function(){
+					e.disabled = true;
+				},
+				onComplete: function(re){
+					e.disabled = false;
+					e.set('value',e.get('_v'));
+					var json;
+					try{
+						json = JSON.decode(re);
+					}catch(e){}
+					
+					if(json && json.success){
+						MessageBox.success(json.success);
+					}else{
+						if(json.error)MessageBox.error(json.error);
+					}
+				}
+			}).send();
+		return false;
+	});
+}
+</script>

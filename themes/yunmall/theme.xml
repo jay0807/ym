@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?><theme>
+	<name>Yunmall</name>
+	<id>yunmall</id>
+	<version>ShopEx</version>
+	<info></info>
+	<author>ShopEx</author>
+	<site>http://www.shopex.cn</site>
+	<update_url></update_url>
+
+	<borders>
+	</borders>
+	<views>
+	</views>
+	<config>	  
+	</config>
+
+	<widgets>
+        <widget app="yunmall" theme="" file="block/header.html" slot="0" type="nav" order="0" title="" domid="1362972928492" border="__none__" classname="" tpl="default.html" coreid="nav">
+            a:0:{}
+        </widget>
+		<widget app="yunmall" theme="" file="index.html" slot="0" type="ad_pic" order="1" title="" domid="1362972934714" border="__none__" classname="" tpl="default.html" coreid="ad_pic">
+            a:5:{s:12:&quot;ad_pic_width&quot;;s:0:&quot;&quot;;s:13:&quot;ad_pic_height&quot;;s:0:&quot;&quot;;s:6:&quot;ad_pic&quot;;s:0:&quot;&quot;;s:11:&quot;ad_pic_link&quot;;s:0:&quot;&quot;;s:5:&quot;title&quot;;s:0:&quot;&quot;;}		
+        </widget>
+        <widget app="yunmall" theme="" file="index.html" slot="1" type="news" order="2" title="" domid="1362972953243" border="__none__" classname="" tpl="default.html" coreid="news">
+            a:5:{s:5:&quot;limit&quot;;s:1:&quot;6&quot;;s:7:&quot;orderby&quot;;s:12:&quot;pubtime DESC&quot;;s:10:&quot;max_length&quot;;s:2:&quot;36&quot;;s:5:&quot;title&quot;;s:12:&quot;最新公告&quot;;s:4:&quot;link&quot;;s:0:&quot;&quot;;}		
+        </widget>
+        <widget app="yunmall" theme="" file="index.html" slot="2" type="resource" order="3" title="" domid="1362972988156" border="__none__" classname="" tpl="default.html" coreid="content1">
+            a:5:{s:5:&quot;limit&quot;;s:1:&quot;5&quot;;s:7:&quot;orderby&quot;;s:12:&quot;pubtime DESC&quot;;s:10:&quot;max_length&quot;;s:2:&quot;36&quot;;s:5:&quot;title&quot;;s:12:&quot;优质资源&quot;;s:4:&quot;link&quot;;s:0:&quot;&quot;;}	
+        </widget>
+        <widget app="yunmall" theme="" file="index.html" slot="3" type="event" order="4" title="" domid="1362973020826" border="__none__" classname="" tpl="default.html" coreid="content2">
+            a:5:{s:5:&quot;limit&quot;;s:1:&quot;5&quot;;s:7:&quot;orderby&quot;;s:12:&quot;pubtime DESC&quot;;s:10:&quot;max_length&quot;;s:2:&quot;36&quot;;s:5:&quot;title&quot;;s:12:&quot;最新活动&quot;;s:4:&quot;link&quot;;s:0:&quot;&quot;;}	
+        </widget>
+        <widget app="yunmall" theme="" file="event.html" slot="0" type="event" order="1" title="" domid="1362973093344" border="__none__" classname="" tpl="col.html" coreid="hot_event">
+            a:5:{s:5:&quot;limit&quot;;s:1:&quot;2&quot;;s:7:&quot;orderby&quot;;s:12:&quot;pubtime DESC&quot;;s:10:&quot;max_length&quot;;s:2:&quot;36&quot;;s:5:&quot;title&quot;;s:12:&quot;最新活动&quot;;s:4:&quot;link&quot;;s:0:&quot;&quot;;}
+        </widget>
+        <widget app="yunmall" theme="" file="event.html" slot="1" type="news" order="2" title="" domid="1362973112166" border="__none__" classname="" tpl="col.html" coreid="col_notice">
+            a:5:{s:5:&quot;limit&quot;;s:1:&quot;4&quot;;s:7:&quot;orderby&quot;;s:12:&quot;pubtime DESC&quot;;s:10:&quot;max_length&quot;;s:2:&quot;36&quot;;s:5:&quot;title&quot;;s:12:&quot;最新公告&quot;;s:4:&quot;link&quot;;s:0:&quot;&quot;;}		
+        </widget>
+        <widget app="yunmall" theme="" file="notice.html" slot="0" type="news" order="1" title="" domid="1362973148272" border="__none__" classname="" tpl="col.html" coreid="hot_event">
+            a:5:{s:5:&quot;limit&quot;;s:1:&quot;6&quot;;s:7:&quot;orderby&quot;;s:12:&quot;pubtime DESC&quot;;s:10:&quot;max_length&quot;;s:2:&quot;36&quot;;s:5:&quot;title&quot;;s:12:&quot;最新公告&quot;;s:4:&quot;link&quot;;s:0:&quot;&quot;;}	
+        </widget>
+    </widgets>
+
+	<proinstances>
+	</proinstances>
+
+</theme>

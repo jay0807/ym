@@ -1,0 +1,27 @@
+<div class="tableform" id="ecae-log-<{$site_id}>">
+    <{include file="admin/site/log/detail_data.html"}>
+</div>
+
+<{if count($log) == $limit && $page.next > 0 }>
+<div class="tableform" id="ecae-log-page-<{$site_id}>">
+    <{include file="admin/site/log/detail_page.html"}> 
+</div>
+<{/if}>
+
+<script>
+function log_query(offset) {
+    var _t = "";
+    new Request.JSON({
+        url:'<{link app=partner ctl=admin_log act=ecae}>&p[0]=<{$site_id}>&p[1]=' + offset,
+        method:'post',
+        onRequest:function(s){
+            $('ecae-log-page-<{$site_id}>').set("html","数据查询中...");
+            MessageBox.success('数据查询中...');
+        },
+        onComplete: function(re) {
+            $('ecae-log-<{$site_id}>').set('html',re.log);
+            $('ecae-log-page-<{$site_id}>').set('html',re.page);
+        }
+    }).send();
+}
+</script>

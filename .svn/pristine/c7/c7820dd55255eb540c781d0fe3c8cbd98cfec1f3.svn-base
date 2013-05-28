@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<theme>
+	<name>Yunmall</name>
+	<id>yunmall</id>
+	<version>ShopEx</version>
+	<info></info>
+	<author>ShopEx</author>
+	<site>http://www.shopex.cn</site>
+	<update_url></update_url>
+	<borders>
+	</borders>
+	<views></views>
+	<config></config> 
+</theme>

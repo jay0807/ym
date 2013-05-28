@@ -1,0 +1,51 @@
+<div class="tableform">
+    <span stype="float:right">
+        选择分支:
+        <select id="site-publish-item">
+            <{foreach from=$publish item=item key=key}>
+            <option value="<{$item.1|sha1}>" ><{$item.1}></option>
+            <{/foreach}>
+        </select>
+    </span>
+</div>
+
+<div class="tableform">
+<{tabber}>
+    <{foreach from=$sections item=item key=key}>
+    <{tab name=$item.label}>
+        <{assign var="log_type" value=$key}>
+        <{assign var="log_type_file" value=$item.file}>
+        <{include file="admin/site/log/search.html"}>
+    <{/tab}>
+    <{/foreach}>
+<{/tabber}>
+</div>
+<script>
+function log_query(type,offset) {
+    var _t = "";
+    new Request.JSON({
+        // update:$('log-'+type),
+        url:'<{link app=partner ctl=admin_log act=search}>&p[0]=<{$site_id}>&p[1]='+$("site-publish-item").get("value") + "&p[2]=" + offset,
+        method:'post',
+        data:$('search-log-form-'+type),
+        onRequest:function(s){
+            $('search-log-button-'+type).set("disabled",true);
+            _t = $('search-log-button-'+type).get("value");
+            $('search-log-button-'+type).set("value","loading...");
+            MessageBox.success('数据查询中....');
+        },
+        onComplete: function(re) {
+            $('search-log-button-'+type).set("disabled",false);
+            $('search-log-button-'+type).set("value",_t);
+
+            if(re.log) $('log-'+type).set('html',re.log);
+            if(re.page) {
+                $('log-'+type+'-page').setStyle('display','block');
+                $('log-'+type+'-page').set('html',re.page);
+            } else {
+                $('log-'+type+'-page').setStyle('display','none');
+            }
+        }
+    }).send();
+}
+</script>

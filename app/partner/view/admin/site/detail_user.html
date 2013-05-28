@@ -1,0 +1,20 @@
+<div class="tableform">
+<table width=98%>
+	<thead>
+		<tr>
+			<td><{t}>用户<{/t}>:</td>
+			<td><{t}>类型<{/t}>:</td>			
+			<td><{t}>访问路径<{/t}>:</td>
+		</tr>
+	</thead>
+	<tbody>
+	<{foreach from=$data item=item key=key}>
+		<tr>
+			<td><{$item.user_id}></td>
+			<td><{$item.type}></td>			
+			<td><{$item.path}></td>
+		</tr>
+	<{/foreach}>
+	</tbody>
+</table>
+</div>

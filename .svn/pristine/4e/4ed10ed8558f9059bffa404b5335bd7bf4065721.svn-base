@@ -1,0 +1,21 @@
+<{lang_script src="lang.js" app="site"}>
+
+<{if defined("DEBUG_CSS") && DEBUG_CSS}>
+	<{css src="framework.css" app="site"}>
+<{else}>
+	<{css src="framework_min.css" app="site"}>
+<{/if}>
+<{if defined("DEBUG_JS") && DEBUG_JS}>
+	<{script src="mootools.js" app="site"}>
+	<{script src="moomore.js" app="site"}>
+	<{script src="jstools.js" app="site"}>
+    <{script src="switchable.js" app="site"}>
+    <{script src="popup.js" app="site"}>
+	<{script src="patch.js" app="site"}>
+<{else}>
+	<{script src="moo_min.js" app="site" pdir="js_mini"}>
+	<{script src="patch.js" app="site" pdir="js_mini"}>
+<{/if}>
+<{script src="broswerstore.js" app="site" pdir="js_mini"}>
+<{script src="formplus.js" app="site" pdir="js_mini"}>
+<{script src="patch.js" app="site" pdir="js_mini"}>

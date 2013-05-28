@@ -1,0 +1,52 @@
+<site>
+    <explorer id='yunmall' path='view/site'>浏览前台</explorer>
+
+	<module controller='site_usercenter' >
+		<name>usercenter</name>
+		<title>会员中心</title>
+		<disable>false</disable>
+		<allow_menu act='index'>会员中心</allow_menu>
+		<default_menu>
+			<title>会员中心</title>
+			<act>index</act>
+			<hidden>false</hidden>
+		</default_menu>
+	</module>
+	
+    <module controller='site_event' >
+		<name>event</name>
+		<title>活动</title>
+		<disable>false</disable>
+		<allow_menu act='index'>活动</allow_menu>
+		<default_menu>
+			<title>活动</title>
+			<act>index</act>
+			<hidden>false</hidden>
+		</default_menu>
+	</module>
+
+    <module controller='site_resource' >
+		<name>resource</name>
+		<title>资源</title>
+		<disable>false</disable>
+		<allow_menu act='index'>资源</allow_menu>
+		<default_menu>
+			<title>资源</title>
+			<act>index</act>
+			<hidden>false</hidden>
+		</default_menu>
+	</module>
+
+    <module controller='site_notice' >
+		<name>notice</name>
+		<title>公告</title>
+		<disable>false</disable>
+		<allow_menu act='index'>公告</allow_menu>
+		<default_menu>
+			<title>公告</title>
+			<act>index</act>
+			<hidden>false</hidden>
+		</default_menu>
+	</module>
+
+</site>

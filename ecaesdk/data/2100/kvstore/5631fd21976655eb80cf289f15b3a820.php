@@ -1,0 +1,1 @@
+<?php exit(); ?>a:3:{s:5:"value";a:5:{s:3:"key";s:60:"service_last_modified.desktop_application_permission.content";s:6:"prefix";s:6:"system";s:5:"value";s:32:"8007a4c1bb9d1a83241fb97b04a873c0";s:3:"ttl";i:0;s:8:"dateline";i:1369721294;}s:3:"ttl";i:0;s:8:"dateline";i:1369721294;}

@@ -1,0 +1,126 @@
+<desktop>
+    
+    <permissions>
+        <permission id="ecae_site"                      display='true'>站点列表</permission>
+        <permission id="ecae_site_add"                  display='true'>站点添加</permission>
+        <permission id="ecae_site_edit"                 display='true'>站点编辑</permission>
+        <permission id="ecae_site_batch_status"         display='true'>站点批量修改状态</permission>
+        <permission id="ecae_site_publish"              display='true'>发布管理</permission>
+        <permission id="ecae_site_task"                 display='true'>站点任务</permission>
+        <permission id="ecae_site_streamlog"            display='true'>站点任务日志</permission>
+        <permission id="ecae_site_ip"                   display='true'>IP防火墙</permission>
+        <permission id="ecae_site_user"                 display='true'>成员管理</permission>
+        <permission id="ecae_site_mysql"                display='true'>数据库管理</permission>
+        <permission id="ecae_site_log"                  display='true'>站点日志</permission>
+        <permission id="ecae_site_phpini"               display='true'>PHP设置</permission>
+        <permission id="ecae_site_nginx"                display='true'>WEB设置</permission>
+        <permission id="ecae_site_delete"               display='true'>站点删除</permission>
+        <permission id="ecae_site_deadline"             display='true'>开通周期</permission>
+        <permission id="ecae_site_nginx_batch"          display='true'>批量站点WEB设置</permission>
+        <permission id="ecae_site_varnish"              display='true'>站点Varnish更新</permission>
+
+        <permission id="ecae_site_domain"               display='true'>域名管理</permission>
+        <permission id="ecae_domain_delete"             display='true'>域名解除绑定</permission>
+        <permission id="ecae_domain_add"                display='true'>域名绑定</permission>
+        <permission id="ecae_domain_status"             display='true'>域名状态修改</permission> 
+
+        <permission id="ecae_user"                      display='true'>会员列表</permission>
+        <permission id="ecae_user_add"                  display='true'>会员添加</permission>
+        <permission id="ecae_user_edit"                 display='true'>会员编辑</permission>
+        <permission id="ecae_user_batch_status"         display='true'>会员批量修改状态</permission>
+        <permission id="ecae_user_password"             display='true'>修改用户密码</permission>
+        <permission id="ecae_user_site_create"          display='true'>设置用户创建站点数</permission>
+
+        <permission id="ecae_package"                   display='true'>套餐列表</permission>
+
+        <permission id="ecae_application"               display='true'>应用列表</permission>
+        <permission id="ecae_application_add"           display='true'>添加应用</permission>
+        <permission id="ecae_application_edit"          display='true'>编辑应用</permission>
+        <permission id="ecae_application_batch_status"  display='true'>应用批量修改状态</permission>
+
+        <permission id="ecae_global"  display='true'>全局设置</permission>
+<!--
+        <permission id="ecae_agent_api_log"  display='true'>代理商日志</permission>
+-->
+
+
+    </permissions>
+    
+    <workground name="站点" id="site.wrokground.theme" controller="admin_site" action="index" order="1">
+        <menugroup name="站点列表" order="1">
+            <menu controller='admin_site'   action='index'    permission='ecae_site'               display='true' order="1">站点列表</menu>
+
+            <menu controller='admin_site'   action='add'            permission='ecae_site_add'           display='false' >站点添加</menu>
+            <menu controller='admin_site'   action='edit'           permission='ecae_site_edit'          display='false' >站点编辑</menu>
+            <menu controller='admin_site'   action='status'         permission='ecae_site_batch_status'  display='false' >站点批量修改状态</menu>
+            <menu controller='admin_site'   action='domain'         permission='ecae_site_domain'        display='false' >域名管理</menu>
+            <menu controller='admin_site'   action='publish'        permission='ecae_site_publish'       display='false' >发布管理</menu>
+            <menu controller='admin_site'   action='task'           permission='ecae_site_task'          display='false' >站点任务</menu>
+            <menu controller='admin_site'   action='ip'             permission='ecae_site_ip'            display='false' >IP防火墙</menu>
+            <menu controller='admin_site'   action='user'           permission='ecae_site_user'          display='false' >成员管理</menu>
+            <menu controller='admin_site'   action='mysql'          permission='ecae_site_mysql'         display='false' >数据库管理</menu>
+            <menu controller='admin_log'    action='index'          permission='ecae_site_log'           display='false' >站点日志</menu>
+            <menu controller='admin_site'   action='phpini'         permission='ecae_site_phpini'        display='false' >PHP设置</menu>
+            <menu controller='admin_site'   action='nginx'          permission='ecae_site_nginx'         display='false' >WEB设置</menu>
+            <menu controller='admin_site'   action='deadline'       permission='ecae_site_deadline'      display='false' >开通周期</menu>
+            <menu controller='admin_stream' action='index'          permission='ecae_site_streamlog'     display='false' >站点任务日志</menu>
+            <menu controller='admin_site'   action='nginx_batch'    permission='ecae_site_nginx_batch'   display='false' >批量站点WEB设置</menu>
+            <menu controller='admin_site'   action='varnish'        permission='ecae_site_varnish'       display='false' >站点Varnish更新</menu>
+
+        </menugroup>
+        <menugroup name="域名列表" order="2">
+            <menu controller='admin_domain' action='index'    permission='ecae_site_domain'        display='true'  order="1">域名列表</menu>
+
+            <menu controller='admin_domain' action='add'      permission='ecae_domain_add'         display='false' >域名绑定</menu>
+            <menu controller='admin_domain' action='delete'   permission='ecae_domain_delete'      display='false' >域名解除绑定</menu>
+            <menu controller='admin_domain' action='status'   permission='ecae_domain_status'      display='false' >域名状态修改</menu>
+        </menugroup>
+
+    </workground>
+
+    <!--
+    <workground name="会员" id="ecae_user" controller="admin_user" action="index" order="10">
+        <menugroup name="会员列表">
+            <menu controller='admin_user' action='index'             permission='ecae_user'                  display='true' order="10">会员列表</menu>
+            
+            <menu controller='admin_user' action='add'               permission='ecae_user_add'              display='false' >用户添加</menu>
+            <menu controller='admin_user' action='edit'              permission='ecae_user_edit'             display='false' >用户编辑</menu>
+            <menu controller='admin_user' action='status'            permission='ecae_user_batch_status'     display='false' >用户批量修改状态</menu>
+            <menu controller='admin_user' action='password'          permission='ecae_user_password'         display='false' >修改用户密码</menu>
+            <menu controller='admin_user' action='createnum'         permission='ecae_user_site_create'      display='false' >修改用户可创建站点数</menu>
+
+        </menugroup>
+    </workground>
+    -->
+
+    <workground name="应用" id="ecae_application" controller="admin_application" action="index" order="10">
+        <menugroup name="应用列表">
+            <menu controller='admin_application'    action='index'      permission='ecae_application'               display='true' order="10">应用列表</menu>
+            
+            <menu controller='admin_application'    action='add'        permission='ecae_application_add'           display='false'>添加应用</menu>
+            <menu controller='admin_application'    action='edit'       permission='ecae_application_edit'          display='false'>编辑应用</menu>
+            <menu controller='admin_application'    action='status'     permission='ecae_application_batch_status'  display='false'>应用批量修改状态</menu>
+
+        </menugroup>
+
+        <menugroup name="套餐列表">
+            <menu controller='admin_package' action='index' permission='ecae_package'                    display='true' order="10">套餐列表</menu> 
+
+        </menugroup>
+    </workground>
+
+    <workground name="全局" id="ecae_global" controller="admin_global" action="index" order="10">
+        <menugroup name="全局设置">
+            <menu controller='admin_global' action='setting' permission='ecae_global'    display='true' order="10">全局设置</menu>
+        </menugroup>
+    </workground>
+
+<!--
+    <workground name="代理商日志" id="ecae_agent_api_log" controller="admin_agentapi" action="log" order="20">
+        <menugroup name="代理商日志">
+            <menu controller='admin_agentapi' action='log' permission='ecae_agent_api_log' display='true' order="20">Agent API Log</menu>
+        </menugroup>
+    </workground>
+-->
+
+</desktop>

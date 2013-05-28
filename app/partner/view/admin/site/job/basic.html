@@ -1,0 +1,137 @@
+<h3><{t}>基本信息<{/t}></h3>
+<{foreach from=$site_id item=id}>
+<input type="hidden" name="site_id[]" value="<{$id}>" />
+<{/foreach}>
+<div id="x-job-basic" class="goods-detail tableform">
+	<div class="division">
+	<table width=98%>
+		<tr>
+			<td>可使用任务列表</td>
+			<td align="center">操作</td>
+			<td>想要添加的任务<div id="job-show-args" style="display:none">
+				站点发布(site_publish)版本号:<input type="text" size="4" vtype="digits" name="data[job_arg]" /><div></td>
+		</tr>
+		<tr>
+			<td style="width:360px;">
+				<select multiple size=12 style="width:360px;" id="prepare-job-select">
+<{*
+					<optgroup label="系统级">
+					<{foreach from=$job.system item=item key=key}>
+						<option value="system:<{$item.file}>" attr=""><{$item.title}></option>
+					<{/foreach}>
+					</optgroup>
+					<optgroup label="站点级">
+*}>
+					<{foreach from=$job.site item=item key=key}>
+						<option value="<{$item.file}>" attr=""><{$item.title}></option>
+					<{/foreach}>
+<{*
+					</optgroup>
+*}>
+				</select>
+			</td>
+			<td align="center" style="padding-top:50px;">
+				<{button type="button" label=">>" id="add-job-btn"}> <br/><br/>
+				<{button type="button" label="<<" id="delete-job-btn"}>
+			</td>
+			<td style="width:360px;">
+				<select name="data[job][]" size=12 style="width:360px;" id="do-job-select" multiple=true >
+
+				</select>
+			</td>
+		</tr>
+	</table>
+	</div>
+
+	<div>
+		<div class="table-action"><{button type="button" label=$___partner="添加到任务队列"|t:'' id='site-job-form-submit'}></div>
+	</div>
+</div>
+<script>
+if($("add-job-btn")) {
+	$("add-job-btn").addEvent("click",function(e){
+		var p_s = $("prepare-job-select");
+		var d_s = $("do-job-select");
+		var len = p_s.length;
+		if(len ==  0) return false;
+		var flag = 0;
+		for(i = 0; i < len; i++) {
+			if(p_s.options[i].get("selected")) {
+				flag++;
+				var opt = new Option(p_s.options[i].get("text"),p_s.options[i].get("value"));
+				if(d_s.getChildren().every(function(item,index){ 
+					return !($(item).value=="site_publish" && $(opt).value=="site_publish");
+				})){
+					d_s.add(opt);
+				}else{
+						alert("site_publish任务不能重复添加 ");
+				}
+			}
+		}
+		var hidden_args = d_s.getChildren().every(function(item,index){return $(item).value!="site_publish"});
+		$("job-show-args").setStyle('display',hidden_args?"none":"");
+		if(flag == 0) alert("请选中要加入的任务");
+	});
+}
+if($("delete-job-btn")) {
+	$("delete-job-btn").addEvent("click",function(e){
+		var d_s = $("do-job-select");
+		var len = d_s.length;
+		if(len ==  0) return false;
+		var flag = 0;
+		for(i = len - 1; i >= 0; i--) {
+			if(d_s.options[i].get("selected")) {
+				flag++;
+				d_s.remove(d_s.options.selectedIndex);
+			}
+		}
+		var hidden_args = d_s.getChildren().every(function(item,index){return $(item).value!="site_publish"});
+		$("job-show-args").setStyle('display',hidden_args?"none":"");
+		if(flag == 0) alert("请选中要移除的任务");
+	});
+}
+if($("site-job-form-submit")) {
+	$("site-job-form-submit").addEvent("click",function(e){	
+		var d_s = $("do-job-select");
+		if(d_s.options.length == 0 ) { alert("请选择要执行的任务"); return false;}
+		if(!confirm("确定要添加以上任务吗?")) return false;
+
+		// 将待加入任务选中
+		var len = d_s.options.length;
+		for(i = 0;i < len; i++) {
+			d_s.options[i].set("selected",true);
+		}
+
+		var e = this;
+		e.set('_v',e.value);
+		e.set('value','loading...');
+		e.disabled = true;
+      	new Request({
+				url: '<{link app="partner" ctl="admin_site" act="job"}>&p[0]=<{$site_id}>',
+				method: 'post',
+				evalScripts:true,
+				data:e.getParent("form"),
+				async:false,
+				onRequest : function(){
+					e.disabled = true;
+				},
+				onComplete: function(re){
+					e.disabled = false;
+					e.set('value',e.get('_v'));
+					var json;
+					try{
+						json = JSON.decode(re);
+					}catch(e){}
+					
+					if(json && json.success){
+						MessageBox.success(json.success);
+					}else{
+						if(json.error) MessageBox.error(json.error);
+					}
+				}
+			}).send();
+ 
+		return false;
+	});
+}
+</script>

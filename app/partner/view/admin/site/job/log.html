@@ -1,0 +1,33 @@
+<h3><{t}>执行记录<{/t}></h3>
+<div class="goods-detail tableform">
+	<div class="division">
+	<table width=98%>
+		<tr>
+			<td>执行文件</td>
+			<td>状态</td>
+			<td>加入时间</td>
+			<td>开始时间</td>
+			<td>结束时间</td>
+			<td>CPU执行时间</td>
+		</tr>
+		<{foreach from=$log item=item }>
+		<tr>
+			<th><{$item.file}></th>
+			<td>
+				<{if $item.status == "error"}>
+					<font color="red">执行失败</font>
+				<{elseif $item.status == "success"}>
+					<font color="green">执行成功</font>
+				<{else}>
+					<font color="blue">执行中...</font>
+				<{/if}>
+			</td>
+			<td><{$item.insert_time|date:"Y-m-d H:i:s"}></td>
+			<td><{$item.start_time|date:"Y-m-d H:i:s"}></td>
+			<td><{$item.finish_time|date:"Y-m-d H:i:s"}></td>
+			<td><{$item.cpu_time}>s</td>
+		</tr>
+		<{/foreach}>
+	</table>
+	</div>
+</div>

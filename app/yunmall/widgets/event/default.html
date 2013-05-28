@@ -1,0 +1,20 @@
+<div class="header">
+    <strong><{$setting.title}></strong>
+    <{if $setting.link}><a href="<{$setting.link}>" >更多&raquo;</a><{/if}>
+</div>
+<div class="content">
+    <{if $data }>
+    <{foreach from=$data item=item key=key}>
+    <div class="item <{if $key > 0 && $key%4 == 0}>last<{/if}>" > 
+        <a href="<{link app='yunmall' ctl='site_event' act='index' arg0=$item.link_id }>" alt="<{$item.title|escape:html}>" >
+            <{if $item.image_id}>
+                <img src="<{$item.image_id|storager}>" />
+            <{else}>
+                <{img app='yunmall' src="default.jpg"}>
+            <{/if}>
+            <span><{$item.title|cut:$setting.max_length}></span>
+        </a>
+    </div>
+    <{/foreach}>
+    <{/if}> 
+</div>

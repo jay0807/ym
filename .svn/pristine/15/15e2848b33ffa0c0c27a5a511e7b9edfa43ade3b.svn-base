@@ -1,0 +1,66 @@
+<div class="tableform">
+    <form method="post" id='site-form'  action="index.php?app=partner&ctl=admin_site&act=deadline&p[0]=<{$site_id}>&finder_id=<{$env.get.finder_id}>">
+    <input type="hidden" name="data[site_id]" value='<{$site_id}>' />
+    <div class="division">
+        <table width=98%>
+            <tr>
+                <td colspan="2">
+                    <{if $data.period}>
+                    该站点开通周期<font color=red><{$data.period}></font>个月，到期时间为
+                    <font color="<{if $data.deadline > $now}>green<{else}>blue<{/if}>"><{$data.deadline|cdate}></font>
+                    <{else}>
+                    开通时间:<{$data.creattime|cdate}>
+                    <{/if}>
+                </td>
+            </tr>
+            <tr>
+                <th><font color="red">*</font><{t}>推迟站点过期时间<{/t}>:</th>
+                <td><input type='text'  name="data[period]" vtype="required&&unsignedint" style="width:140px;"  maxlength="2"/>月</td>
+            </tr>
+        </table>
+    </div>
+
+    <div>
+        <div class="table-action">
+            <{button type="button" label=$___partner="保存"|t:'' id='site-form-submit'}>&nbsp;&nbsp;
+            <{button type="button" label=$___partner="关闭"|t:'' id='site-form-exit'}>
+        </div>
+    </div>
+    </form>
+</div>
+<script>
+(function(){
+    var _form  = $('site-form');
+    var btn    = $('site-form-submit');
+    var finder = finderGroup['<{$env.get.finder_id}>'];
+    try {
+        var _dialogIns = btn.getParent('.dialog').retrieve('instance');
+    } catch(e){
+        var _dialogIns = null; 
+    } 
+    
+    _form.store('target',{
+        onComplete:function() {
+        },
+        onSuccess:function(response) {
+            var res = JSON.decode(response);
+            if (res.success != undefined && res.success != "") {                
+                if(_dialogIns) {
+                    _dialogIns.close();
+                    finder.refresh.delay(400,finder);
+                }
+            } else {
+                if(res.error) MessageBox.error(res.error);
+            }
+        }
+    });
+    
+    btn.addEvent('click',function(){
+        _form.fireEvent('submit',{stop:$empty});
+    });
+
+    $("site-form-exit").addEvent('click',function() {
+        if(_dialogIns) _dialogIns.close();
+    });
+})();
+</script>

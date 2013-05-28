@@ -1,0 +1,269 @@
+<div class="spage-main-box">
+<form id="site-nginx-form">
+<{foreach from=$site item=item}>
+    <input type="hidden" value="<{$item}>" name="site[]" />
+<{/foreach}>
+    <div class="tableform">
+        <h3><{t}>Varnish设置<{/t}></h3>
+        <div class="division">    
+        <table width="98%">
+            <tr>
+                <td width="100">
+                    <label>开启高速反向代理: <input type="checkbox" name="proxy_enabled" <{if $config.proxy_enabled}>checked="checked"<{/if}>/></label>
+                </td>
+                <td>&nbsp;</td>
+            </tr>
+            <tr>
+                <td width="100">
+                <label>静态文件缓存时间: 
+                    <select name="expires" >
+                        <{html_options options=$expires_option selected=$config.expires}>
+                    </select>
+                </label>
+                </td>
+                <td><{if $nginx_setting_batch}><input type="button" value="Nginx: 去掉index.php" id="nginx_setting_index"/><{/if}> </td>
+            </tr>
+        </table>
+        </div>
+
+    </div>
+    <div class="tableform">
+        <h3><{t}>Nginx设置<{/t}></h3>
+        <div class="division">    
+            <table width="98%">
+            <thead>
+                <tr>
+                    <td width="35"><b>序号</b></td>
+                    <td><b>匹配规则</b></td>
+			<th width="100"><b>|</b>文件不存在时</th>
+                    <td><b>跳转地址</b></td>
+                    <td width="80"><b>标志</b></td>
+                    <td width="90"><b>操作</b></td>
+                </tr>
+            </thead>
+            <tbody id="publishBody">
+            <{foreach from=$config.rules key=i item=rule}>
+                <tr>
+                <td><{$i+1}></td>
+                <td><input type="text" value="<{$rule.pattern|escape:'htmlall'|escape:'htmlall'}>" name="rewrite[<{$i}>][pattern]" class="item-path w200" data-t="rule" /></td>
+		<td><input type="checkbox" value="true" <{if $rule.args.file_not_exist==="true"}>checked="checked"<{/if}> name="rewrite[<{$i}>][args][file_not_exist]" class="item-path" data-t="rule" /></td>
+                <td><input type="text" value="<{$rule.replacement|escape:'htmlall'|escape:'htmlall'}>" name="rewrite[<{$i}>][replacement]" class="item-path w200" /></td>
+                <td>
+                <select name="rewrite[<{$i}>][flag]">
+                    <{html_options options=$options selected=$rule.flag}>
+                </select>
+                </td>
+                <td><b class="rule-asc">&nbsp;↑&nbsp;</b>&nbsp;&nbsp;<b class="rule-desc">&nbsp;↓&nbsp;</b>&nbsp;&nbsp;<b class="rule-delete">&nbsp;x&nbsp;</b></td>
+                </tr>
+                <{/foreach}>
+                </tbody>
+
+                <tfoot id="publishFoot">
+                    <tr>
+                        <td colspan="5">
+                            <hr width="100%" style="margin-top:32px;" />
+                            <span class="publish-limit">本站点最多可以有<b><{$config.limit}>条</b>重写规则，<b class="unfold">新增规则</b></span>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+            <div class="creat-new" style="display:none;">
+                <ul>
+			<li><span class="">匹配规则: </span><span class=""><input type="text" name="pattern" value="" id="pattern" /><input type="checkbox" name="file_not_exist" id="file_not_exist" />文件不存在时</span></li>
+                    <li><span class="">跳转地址: </span><span class=""><input type="text" name="replacement" value="" id="replacement" /></span></li>
+                    <li><span class="">标志: </span><span class=""><select name="flag" id="flag"><{html_options options=$options}></select></span></li>
+                    <li><{button type="button" label=$___partner="添加"|t:'partner' id='site-nginx-rule-add'}></li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+</form>
+</div>
+
+<{capture name='footbar'}>
+<table cellspacing="0" cellpadding="0" class="table-action">
+    <tbody>
+        <tr valign="middle"><td>
+            <{assign var="___c"  value=$___partner='确定退出?'|t:'partner'}>
+            <{button type="button" label=$___partner="提交保存"|t:'partner' id='site-nginx-form-submit'}>
+            <{button label=$___partner="关闭"|t:'partner' class="btn-secondary" type="button" onclick="if(confirm('{$___c}'))window.close()"}>
+        </td></tr>
+    </tbody>
+</table>
+
+<script>
+(function() {
+var publishBody = $('publishBody');
+
+if($('nginx_setting_index')) {
+$('nginx_setting_index').addEvent('click', function(e){
+    $('pattern').value='^/(?!index\\\.php)(.*)$';
+    $('file_not_exist').checked=true;
+    $('replacement').value='/index.php/$1';
+    $('flag').value='break';
+    $('site-nginx-rule-add').fireEvent('click');
+});
+}
+
+// 提交
+if($("site-nginx-form-submit")) {
+    $("site-nginx-form-submit").addEvent("click",function(e){    
+        var e = this;
+        e.set('_v',e.value);
+        e.set('value','loading...');
+        e.disabled = true;
+          new Request({
+                //url: '<{link app="partner" ctl="admin_site" act="nginx"}>&p[0]=<{$site_id}>',
+                url: '<{$form_submit_url}>',
+                method: 'post',
+                evalScripts:true,
+                data:$("site-nginx-form"),
+                async:false,
+                onRequest : function(){
+                    e.disabled = true;
+                },
+                onComplete: function(re){
+                    e.disabled = false;
+                    e.set('value',e.get('_v'));
+                    var json;
+                    try{
+                        json = JSON.decode(re);
+                    }catch(e){}
+                    
+                    if(json && json.success){
+                        MessageBox.success(json.success);
+                        window.close();
+                        //location.reload();
+                    }else{
+                        if(json.error) MessageBox.error(json.error);
+                    }
+                }
+            }).send();
+ 
+        return false;
+    });
+}
+
+// toggle create div
+if($$(".unfold")) {
+    $$(".unfold").addEvent('click',function(e){
+        var toggle = $$(".creat-new")[0];
+        if(toggle.getStyle("display") == "none") {
+            toggle.setStyle("display","block");
+        } else {
+            toggle.setStyle("display","none");
+        }
+    });
+}
+
+var xml_special_to_escaped_one_map = { '&': '&amp;', '"': '&quot;', '<': '&lt;', '>': '&gt;' };
+var escaped_one_to_xml_special_map = { '&amp;': '&', '&quot;': '"', '&lt;': '<', '&gt;': '>' };
+var encodeXml = function(string) {
+    return string.replace(/([\&"<>])/g, function(str, item) {
+        return xml_special_to_escaped_one_map[item];
+    });
+}
+
+var sortRules = function(item) {
+    var tr = $(item).getParent('tr');
+    var tbody = tr.getParent('tbody');
+    var rules = tbody.getChildren('tr');
+    rules.each(function(rule){
+        rule.getFirst('td').set('html', rule.rowIndex);
+        var elements = rule.getElements('input, select');
+        elements.each(function(el){
+            if (/\[\d+\]/.test(el.get('name')))
+                el.set('name', el.get('name').replace(/\[\d+\]/, "["+(rule.rowIndex-1)+"]"));
+        });
+    });
+}
+
+var deleteItem = function(item){ //删除应用
+    var tr = $(item).getParent('tr');
+    var tbody = tr.getParent('tbody');
+    tbody.deleteRow( tr.rowIndex-1 );
+    var rules = tbody.getChildren('tr');
+    rules.each(function(rule){
+        rule.getFirst('td').set('html', rule.rowIndex);
+        var elements = rule.getElements('input, select');
+        elements.each(function(el){
+            if (/\[\d+\]/.test(el.get('name')))
+                el.set('name', el.get('name').replace(/\[\d+\]/, "["+(rule.rowIndex-1)+"]"));
+        });
+    });
+}
+
+var orderAsc = function(item){ //正序
+    var tr = item.getParent('tr'),
+        index = tr.rowIndex;
+    if( index<2 )return;
+    tr.inject(publishBody.rows[index-2],'before');
+    sortRules(item);
+}
+
+var orderDesc = function(item){ //倒序
+    var tr = item.getParent('tr'),
+        index = tr.rowIndex;
+    if( index==publishBody.rows.length )return;
+    tr.inject(publishBody.rows[index],'after');
+    sortRules(item);
+}
+
+publishBody.addEvent('click',function(event){ //操作事件
+    var t = event.target;
+    switch(t.className){
+        case 'rule-delete' :
+            deleteItem(t);
+            break;
+        case 'rule-asc' :
+            orderAsc(t);
+            break;
+        case 'rule-desc' :
+            orderDesc(t);
+    }
+    var i=0, n = publishBody.rows.length;
+    for( ;i<n;i++ ){
+        publishBody.rows[i].cells[0].innerHTML = i+1;
+    }
+});
+
+if($("site-nginx-rule-add")){
+    $("site-nginx-rule-add").addEvent('click',function(){ //追加应用
+        var num = len = publishBody.rows.length;
+        var    pattern = encodeXml($('pattern').value);
+        var replacement = encodeXml($('replacement').value);
+	var file_not_exist = $('file_not_exist').checked;
+        var    flag = $('flag').selectedIndex;
+        if (!pattern) {
+            $('pattern').focus(); MessageBox.error("匹配规则必须输入"); return false;
+        }
+        if (!replacement) {
+            $('replacement').focus(); MessageBox.error("跳转地址必须输入"); return false;
+        }
+        if( num >= <{$config.limit|default:5}>) {
+            this.disabled = true; return false;
+        }
+
+        var publishBodyrow = publishBody.insertRow(len);
+        var td1 = publishBodyrow.insertCell(0);
+        var td2 = publishBodyrow.insertCell(1);
+        var td3 = publishBodyrow.insertCell(2);
+        var td4 = publishBodyrow.insertCell(3);
+        var td5 = publishBodyrow.insertCell(4);
+	var td6 = publishBodyrow.insertCell(5);
+        td1.innerHTML = (num+1);
+        td2.innerHTML = '<input type="text" value="'+ pattern +'" name="rewrite['+num+'][pattern]" class="item-path w200" data-t="rule" />';
+	td3.innerHTML = '<input type="checkbox" value="true" '+ (file_not_exist==true ? 'checked=checked' : '') +' name="rewrite['+num+'][args][file_not_exist]" class="item-path" data-t="rule" />';
+        td4.innerHTML = '<input type="text" value="'+ replacement +'" name="rewrite['+num+'][replacement]" class="item-rev w200" />';
+        td5.innerHTML = '<select name="rewrite['+num+'][flag]"><option label="null" value="">null</option><option label="last" value="last">last</option><option label="break" value="break">break</option><option label="redirect" value="redirect">redirect</option><option label="permanent" value="permanent">permanent</option></select>';
+        td5.getElement('select').selectedIndex = flag;
+        td6.innerHTML = '<b class="rule-asc">&nbsp;↑&nbsp;</b>&nbsp;&nbsp;<b class="rule-desc">&nbsp;↓&nbsp;</b>&nbsp;&nbsp;<b class="rule-delete">&nbsp;x&nbsp;</b>';
+        return false;
+    });
+}
+
+
+})();
+</script>
+<{/capture}>

@@ -1,0 +1,32 @@
+<div class="tabs-wrap">
+    <ul>
+        <li class="tab current"><span><{t}>基本设置<{/t}></span>
+            <input type= "hidden" value="index.php?app=partner&ctl=admin_global&act=save"></input>
+		</li>
+	</ul>
+</div>
+
+<div id="setting">
+	<{include file="admin/global/basic.html"}>
+</div>
+<script>
+(function(){
+	$$('.tab').addEvent('click',function(){
+		if(this.hasClass('current')) return ;
+		if($$('.tabs-wrap .current')[0]) $$('.tabs-wrap .current')[0].removeClass('current');
+		
+		this.addClass('current');
+		
+		var url = this.getFirst('input').value;
+		var  base_setting = true;
+
+		new Request.HTML({
+			url:url,
+			update:$('setting'),
+			medthod:'post',
+			data:'base_setting='+base_setting,
+			onSuccess:function(){W.render($('setting'));}
+		}).send();
+	});
+})();
+</script>

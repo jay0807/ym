@@ -1,0 +1,29 @@
+	<table width="98%">
+		<tr>
+			<td width="90">
+      				<label>共<{$log_count}>条数据</label>
+			</td>
+			<td width="400">
+      				<label>日志时间范围:</label><{$search_time.from|date:"Y-m-d H:i:s"}> 到 <{$search_time.to|date:"Y-m-d H:i:s"}>
+			</td>
+			<td width=""> &nbsp; </td>
+		</tr>
+	</table>
+	<table width="98%">
+		<{if $log}>
+		<tr>
+			<td width="100">
+      			<label>Messageid </label>
+			</td>
+			<td>日志内容</td>
+		</tr>
+		<{/if}>
+		<{foreach from=$log item=item}>
+		<tr>
+			<td>
+      			<label><{$item.msgid}></label>
+			</td>
+			<td><{$item.logtxt}></td>
+		</tr>
+		<{/foreach}>
+	</table>

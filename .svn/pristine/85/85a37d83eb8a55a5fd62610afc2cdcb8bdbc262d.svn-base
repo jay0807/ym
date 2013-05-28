@@ -1,0 +1,81 @@
+<div class="tableform">
+    <table width=98%>
+        <tr>
+            <th><{t}>用户ID<{/t}>:</th>
+            <td><{$data.id}></td>
+        </tr>
+        <tr>
+            <th><{t}>淘宝ID<{/t}>:</th>
+            <td><{$data.taobao_id}></td>
+        </tr>
+        <tr>
+            <th><{t}>淘宝昵称<{/t}>:</th>
+            <td><{$data.taobao_nick}></td>
+        </tr>
+        <tr>
+            <th><{t}>站点<{/t}>:</th>
+            <td>
+                <{if $data.site}>
+                <a href="http://<{$data.site}>.cloudmall.shopex.cn" target="_open">http://<{$data.site}>.cloudmall.shopex.cn</a>
+                <{else}>
+                暂未开通
+                <{/if}>
+            </td>
+        </tr>
+    </table>
+</div>
+
+<div class="tableform">
+    <table width=98%>
+        <tr>
+            <th><{t}>企业名称<{/t}>:</th>
+            <td><{$data.ent_name}></td>
+        </tr>
+        <tr>
+            <th><{t}>商城URL<{/t}>:</th>
+            <td><{$data.ent_url}></td>
+        </tr>
+        <tr>
+            <th><{t}>备案号<{/t}>:</th>
+            <td><{$data.recordno}></td>
+        </tr>
+    </table>
+</div>
+
+<div class="tableform">
+    <table width=98%>
+        <tr>
+            <th><{t}>联系人<{/t}>:</th>
+            <td><{$data.contact}></td>
+        </tr>
+        <tr>
+            <th><{t}>邮箱<{/t}>:</th>
+            <td><{$data.email}></td>
+        </tr>
+        <tr>
+            <th><{t}>手机号<{/t}>:</th>
+            <td><{$data.phone}></td>
+        </tr>
+    </table>
+</div>
+
+<div class="tableform">
+    <table width=98%>
+        <tr>
+            <th><{t}>注册时间<{/t}>:</th>
+            <td><{$data.create_time|date:"Y-m-d H:i:s"}></td>
+        </tr>
+        <tr>
+            <th><{t}>注册IP<{/t}>:</th>
+            <td><{$data.create_ip}></td>
+        </tr>
+        <tr>
+            <th><{t}>上次登陆时间<{/t}>:</th>
+            <td><{$data.login_time|date:"Y-m-d H:i:s"}></td>
+        </tr>
+        <tr>
+            <th><{t}>上次登陆IP<{/t}>:</th>
+            <td><{$data.login_ip}></td>
+        </tr>
+    </table>
+</div>

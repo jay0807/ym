@@ -1,0 +1,20 @@
+<div class="tableform">
+    <table width=98%>
+        <thead>
+        <tr>
+            <td><{t}>站点<{/t}></td>
+            <td><{t}>类型<{/t}></td>
+            <td><{t}>路径<{/t}></td>
+        </tr>
+        </thead>
+        <tbody>
+        <{foreach from=$data item=item}>
+        <tr>
+            <td><a href="http://<{$item.domain}>" target="_open"><{$item.domain}></a></td>
+            <td><{$item.type}></td>
+            <td><{$item.path}></td>
+        </tr>
+        <{/foreach}>
+        </tbody>
+    </table>
+</div>

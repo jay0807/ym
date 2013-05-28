@@ -1,0 +1,41 @@
+<form method="POST" action="index.php?app=partner&ctl=admin_global&act=save" >
+<input type="hidden" name="action" value="log" />
+<div class="tableform">
+    <div class="division">
+    <table>
+    	<tr>
+        	<th ><{t}>站点日志访问地址<{/t}></th>
+        	<td><{input type="text" size=30 vtype="required&&url" style="width:300px" name="data[log][url]" value=$data.url}></td>
+		</tr>
+		<tr>
+        	<th ><{t}>日志Token<{/t}></th>
+        	<td><{input type="text" required="true" style="width:100px" name="data[log][token]" value=$data.token}></td>
+    	</tr>
+
+    </table>
+    </div>
+
+	<div class="table-action"><{button type="button" id="setting-basic-btn"  label=$___partner="保存"|t:'partner'}></div>
+
+</div>
+</form>
+<script>
+(function(){
+	if($("setting-basic-btn")) {
+		$("setting-basic-btn").addEvent("click",function(e){
+			var url = this.getParent("form").get("action");
+			new Request.JSON({
+				data:this.getParent("form"),
+				url:url,
+				update:$('setting'),
+				medthod:'post',
+				onSuccess:function(){
+					MessageBox.show("设置成功");
+					W.render($('setting'));
+				}
+			}).send();
+
+		});
+	}
+})();
+</script>

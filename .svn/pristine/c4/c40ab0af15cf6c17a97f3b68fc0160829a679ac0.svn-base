@@ -1,0 +1,9 @@
+<?php
+class ecaeapi_log{
+
+    public function get($s,$sid,$type)
+    {
+        return ecae_agent_api()->site_log($s,$site_id,$type);
+    }
+
+}

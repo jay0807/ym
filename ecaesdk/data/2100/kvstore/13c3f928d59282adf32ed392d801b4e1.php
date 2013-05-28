@@ -1,0 +1,1 @@
+<?php exit(); ?>a:3:{s:5:"value";a:5:{s:3:"key";s:57:"service_last_modified.desktop_application_workground.site";s:6:"prefix";s:6:"system";s:5:"value";s:32:"cd076732426d4ff95e91626d42eafb8e";s:3:"ttl";i:0;s:8:"dateline";i:1369721286;}s:3:"ttl";i:0;s:8:"dateline";i:1369721286;}

@@ -1,0 +1,12 @@
+<{if $styles}>
+<div class="clearfix" style="padding:3px;background:#fff;border-top:1px #999 solid">
+<div><b><{t}>可选风格：<{/t}></b></div>
+<{foreach from=$styles item=item name="item" key=key}>
+<div class="span-auto" onmouseover="$('<{$theme}>_img').src='<{$preview_prefix}>/<{$item['preview']}>';" style="margin:2px;border:2px #fff solid;cursor:pointer;<{if $current.value == $item.value}>border-color:#333;<{/if}>">
+	<a style="display:block;line-height:20px;text-indent: -9999px;width:20px;overflow:hidden;background:<{$item['color']}>;" href="index.php?app=site&ctl=admin_theme_manage&act=set_style&theme=<{$theme}>&style_id=<{$key}>">
+	   &nbsp;
+	</a>
+</div>
+<{/foreach}>
+</div>
+<{/if}>

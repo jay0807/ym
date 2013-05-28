@@ -1,0 +1,50 @@
+<div id="search-div">
+<hr />
+查询时间：<{input type="date" id="search-time" value=$search_time }> <input type="button" value="查询" id="search-button" />
+<div class="tableform">
+  <table width="98%">
+    <{if $log}>
+        <tr>
+            <td width="200"><label><{t}>时间<{/t}></label></td>
+            <td><{t}>日志内容<{/t}></td>
+        </tr>
+        <{foreach from=$log.data item=item}>
+        <tr>
+            <td><{$item.id}>&nbsp;&nbsp;<label><{$item.d_date|cdate}></label></td>
+            <td><{$item.log_txt}></td>
+        </tr>
+        <{/foreach}>
+        <tr>
+            <td>
+                <label><a onclick="return search_log(this.href);" href="<{link app=partner ctl=admin_agentapi act=search_log  offset=$log.data.0.id+$limit}>&p[0]=<{$search_time}>">上一页</a></label>
+                <{if $log.page.next}><label><a onclick="return search_log(this.href);" href="<{link app=partner ctl=admin_agentapi act=search_log  offset=$log.page.next}>&p[0]=<{$search_time}>">下一页</a></label><{/if}>
+            </td>
+            <td></td>
+        </tr>
+    <{else}>
+        <tr>
+            <td width="100"><{t}>没有相关日志<{/t}></td>
+            <td>&nbsp;</td>
+        </tr>
+    <{/if}>
+  </table>
+</div>
+
+
+<script>
+(function(){
+    $('search-button').addEvent('click', function(e){
+        search_log("<{link app=partner ctl=admin_agentapi act=search_log offset=0}>&p[0]=" + $('search-time').value);
+    });
+})();
+
+function search_log(url){
+    new Request.HTML({
+        url: url,
+        update:$('search-div')
+    }).get();
+    return false;
+}
+
+</script>
+</div>

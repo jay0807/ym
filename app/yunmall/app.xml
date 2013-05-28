@@ -1,0 +1,18 @@
+<app>
+    <name>云猫</name>
+    <description>云猫</description>
+
+    <author>
+        <name>shopex开发团队</name>
+        <email>dev@shopex.cn</email>
+        <url>http://www.shopex.cn</url>
+    </author>
+
+    <version>0.1</version>
+    <license>shopex license</license>
+
+	<depends>
+		<app>desktop</app>
+	</depends>
+
+</app>

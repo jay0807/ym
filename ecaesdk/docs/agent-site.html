@@ -1,0 +1,2179 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<META NAME="generator" CONTENT="http://txt2tags.org">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=utf-8">
+<TITLE>ECAE Platform Agent API文档(站点相关)</TITLE>
+</HEAD><BODY BGCOLOR="white" TEXT="black">
+<CENTER>
+<H1>ECAE Platform Agent API文档(站点相关)</H1>
+<FONT SIZE="4"><I>bluefrog(wubin@shopex.cn)</I></FONT><BR>
+<FONT SIZE="4">since: 04-24-2012</FONT>
+</CENTER>
+
+<P></P>
+<HR NOSHADE SIZE=1>
+<P></P>
+
+  <UL>
+  <LI><A HREF="#toc1">API接口定义</A>
+    <UL>
+    <LI><A HREF="#toc2">站点相关(site)</A>
+      <UL>
+      <LI><A HREF="#toc3">创建空站点(site_create)</A>
+      <LI><A HREF="#toc4">按产品创建站点(site_create)</A>
+      <LI><A HREF="#toc5">指定站点是否开通(site_is_valid)</A>
+      <LI><A HREF="#toc6">指定站点域名的站点是否存在(site_is_exist)</A>
+      <LI><A HREF="#toc7">指定站点是否有独立svn(site_has_scm)</A>
+      <LI><A HREF="#toc8">获取指定站点的svn地址(site_get_scm_url)</A>
+      <LI><A HREF="#toc9">获取指定站点的所有常量(site_env)</A>
+      <LI><A HREF="#toc10">激活指定站点(site_active)</A>
+      <LI><A HREF="#toc11">关闭指定站点(site_deactive)</A>
+      <LI><A HREF="#toc12">设置指定站点的扩展信息(site_set_attr)</A>
+      <LI><A HREF="#toc13">获取指定站点指定的扩展信息(site_get_attr)</A>
+      <LI><A HREF="#toc14">获取指定站点所有扩展信息(site_dump_attr)</A>
+      <LI><A HREF="#toc15">获取指定站点所有信息(site_get_all_info)</A>
+      <LI><A HREF="#toc16">获取指定站点详细信息(site_get_info)</A>
+      </UL>
+    <LI><A HREF="#toc17">域名相关(domain)</A>
+      <UL>
+      <LI><A HREF="#toc18">获取指定站点别名列表(site_get_alias)</A>
+      <LI><A HREF="#toc19">获取指定站点的默认域名(site_default_domain)</A>
+      <LI><A HREF="#toc20">获取指定站点的域名列表(site_list_domain)</A>
+      <LI><A HREF="#toc21">指定站点绑定域名(site_add_domain)</A>
+      <LI><A HREF="#toc22">指定站点解除域名绑定(site_delete_domain)</A>
+      <LI><A HREF="#toc23">指定站点域名激活(site_active_domain)</A>
+      <LI><A HREF="#toc24">指定站点域名关闭(site_deactive_domain)</A>
+      </UL>
+    <LI><A HREF="#toc25">任务相关(job)</A>
+      <UL>
+      <LI><A HREF="#toc26">指定站点任务日志列表(job_list)</A>
+      <LI><A HREF="#toc27">指定站点系统任务列表(job_script_system_list)</A>
+      <LI><A HREF="#toc28">指定站点站点级任务列表(job_script_site_list)</A>
+      <LI><A HREF="#toc29">指定站点指定站点级任务详细信息(job_script_site_info)</A>
+      <LI><A HREF="#toc30">指定站点指定系统级任务详细信息(job_script_system_info)</A>
+      <LI><A HREF="#toc31">指定站点添加任务(job_add)</A>
+      </UL>
+    <LI><A HREF="#toc32">发布相关(publish)</A>
+      <UL>
+      <LI><A HREF="#toc33">指定站点发布信息列表(site_get_published)</A>
+      <LI><A HREF="#toc34">指定站点的默认发布信息(site_get_default_published)</A>
+      <LI><A HREF="#toc35">指定站点设置发布信息(site_publish)</A>
+      </UL>
+    <LI><A HREF="#toc36">用户相关(user)</A>
+      <UL>
+      <LI><A HREF="#toc37">指定站点的用户列表(site_list_user)</A>
+      <LI><A HREF="#toc38">指定站点添加用户(site_add_users)</A>
+      <LI><A HREF="#toc39">获取指定站点指定用户权限(site_who_is)</A>
+      </UL>
+    <LI><A HREF="#toc40">黑白名单(IP过滤)</A>
+      <UL>
+      <LI><A HREF="#toc41">获取指定站点的IP过滤设置(site_get_blackwhite)</A>
+      <LI><A HREF="#toc42">设置指定站点的IP过滤(site_set_blackwhite)</A>
+      </UL>
+    </UL>
+  <LI><A HREF="#toc43">相关备注</A>
+  <LI><A HREF="#toc44">更新日志</A>
+  </UL>
+
+<P></P>
+<HR NOSHADE SIZE=1>
+<P></P>
+
+<A NAME="toc1"></A>
+<H1>API接口定义</H1>
+
+<A NAME="toc2"></A>
+<H2>站点相关(site)</H2>
+
+<A NAME="toc3"></A>
+<H3>创建空站点(site_create)</H3>
+
+<UL>
+<LI>接口名称: site_create
+<LI>接口说明: 创建空站点(有自己的svn哦)
+<P></P>
+</UL>
+
+<TABLE BORDER="1" CELLPADDING="4">
+<TR>
+<TH><B>参数名称</B></TH>
+<TH><B>数据类型</B></TH>
+<TH><B>是否必填</B></TH>
+<TH><B>默认</B></TH>
+<TH COLSPAN="2"><B>参数说明</B></TH>
+</TR>
+<TR>
+<TD>用户ID</TD>
+<TD>String</TD>
+<TD>是</TD>
+<TD>无</TD>
+<TD>用户ID</TD>
+</TR>
+<TR>
+<TD>站点ID</TD>
+<TD>String</TD>
+<TD>是</TD>
+<TD>无</TD>
+<TD>三级域名(大于3小于20的字母数字的串)</TD>
+</TR>
+</TABLE>
+
+<UL>
+<LI>语法
+<PRE>
+  /**
+   * 创建空站点
+   *  
+   * @param string $user_id
+   * @param string $site_id
+   * @return boolean
+   **/
+  site_create($user_id,$site_id)
+</PRE>
+
+<P></P>
+<LI>例子:
+<P></P>
+<PRE>
+  //
+</PRE>
+
+<P></P>
+<LI>返回结果
+<P></P>
+<PRE>
+  //
+</PRE>
+
+</UL>
+
+<A NAME="toc4"></A>
+<H3>按产品创建站点(site_create)</H3>
+
+<UL>
+<LI>接口名称: site_create
+<LI>接口说明: 按产品创建站点
+<P></P>
+</UL>
+
+<TABLE BORDER="1" CELLPADDING="4">
+<TR>
+<TH><B>参数名称</B></TH>
+<TH><B>数据类型</B></TH>
+<TH><B>是否必填</B></TH>
+<TH><B>默认</B></TH>
+<TH COLSPAN="2"><B>参数说明</B></TH>
+</TR>
+<TR>
+<TD>用户ID</TD>
+<TD>String</TD>
+<TD>是</TD>
+<TD>无</TD>
+<TD>用户ID</TD>
+</TR>
+<TR>
+<TD>站点ID</TD>
+<TD>String</TD>
+<TD>是</TD>
+<TD>无</TD>
+<TD>三级域名(大于3小于20的字母数字的串)</TD>
+</TR>
+<TR>
+<TD>产品ID</TD>
+<TD>String</TD>
+<TD>是</TD>
+<TD>无</TD>
+<TD></TD>
+</TR>
+</TABLE>
+
+<UL>
+<LI>语法
+<PRE>
+  /**
+   * 按产品创建站点
+   *  
+   * @param string $user_id
+   * @param string $site_id
+   * @param string $product_id
+   * @return boolean
+   **/
+  site_create($user_id,$site_id,$product_id)
+</PRE>
+
+<P></P>
+<LI>例子:
+<P></P>
+<PRE>
+  //
+</PRE>
+
+<P></P>
+<LI>返回结果
+<P></P>
+<PRE>
+  //
+</PRE>
+
+</UL>
+
+<A NAME="toc5"></A>
+<H3>指定站点是否开通(site_is_valid)</H3>
+
+<UL>
+<LI>接口名称: site_is_valid
+<LI>接口说明: 指定站点(三级域名)是否开通
+<P></P>
+</UL>
+
+<TABLE BORDER="1" CELLPADDING="4">
+<TR>
+<TH><B>参数名称</B></TH>
+<TH><B>数据类型</B></TH>
+<TH><B>是否必填</B></TH>
+<TH><B>默认</B></TH>
+<TH COLSPAN="2"><B>参数说明</B></TH>
+</TR>
+<TR>
+<TD>$site_id</TD>
+<TD>String</TD>
+<TD>是</TD>
+<TD>无</TD>
+<TD>三级域名(大于3小于20的字母数字的串)</TD>
+</TR>
+</TABLE>
+
+<UL>
+<LI>语法
+<PRE>
+  /**
+   * 指定站点是否开通
+   *  
+   * @param string $site_id
+   * @return boolean
+   **/
+  site_is_valid($site_id)
+</PRE>
+
+<P></P>
+<LI>例子:
+<P></P>
+<PRE>
+  &lt;?php 
+  var_dump(ecae_agent_api()-&gt;site_is_valid("demo"));
+</PRE>
+
+<P></P>
+<LI>返回结果
+<P></P>
+<PRE>
+  //
+</PRE>
+
+</UL>
+
+<A NAME="toc6"></A>
+<H3>指定站点域名的站点是否存在(site_is_exist)</H3>
+
+<UL>
+<LI>接口名称: site_is_exist
+<LI>接口说明: 用来检测指定的域名是否被占用
+<P></P>
+</UL>
+
+<TABLE BORDER="1" CELLPADDING="4">
+<TR>
+<TH><B>参数名称</B></TH>
+<TH><B>数据类型</B></TH>
+<TH><B>是否必填</B></TH>
+<TH><B>默认</B></TH>
+<TH COLSPAN="2"><B>参数说明</B></TH>
+</TR>
+<TR>
+<TD>$site_id</TD>
+<TD>String</TD>
+<TD>是</TD>
+<TD>无</TD>
+<TD>三级域名(大于3小于20的字母数字的串)</TD>
+</TR>
+</TABLE>
+
+<UL>
+<LI>语法
+<PRE>
+  /**
+   * 指定站点域名的站点是否存在
+   *  
+   * @param string $site_id
+   * @return boolean
+   **/
+  site_is_exist($site_id)
+</PRE>
+
+<P></P>
+<LI>例子:
+<P></P>
+<PRE>
+  &lt;?php 
+  var_dump(ecae_agent_api()-&gt;site_is_exist("demo"));
+</PRE>
+
+<P></P>
+<LI>返回结果
+<P></P>
+<PRE>
+  //
+</PRE>
+
+</UL>
+
+<A NAME="toc7"></A>
+<H3>指定站点是否有独立svn(site_has_scm)</H3>
+
+<UL>
+<LI>接口名称: site_has_scm
+<LI>接口说明: 指定站点是否有独立svn (SAAS/PRIMA站点是没有SVN的 是有PAAS站点存在SVN)
+<P></P>
+</UL>
+
+<TABLE BORDER="1" CELLPADDING="4">
+<TR>
+<TH><B>参数名称</B></TH>
+<TH><B>数据类型</B></TH>
+<TH><B>是否必填</B></TH>
+<TH><B>默认</B></TH>
+<TH COLSPAN="2"><B>参数说明</B></TH>
+</TR>
+<TR>
+<TD>$site_id</TD>
+<TD>String</TD>
+<TD>是</TD>
+<TD>无</TD>
+<TD>三级域名(大于3小于20的字母数字的串)</TD>
+</TR>
+</TABLE>
+
+<UL>
+<LI>语法
+<PRE>
+  /**
+   * 指定站点是否有独立svn
+   *  
+   * @param string $site_id
+   * @return boolean
+   **/
+  site_has_scm($site_id)
+</PRE>
+
+<P></P>
+<LI>例子:
+<P></P>
+<PRE>
+  &lt;?php 
+  var_dump(ecae_agent_api()-&gt;site_has_scm("demo"));
+</PRE>
+
+<P></P>
+<LI>返回结果
+<P></P>
+<PRE>
+  //
+</PRE>
+
+</UL>
+
+<A NAME="toc8"></A>
+<H3>获取指定站点的svn地址(site_get_scm_url)</H3>
+
+<UL>
+<LI>接口名称: site_get_scm_url
+<LI>接口说明: 获取指定站点的SVN地址 
+</UL>
+
+<TABLE BORDER="1" CELLPADDING="4">
+<TR>
+<TH><B>参数名称</B></TH>
+<TH><B>数据类型</B></TH>
+<TH><B>是否必填</B></TH>
+<TH><B>默认</B></TH>
+<TH COLSPAN="2"><B>参数说明</B></TH>
+</TR>
+<TR>
+<TD>$site_id</TD>
+<TD>String</TD>
+<TD>是</TD>
+<TD>无</TD>
+<TD>三级域名(大于3小于20的字母数字的串)</TD>
+</TR>
+</TABLE>
+
+<UL>
+<LI>语法
+<PRE>
+  /**
+   * 获取指定站点的svn地址
+   *  
+   * @param string $site_id
+   * @return string
+   **/
+  site_get_scm_url($site_id)
+</PRE>
+
+<P></P>
+<LI>例子:
+<P></P>
+<PRE>
+  &lt;?php 
+  var_dump(ecae_agent_api()-&gt;site_get_scm_url("demo"));
+</PRE>
+
+<P></P>
+<LI>返回结果
+<P></P>
+<PRE>
+  //
+</PRE>
+
+</UL>
+
+<A NAME="toc9"></A>
+<H3>获取指定站点的所有常量(site_env)</H3>
+
+<UL>
+<LI>接口名称: site_env
+<LI>接口说明: 获取指定站点所有常量
+<P></P>
+</UL>
+
+<TABLE BORDER="1" CELLPADDING="4">
+<TR>
+<TH><B>参数名称</B></TH>
+<TH><B>数据类型</B></TH>
+<TH><B>是否必填</B></TH>
+<TH><B>默认</B></TH>
+<TH COLSPAN="2"><B>参数说明</B></TH>
+</TR>
+<TR>
+<TD>$site_id</TD>
+<TD>String</TD>
+<TD>是</TD>
+<TD>无</TD>
+<TD>三级域名(大于3小于20的字母数字的串)</TD>
+</TR>
+</TABLE>
+
+<UL>
+<LI>语法
+<PRE>
+  /**
+   * 获取指定站点的所有常量
+   *  
+   * @param string $site_id
+   * @return array
+   **/
+  site_env($site_id)
+</PRE>
+
+<P></P>
+<LI>例子:
+<P></P>
+<PRE>
+  &lt;?php 
+  var_dump(ecae_agent_api()-&gt;site_env("demo"));
+</PRE>
+
+<P></P>
+<LI>返回结果
+<P></P>
+<PRE>
+  //
+</PRE>
+
+</UL>
+
+<A NAME="toc10"></A>
+<H3>激活指定站点(site_active)</H3>
+
+<UL>
+<LI>接口名称: site_active
+<LI>接口说明: 激活指定站点
+<P></P>
+</UL>
+
+<TABLE BORDER="1" CELLPADDING="4">
+<TR>
+<TH><B>参数名称</B></TH>
+<TH><B>数据类型</B></TH>
+<TH><B>是否必填</B></TH>
+<TH><B>默认</B></TH>
+<TH COLSPAN="2"><B>参数说明</B></TH>
+</TR>
+<TR>
+<TD>$site_id</TD>
+<TD>String</TD>
+<TD>是</TD>
+<TD>无</TD>
+<TD>三级域名(大于3小于20的字母数字的串)</TD>
+</TR>
+</TABLE>
+
+<UL>
+<LI>语法
+<PRE>
+  /**
+   * 激活指定站点
+   *  
+   * @param string $site_id
+   * @return boolean
+   **/
+  site_active($site_id)
+</PRE>
+
+<P></P>
+<LI>例子:
+<P></P>
+<PRE>
+  //
+</PRE>
+
+<P></P>
+<LI>返回结果
+<P></P>
+<PRE>
+  //
+</PRE>
+
+</UL>
+
+<A NAME="toc11"></A>
+<H3>关闭指定站点(site_deactive)</H3>
+
+<UL>
+<LI>接口名称: site_deactive
+<LI>接口说明: 关闭指定站点
+<P></P>
+</UL>
+
+<TABLE BORDER="1" CELLPADDING="4">
+<TR>
+<TH><B>参数名称</B></TH>
+<TH><B>数据类型</B></TH>
+<TH><B>是否必填</B></TH>
+<TH><B>默认</B></TH>
+<TH COLSPAN="2"><B>参数说明</B></TH>
+</TR>
+<TR>
+<TD>$site_id</TD>
+<TD>String</TD>
+<TD>是</TD>
+<TD>无</TD>
+<TD>三级域名(大于3小于20的字母数字的串)</TD>
+</TR>
+</TABLE>
+
+<UL>
+<LI>语法
+<PRE>
+  /**
+   * 关闭指定站点
+   *  
+   * @param string $site_id
+   * @return boolean
+   **/
+  site_deactive($site_id)
+</PRE>
+
+<P></P>
+<LI>例子:
+<P></P>
+<PRE>
+  //
+</PRE>
+
+<P></P>
+<LI>返回结果
+<P></P>
+<PRE>
+  //
+</PRE>
+
+</UL>
+
+<A NAME="toc12"></A>
+<H3>设置指定站点的扩展信息(site_set_attr)</H3>
+
+<UL>
+<LI>接口名称: site_set_attr
+<LI>接口说明: 设置指定站点的扩展信息
+<P></P>
+</UL>
+
+<TABLE BORDER="1" CELLPADDING="4">
+<TR>
+<TH><B>参数名称</B></TH>
+<TH><B>数据类型</B></TH>
+<TH><B>是否必填</B></TH>
+<TH><B>默认</B></TH>
+<TH COLSPAN="2"><B>参数说明</B></TH>
+</TR>
+<TR>
+<TD>站点ID</TD>
+<TD>String</TD>
+<TD>是</TD>
+<TD>无</TD>
+<TD>三级域名(大于3小于20的字母数字的串)</TD>
+</TR>
+<TR>
+<TD>key</TD>
+<TD>String</TD>
+<TD>是</TD>
+<TD>无</TD>
+<TD></TD>
+</TR>
+<TR>
+<TD>value</TD>
+<TD>String</TD>
+<TD>是</TD>
+<TD>无</TD>
+<TD></TD>
+</TR>
+</TABLE>
+
+<UL>
+<LI>语法
+<PRE>
+  /**
+   * 设置指定站点的扩展信息
+   *  
+   * @param string $site_id
+   * @param string $key
+   * @param string $value
+   * @return boolean
+   **/
+  site_set_attr($site_id,$key,$value)
+</PRE>
+
+<P></P>
+<LI>例子:
+<P></P>
+<PRE>
+  //
+</PRE>
+
+<P></P>
+<LI>返回结果
+<P></P>
+<PRE>
+  //
+</PRE>
+
+</UL>
+
+<A NAME="toc13"></A>
+<H3>获取指定站点指定的扩展信息(site_get_attr)</H3>
+
+<UL>
+<LI>接口名称: site_get_attr
+<LI>接口说明: 获取指定站点指定的扩展信息
+<P></P>
+</UL>
+
+<TABLE BORDER="1" CELLPADDING="4">
+<TR>
+<TH><B>参数名称</B></TH>
+<TH><B>数据类型</B></TH>
+<TH><B>是否必填</B></TH>
+<TH><B>默认</B></TH>
+<TH COLSPAN="2"><B>参数说明</B></TH>
+</TR>
+<TR>
+<TD>站点ID</TD>
+<TD>String</TD>
+<TD>是</TD>
+<TD>无</TD>
+<TD>三级域名(大于3小于20的字母数字的串)</TD>
+</TR>
+<TR>
+<TD>key</TD>
+<TD>String</TD>
+<TD>是</TD>
+<TD>无</TD>
+<TD></TD>
+</TR>
+</TABLE>
+
+<UL>
+<LI>语法
+<PRE>
+  /**
+   * 获取指定站点指定的扩展信息
+   *  
+   * @param string $site_id
+   * @param string $key
+   * @return string
+   **/
+  site_get_attr($site_id,$key)
+</PRE>
+
+<P></P>
+<LI>例子:
+<P></P>
+<PRE>
+  //
+</PRE>
+
+<P></P>
+<LI>返回结果
+<P></P>
+<PRE>
+  //
+</PRE>
+
+</UL>
+
+<A NAME="toc14"></A>
+<H3>获取指定站点所有扩展信息(site_dump_attr)</H3>
+
+<UL>
+<LI>接口名称: site_dump_attr
+<LI>接口说明: 获取指定站点所有扩展信息
+<P></P>
+</UL>
+
+<TABLE BORDER="1" CELLPADDING="4">
+<TR>
+<TH><B>参数名称</B></TH>
+<TH><B>数据类型</B></TH>
+<TH><B>是否必填</B></TH>
+<TH><B>默认</B></TH>
+<TH COLSPAN="2"><B>参数说明</B></TH>
+</TR>
+<TR>
+<TD>站点ID</TD>
+<TD>String</TD>
+<TD>是</TD>
+<TD>无</TD>
+<TD>三级域名(大于3小于20的字母数字的串)</TD>
+</TR>
+</TABLE>
+
+<UL>
+<LI>语法
+<PRE>
+  /**
+   * 获取指定站点所有扩展信息
+   *  
+   * @param string $site_id
+   * @return array
+   **/
+  site_dump_attr($site_id)
+</PRE>
+
+<P></P>
+<LI>例子:
+<P></P>
+<PRE>
+  //
+</PRE>
+
+<P></P>
+<LI>返回结果
+<P></P>
+<PRE>
+  //
+</PRE>
+
+</UL>
+
+<A NAME="toc15"></A>
+<H3>获取指定站点所有信息(site_get_all_info)</H3>
+
+<UL>
+<LI>接口名称: site_get_all_info
+<LI>接口说明: 获取指定站点所有信息(get_info,scm_url,attr,alias)
+<P></P>
+</UL>
+
+<TABLE BORDER="1" CELLPADDING="4">
+<TR>
+<TH><B>参数名称</B></TH>
+<TH><B>数据类型</B></TH>
+<TH><B>是否必填</B></TH>
+<TH><B>默认</B></TH>
+<TH COLSPAN="2"><B>参数说明</B></TH>
+</TR>
+<TR>
+<TD>站点ID</TD>
+<TD>String</TD>
+<TD>是</TD>
+<TD>无</TD>
+<TD>三级域名(大于3小于20的字母数字的串)</TD>
+</TR>
+</TABLE>
+
+<UL>
+<LI>语法
+<PRE>
+  /**
+   * 获取指定站点所有信息
+   *  
+   * @param string $site_id
+   * @return array
+   **/
+  site_get_all_info($site_id)
+</PRE>
+
+<P></P>
+<LI>例子:
+<P></P>
+<PRE>
+  //
+</PRE>
+
+<P></P>
+<LI>返回结果
+<P></P>
+<PRE>
+  //
+</PRE>
+
+</UL>
+
+<A NAME="toc16"></A>
+<H3>获取指定站点详细信息(site_get_info)</H3>
+
+<UL>
+<LI>接口名称: site_get_info
+<LI>接口说明: 获取指定站点详细信息
+<P></P>
+</UL>
+
+<TABLE BORDER="1" CELLPADDING="4">
+<TR>
+<TH><B>参数名称</B></TH>
+<TH><B>数据类型</B></TH>
+<TH><B>是否必填</B></TH>
+<TH><B>默认</B></TH>
+<TH COLSPAN="2"><B>参数说明</B></TH>
+</TR>
+<TR>
+<TD>站点ID</TD>
+<TD>String</TD>
+<TD>是</TD>
+<TD>无</TD>
+<TD>三级域名(大于3小于20的字母数字的串)</TD>
+</TR>
+</TABLE>
+
+<UL>
+<LI>语法
+<PRE>
+  /**
+   * 获取指定站点详细信息
+   *  
+   * @param string $site_id
+   * @return array
+   **/
+  site_get_info($site_id)
+</PRE>
+
+<P></P>
+<LI>例子:
+<P></P>
+<PRE>
+  //
+</PRE>
+
+<P></P>
+<LI>返回结果
+<P></P>
+<PRE>
+  //
+</PRE>
+
+</UL>
+
+<A NAME="toc17"></A>
+<H2>域名相关(domain)</H2>
+
+<A NAME="toc18"></A>
+<H3>获取指定站点别名列表(site_get_alias)</H3>
+
+<UL>
+<LI>接口名称: site_get_alias
+<LI>接口说明: 获取指定站点别名列表
+<P></P>
+</UL>
+
+<TABLE BORDER="1" CELLPADDING="4">
+<TR>
+<TH><B>参数名称</B></TH>
+<TH><B>数据类型</B></TH>
+<TH><B>是否必填</B></TH>
+<TH><B>默认</B></TH>
+<TH COLSPAN="2"><B>参数说明</B></TH>
+</TR>
+<TR>
+<TD>站点ID</TD>
+<TD>String</TD>
+<TD>是</TD>
+<TD>无</TD>
+<TD>三级域名(大于3小于20的字母数字的串)</TD>
+</TR>
+</TABLE>
+
+<UL>
+<LI>语法
+<PRE>
+  /**
+   * 获取指定站点别名列表
+   *  
+   * @param string $site_id
+   * @return array
+   **/
+  site_get_alias($site_id)
+</PRE>
+
+<P></P>
+<LI>例子:
+<P></P>
+<PRE>
+  //
+</PRE>
+
+<P></P>
+<LI>返回结果
+<P></P>
+<PRE>
+  //
+</PRE>
+
+</UL>
+
+<A NAME="toc19"></A>
+<H3>获取指定站点的默认域名(site_default_domain)</H3>
+
+<UL>
+<LI>接口名称: site_default_domain
+<LI>接口说明: 获取指定站点的默认域名
+<P></P>
+</UL>
+
+<TABLE BORDER="1" CELLPADDING="4">
+<TR>
+<TH><B>参数名称</B></TH>
+<TH><B>数据类型</B></TH>
+<TH><B>是否必填</B></TH>
+<TH><B>默认</B></TH>
+<TH COLSPAN="2"><B>参数说明</B></TH>
+</TR>
+<TR>
+<TD>站点ID</TD>
+<TD>String</TD>
+<TD>是</TD>
+<TD>无</TD>
+<TD>三级域名(大于3小于20的字母数字的串)</TD>
+</TR>
+</TABLE>
+
+<UL>
+<LI>语法
+<PRE>
+  /**
+   * 获取指定站点的默认域名
+   *  
+   * @param string $site_id
+   * @return array
+   **/
+  site_default_domain($site_id)
+</PRE>
+
+<P></P>
+<LI>例子:
+<P></P>
+<PRE>
+  //
+</PRE>
+
+<P></P>
+<LI>返回结果
+<P></P>
+<PRE>
+  //
+</PRE>
+
+</UL>
+
+<A NAME="toc20"></A>
+<H3>获取指定站点的域名列表(site_list_domain)</H3>
+
+<UL>
+<LI>接口名称: site_list_domain
+<LI>接口说明: 获取指定站点的域名列表
+<P></P>
+</UL>
+
+<TABLE BORDER="1" CELLPADDING="4">
+<TR>
+<TH><B>参数名称</B></TH>
+<TH><B>数据类型</B></TH>
+<TH><B>是否必填</B></TH>
+<TH><B>默认</B></TH>
+<TH COLSPAN="2"><B>参数说明</B></TH>
+</TR>
+<TR>
+<TD>站点ID</TD>
+<TD>String</TD>
+<TD>是</TD>
+<TD>无</TD>
+<TD>三级域名(大于3小于20的字母数字的串)</TD>
+</TR>
+</TABLE>
+
+<UL>
+<LI>语法
+<PRE>
+  /**
+   * 获取指定站点的域名列表
+   *  
+   * @param string $site_id
+   * @return array
+   **/
+  site_list_domain($site_id)
+</PRE>
+
+<P></P>
+<LI>例子:
+<P></P>
+<PRE>
+  //
+</PRE>
+
+<P></P>
+<LI>返回结果
+<P></P>
+<PRE>
+  //
+</PRE>
+
+</UL>
+
+<A NAME="toc21"></A>
+<H3>指定站点绑定域名(site_add_domain)</H3>
+
+<UL>
+<LI>接口名称: site_add_domain
+<LI>接口说明: 指定站点绑定域名
+<P></P>
+</UL>
+
+<TABLE BORDER="1" CELLPADDING="4">
+<TR>
+<TH><B>参数名称</B></TH>
+<TH><B>数据类型</B></TH>
+<TH><B>是否必填</B></TH>
+<TH><B>默认</B></TH>
+<TH COLSPAN="2"><B>参数说明</B></TH>
+</TR>
+<TR>
+<TD>站点ID</TD>
+<TD>String</TD>
+<TD>是</TD>
+<TD>无</TD>
+<TD>三级域名(大于3小于20的字母数字的串)</TD>
+</TR>
+<TR>
+<TD>域名</TD>
+<TD>String</TD>
+<TD>是</TD>
+<TD>无</TD>
+<TD>域名(不需要http://) cname过来哦</TD>
+</TR>
+</TABLE>
+
+<UL>
+<LI>语法
+<PRE>
+  /**
+   * 指定站点绑定域名
+   *  
+   * @param string $site_id
+   * @param string $domain
+   * @return boolean
+   **/
+  site_add_domain($site_id,$domain)
+</PRE>
+
+<P></P>
+<LI>例子:
+<P></P>
+<PRE>
+  //
+</PRE>
+
+<P></P>
+<LI>返回结果
+<P></P>
+<PRE>
+  //
+</PRE>
+
+</UL>
+
+<A NAME="toc22"></A>
+<H3>指定站点解除域名绑定(site_delete_domain)</H3>
+
+<UL>
+<LI>接口名称: site_delete_domain
+<LI>接口说明: 指定站点解除域名绑定
+<P></P>
+</UL>
+
+<TABLE BORDER="1" CELLPADDING="4">
+<TR>
+<TH><B>参数名称</B></TH>
+<TH><B>数据类型</B></TH>
+<TH><B>是否必填</B></TH>
+<TH><B>默认</B></TH>
+<TH COLSPAN="2"><B>参数说明</B></TH>
+</TR>
+<TR>
+<TD>站点ID</TD>
+<TD>String</TD>
+<TD>是</TD>
+<TD>无</TD>
+<TD>三级域名(大于3小于20的字母数字的串)</TD>
+</TR>
+<TR>
+<TD>域名</TD>
+<TD>String</TD>
+<TD>是</TD>
+<TD>无</TD>
+<TD>域名(不需要http://) cname过来哦</TD>
+</TR>
+</TABLE>
+
+<UL>
+<LI>语法
+<PRE>
+  /**
+   * 指定站点解除域名绑定
+   *  
+   * @param string $site_id
+   * @param string $domain
+   * @return boolean
+   **/
+  site_delete_domain($site_id,$domain)
+</PRE>
+
+<P></P>
+<LI>例子:
+<P></P>
+<PRE>
+  //
+</PRE>
+
+<P></P>
+<LI>返回结果
+<P></P>
+<PRE>
+  //
+</PRE>
+
+</UL>
+
+<A NAME="toc23"></A>
+<H3>指定站点域名激活(site_active_domain)</H3>
+
+<UL>
+<LI>接口名称: site_active_domain
+<LI>接口说明: 指定站点域名激活
+<P></P>
+</UL>
+
+<TABLE BORDER="1" CELLPADDING="4">
+<TR>
+<TH><B>参数名称</B></TH>
+<TH><B>数据类型</B></TH>
+<TH><B>是否必填</B></TH>
+<TH><B>默认</B></TH>
+<TH COLSPAN="2"><B>参数说明</B></TH>
+</TR>
+<TR>
+<TD>站点ID</TD>
+<TD>String</TD>
+<TD>是</TD>
+<TD>无</TD>
+<TD>三级域名(大于3小于20的字母数字的串)</TD>
+</TR>
+<TR>
+<TD>域名</TD>
+<TD>String</TD>
+<TD>是</TD>
+<TD>无</TD>
+<TD>域名(不需要http://) cname过来哦</TD>
+</TR>
+</TABLE>
+
+<UL>
+<LI>语法
+<PRE>
+  /**
+   * 指定站点域名激活
+   *  
+   * @param string $site_id
+   * @param string $domain
+   * @return boolean
+   **/
+  site_active_domain($site_id,$domain)
+</PRE>
+
+<P></P>
+<LI>例子:
+<P></P>
+<PRE>
+  //
+</PRE>
+
+<P></P>
+<LI>返回结果
+<P></P>
+<PRE>
+  //
+</PRE>
+
+</UL>
+
+<A NAME="toc24"></A>
+<H3>指定站点域名关闭(site_deactive_domain)</H3>
+
+<UL>
+<LI>接口名称: site_deactive_domain
+<LI>接口说明: 指定站点域名关闭
+<P></P>
+</UL>
+
+<TABLE BORDER="1" CELLPADDING="4">
+<TR>
+<TH><B>参数名称</B></TH>
+<TH><B>数据类型</B></TH>
+<TH><B>是否必填</B></TH>
+<TH><B>默认</B></TH>
+<TH COLSPAN="2"><B>参数说明</B></TH>
+</TR>
+<TR>
+<TD>站点ID</TD>
+<TD>String</TD>
+<TD>是</TD>
+<TD>无</TD>
+<TD>三级域名(大于3小于20的字母数字的串)</TD>
+</TR>
+<TR>
+<TD>域名</TD>
+<TD>String</TD>
+<TD>是</TD>
+<TD>无</TD>
+<TD>域名(不需要http://) cname过来哦</TD>
+</TR>
+</TABLE>
+
+<UL>
+<LI>语法
+<PRE>
+  /**
+   * 指定站点域名关闭
+   *  
+   * @param string $site_id
+   * @param string $domain
+   * @return boolean
+   **/
+  site_deactive_domain($site_id,$domain)
+</PRE>
+
+<P></P>
+<LI>例子:
+<P></P>
+<PRE>
+  //
+</PRE>
+
+<P></P>
+<LI>返回结果
+<P></P>
+<PRE>
+  //
+</PRE>
+
+</UL>
+
+<A NAME="toc25"></A>
+<H2>任务相关(job)</H2>
+
+<A NAME="toc26"></A>
+<H3>指定站点任务日志列表(job_list)</H3>
+
+<UL>
+<LI>接口名称: job_list
+<LI>接口说明: 指定站点任务日志列表
+<P></P>
+</UL>
+
+<TABLE BORDER="1" CELLPADDING="4">
+<TR>
+<TH><B>参数名称</B></TH>
+<TH><B>数据类型</B></TH>
+<TH><B>是否必填</B></TH>
+<TH><B>默认</B></TH>
+<TH COLSPAN="2"><B>参数说明</B></TH>
+</TR>
+<TR>
+<TD>站点ID</TD>
+<TD>String</TD>
+<TD>是</TD>
+<TD>无</TD>
+<TD>三级域名(大于3小于20的字母数字的串)</TD>
+</TR>
+</TABLE>
+
+<UL>
+<LI>语法
+<PRE>
+  /**
+   * 指定站点任务日志列表
+   *  
+   * @param string $site_id
+   * @return array
+   **/
+  job_list($site_id)
+</PRE>
+
+<P></P>
+<LI>例子:
+<P></P>
+<PRE>
+  //
+</PRE>
+
+<P></P>
+<LI>返回结果
+<P></P>
+<PRE>
+  //
+</PRE>
+
+</UL>
+
+<A NAME="toc27"></A>
+<H3>指定站点系统任务列表(job_script_system_list)</H3>
+
+<UL>
+<LI>接口名称: job_script_system_list
+<LI>接口说明: 指定站点系统任务列表
+<P></P>
+</UL>
+
+<TABLE BORDER="1" CELLPADDING="4">
+<TR>
+<TH><B>参数名称</B></TH>
+<TH><B>数据类型</B></TH>
+<TH><B>是否必填</B></TH>
+<TH><B>默认</B></TH>
+<TH COLSPAN="2"><B>参数说明</B></TH>
+</TR>
+</TABLE>
+
+<UL>
+<LI>语法
+<PRE>
+  /**
+   * 指定站点系统任务列表
+   *  
+   * @return array
+   **/
+  job_script_system_list()
+</PRE>
+
+<P></P>
+<LI>例子:
+<P></P>
+<PRE>
+  //
+</PRE>
+
+<P></P>
+<LI>返回结果
+<P></P>
+<PRE>
+  //
+</PRE>
+
+</UL>
+
+<A NAME="toc28"></A>
+<H3>指定站点站点级任务列表(job_script_site_list)</H3>
+
+<UL>
+<LI>接口名称: job_script_site_list
+<LI>接口说明: 指定站点站点级任务列表 (和/trunk,/branches同目录下的/script的任务脚本)
+<P></P>
+</UL>
+
+<TABLE BORDER="1" CELLPADDING="4">
+<TR>
+<TH><B>参数名称</B></TH>
+<TH><B>数据类型</B></TH>
+<TH><B>是否必填</B></TH>
+<TH><B>默认</B></TH>
+<TH COLSPAN="2"><B>参数说明</B></TH>
+</TR>
+<TR>
+<TD>站点ID</TD>
+<TD>String</TD>
+<TD>是</TD>
+<TD>无</TD>
+<TD>三级域名(大于3小于20的字母数字的串)</TD>
+</TR>
+</TABLE>
+
+<UL>
+<LI>语法
+<PRE>
+  /**
+   * 指定站点站点级任务列表
+   *  
+   * @param string $site_id
+   * @return array
+   **/
+  job_script_site_list($site_id)
+</PRE>
+
+<P></P>
+<LI>例子:
+<P></P>
+<PRE>
+  //
+</PRE>
+
+<P></P>
+<LI>返回结果
+<P></P>
+<PRE>
+  //
+</PRE>
+
+</UL>
+
+<A NAME="toc29"></A>
+<H3>指定站点指定站点级任务详细信息(job_script_site_info)</H3>
+
+<UL>
+<LI>接口名称: job_script_site_info
+<LI>接口说明: 指定站点指定站点级任务详细信息
+<P></P>
+</UL>
+
+<TABLE BORDER="1" CELLPADDING="4">
+<TR>
+<TH><B>参数名称</B></TH>
+<TH><B>数据类型</B></TH>
+<TH><B>是否必填</B></TH>
+<TH><B>默认</B></TH>
+<TH COLSPAN="2"><B>参数说明</B></TH>
+</TR>
+<TR>
+<TD>站点ID</TD>
+<TD>String</TD>
+<TD>是</TD>
+<TD>无</TD>
+<TD>三级域名(大于3小于20的字母数字的串)</TD>
+</TR>
+<TR>
+<TD>任务文件名</TD>
+<TD>String</TD>
+<TD>是</TD>
+<TD>无</TD>
+<TD>/script目录下的文件</TD>
+</TR>
+</TABLE>
+
+<UL>
+<LI>语法
+<PRE>
+  /**
+   * 指定站点指定站点级任务详细信息
+   *  
+   * @param string $site_id
+   * @param string $file
+   * @return array
+   **/
+  job_script_site_info($site_id,$file)
+</PRE>
+
+<P></P>
+<LI>例子:
+<P></P>
+<PRE>
+  //
+</PRE>
+
+<P></P>
+<LI>返回结果
+<P></P>
+<PRE>
+  //
+</PRE>
+
+</UL>
+
+<A NAME="toc30"></A>
+<H3>指定站点指定系统级任务详细信息(job_script_system_info)</H3>
+
+<UL>
+<LI>接口名称: job_script_system_info
+<LI>接口说明: 指定站点指定系统级任务详细信息
+<P></P>
+</UL>
+
+<TABLE BORDER="1" CELLPADDING="4">
+<TR>
+<TH><B>参数名称</B></TH>
+<TH><B>数据类型</B></TH>
+<TH><B>是否必填</B></TH>
+<TH><B>默认</B></TH>
+<TH COLSPAN="2"><B>参数说明</B></TH>
+</TR>
+<TR>
+<TD>任务文件名</TD>
+<TD>String</TD>
+<TD>是</TD>
+<TD>无</TD>
+<TD>/script目录下的文件</TD>
+</TR>
+</TABLE>
+
+<UL>
+<LI>语法
+<PRE>
+  /**
+   * 指定站点指定系统级任务详细信息
+   *  
+   * @param string $file
+   * @return array
+   **/
+  job_script_system_info($file)
+</PRE>
+
+<P></P>
+<LI>例子:
+<P></P>
+<PRE>
+  //
+</PRE>
+
+<P></P>
+<LI>返回结果
+<P></P>
+<PRE>
+  //
+</PRE>
+
+</UL>
+
+<A NAME="toc31"></A>
+<H3>指定站点添加任务(job_add)</H3>
+
+<UL>
+<LI>接口名称: job_add
+<LI>接口说明: 指定站点添加任务
+<P></P>
+</UL>
+
+<TABLE BORDER="1" CELLPADDING="4">
+<TR>
+<TH><B>参数名称</B></TH>
+<TH><B>数据类型</B></TH>
+<TH><B>是否必填</B></TH>
+<TH><B>默认</B></TH>
+<TH COLSPAN="2"><B>参数说明</B></TH>
+</TR>
+<TR>
+<TD>站点ID</TD>
+<TD>String</TD>
+<TD>是</TD>
+<TD>无</TD>
+<TD>三级域名(大于3小于20的字母数字的串)</TD>
+</TR>
+<TR>
+<TD>任务类型</TD>
+<TD>Enum</TD>
+<TD>是</TD>
+<TD>无</TD>
+<TD>任务类型 site|system 站点级|系统级</TD>
+</TR>
+<TR>
+<TD>任务文件名</TD>
+<TD>String</TD>
+<TD>是</TD>
+<TD>无</TD>
+<TD>任务名称(任务文件名)</TD>
+</TR>
+<TR>
+<TD>任务脚本参数</TD>
+<TD>Array</TD>
+<TD>是</TD>
+<TD>无</TD>
+<TD>任务需要的参数</TD>
+</TR>
+</TABLE>
+
+<UL>
+<LI>语法
+<PRE>
+  /**
+   * 指定站点添加任务
+   *  
+   * @param string $site_id  // 站点ID(三级域名)
+   * @param string $type     // 任务类型 site|system
+   * @param string $file     // 任务名称(文件名)
+   * @param array  $args     // 任务脚本参数  为空的话传入array()吧
+   * @return boolean
+   **/
+  job_add($site_id,$type,$file,$args)
+</PRE>
+
+<P></P>
+<LI>例子:
+<P></P>
+<PRE>
+  //
+</PRE>
+
+<P></P>
+<LI>返回结果
+<P></P>
+<PRE>
+  //
+</PRE>
+
+</UL>
+
+<A NAME="toc32"></A>
+<H2>发布相关(publish)</H2>
+
+<A NAME="toc33"></A>
+<H3>指定站点发布信息列表(site_get_published)</H3>
+
+<UL>
+<LI>接口名称: site_get_published
+<LI>接口说明: 指定站点发布信息列表
+<P></P>
+</UL>
+
+<TABLE BORDER="1" CELLPADDING="4">
+<TR>
+<TH><B>参数名称</B></TH>
+<TH><B>数据类型</B></TH>
+<TH><B>是否必填</B></TH>
+<TH><B>默认</B></TH>
+<TH COLSPAN="2"><B>参数说明</B></TH>
+</TR>
+<TR>
+<TD>站点ID</TD>
+<TD>String</TD>
+<TD>是</TD>
+<TD>无</TD>
+<TD>三级域名(大于3小于20的字母数字的串)</TD>
+</TR>
+</TABLE>
+
+<UL>
+<LI>语法
+<PRE>
+  /**
+   * 指定站点发布信息列表
+   *  
+   * @param string $site_id
+   * @return array
+   **/
+  site_get_published($site_id)
+</PRE>
+
+<P></P>
+<LI>例子:
+<P></P>
+<PRE>
+  //
+</PRE>
+
+<P></P>
+<LI>返回结果
+<P></P>
+<PRE>
+  //
+</PRE>
+
+</UL>
+
+<A NAME="toc34"></A>
+<H3>指定站点的默认发布信息(site_get_default_published)</H3>
+
+<UL>
+<LI>接口名称: site_get_default_published
+<LI>接口说明: 指定站点的默认发布信息
+<P></P>
+</UL>
+
+<TABLE BORDER="1" CELLPADDING="4">
+<TR>
+<TH><B>参数名称</B></TH>
+<TH><B>数据类型</B></TH>
+<TH><B>是否必填</B></TH>
+<TH><B>默认</B></TH>
+<TH COLSPAN="2"><B>参数说明</B></TH>
+</TR>
+<TR>
+<TD>站点ID</TD>
+<TD>String</TD>
+<TD>是</TD>
+<TD>无</TD>
+<TD>三级域名(大于3小于20的字母数字的串)</TD>
+</TR>
+</TABLE>
+
+<UL>
+<LI>语法
+<PRE>
+  /**
+   * 指定站点的默认发布信息
+   *  
+   * @param string $site_id
+   * @return array
+   **/
+  site_get_default_published($site_id)
+</PRE>
+
+<P></P>
+<LI>例子:
+<P></P>
+<PRE>
+  //
+</PRE>
+
+<P></P>
+<LI>返回结果
+<P></P>
+<PRE>
+  //
+</PRE>
+
+</UL>
+
+<A NAME="toc35"></A>
+<H3>指定站点设置发布信息(site_publish)</H3>
+
+<UL>
+<LI>接口名称: site_publish
+<LI>接口说明: 指定站点设置发布信息
+<P></P>
+</UL>
+
+<TABLE BORDER="1" CELLPADDING="4">
+<TR>
+<TH><B>参数名称</B></TH>
+<TH><B>数据类型</B></TH>
+<TH><B>是否必填</B></TH>
+<TH><B>默认</B></TH>
+<TH COLSPAN="2"><B>参数说明</B></TH>
+</TR>
+<TR>
+<TD>站点ID</TD>
+<TD>String</TD>
+<TD>是</TD>
+<TD>无</TD>
+<TD>三级域名(大于3小于20的字母数字的串)</TD>
+</TR>
+<TR>
+<TD>发布信息</TD>
+<TD>Array</TD>
+<TD>是</TD>
+<TD>无</TD>
+<TD>array(array(path,ver,rate),...)  path:svn路径,ver:svn版本,rate 使用number_format(rate,2) 是0-1的小数</TD>
+</TR>
+<TR>
+<TD>默认发布点</TD>
+<TD>Int</TD>
+<TD>是</TD>
+<TD>无</TD>
+<TD>发布信息的某个数值 从1开始 如:两条发布信息 最后一个为默认的话为 这个值应设置为 2</TD>
+</TR>
+</TABLE>
+
+<UL>
+<LI>语法
+<PRE>
+  /**
+   * 指定站点的默认发布信息
+   *  
+   * @param string $site_id
+   * @param array  $deploy_args // 发布信息
+   * @param int    $default     // 默认发布点
+   * @return array
+   **/
+  site_publish($site_id,$deploy_args,$default)
+</PRE>
+
+<P></P>
+<LI>例子:
+<P></P>
+<PRE>
+  //
+</PRE>
+
+<P></P>
+<LI>返回结果
+<P></P>
+<PRE>
+  //
+</PRE>
+
+</UL>
+
+<A NAME="toc36"></A>
+<H2>用户相关(user)</H2>
+
+<A NAME="toc37"></A>
+<H3>指定站点的用户列表(site_list_user)</H3>
+
+<UL>
+<LI>接口名称: site_list_user
+<LI>接口说明: 指定站点的用户列表
+<P></P>
+</UL>
+
+<TABLE BORDER="1" CELLPADDING="4">
+<TR>
+<TH><B>参数名称</B></TH>
+<TH><B>数据类型</B></TH>
+<TH><B>是否必填</B></TH>
+<TH><B>默认</B></TH>
+<TH COLSPAN="2"><B>参数说明</B></TH>
+</TR>
+<TR>
+<TD>站点ID</TD>
+<TD>String</TD>
+<TD>是</TD>
+<TD>无</TD>
+<TD>三级域名(大于3小于20的字母数字的串)</TD>
+</TR>
+</TABLE>
+
+<UL>
+<LI>语法
+<PRE>
+  /**
+   * 指定站点的用户列表
+   *  
+   * @param string $site_id
+   * @return array
+   **/
+  site_list_user($site_id)
+</PRE>
+
+<P></P>
+<LI>例子:
+<P></P>
+<PRE>
+  //
+</PRE>
+
+<P></P>
+<LI>返回结果
+<P></P>
+<PRE>
+  //
+</PRE>
+
+</UL>
+
+<A NAME="toc38"></A>
+<H3>指定站点添加用户(site_add_users)</H3>
+
+<UL>
+<LI>接口名称: site_add_users
+<LI>接口说明: 指定站点的添加用户(管理员,提交者,观察者)
+<P></P>
+</UL>
+
+<TABLE BORDER="1" CELLPADDING="4">
+<TR>
+<TH><B>参数名称</B></TH>
+<TH><B>数据类型</B></TH>
+<TH><B>是否必填</B></TH>
+<TH><B>默认</B></TH>
+<TH COLSPAN="2"><B>参数说明</B></TH>
+</TR>
+<TR>
+<TD>站点ID</TD>
+<TD>String</TD>
+<TD>是</TD>
+<TD>无</TD>
+<TD>三级域名(大于3小于20的字母数字的串)</TD>
+</TR>
+<TR>
+<TD>管理者列表</TD>
+<TD>Array</TD>
+<TD>是</TD>
+<TD>无</TD>
+<TD>管理者列表 array(xxx1,xxx2,...)</TD>
+</TR>
+<TR>
+<TD>提交都列表</TD>
+<TD>Array</TD>
+<TD>是</TD>
+<TD>无</TD>
+<TD>提交者列表 array(array(xxx1,path),...)</TD>
+</TR>
+<TR>
+<TD>观察者列表</TD>
+<TD>Array</TD>
+<TD>是</TD>
+<TD>无</TD>
+<TD>观察者列表(只读) array(array(xxx1,path),...)</TD>
+</TR>
+</TABLE>
+
+<UL>
+<LI>语法
+<PRE>
+  /**
+   * 指定站点添加用户
+   *  
+   * @param string $site_id   // 站点ID
+   * @param array  $admin     // 管理者列表
+   * @param array  $committer // 提交者列表
+   * @param array  $readonly  // 观察者列表
+   * @return array
+   **/
+  site_add_users($site_id,$admin,$committer,$readonly)
+</PRE>
+
+<P></P>
+<LI>例子:
+<P></P>
+<PRE>
+  //
+</PRE>
+
+<P></P>
+<LI>返回结果
+<P></P>
+<PRE>
+  //
+</PRE>
+
+</UL>
+
+<A NAME="toc39"></A>
+<H3>获取指定站点指定用户权限(site_who_is)</H3>
+
+<UL>
+<LI>接口名称: site_who_is
+<LI>接口说明: 获取指定站点指定用户权限
+<P></P>
+</UL>
+
+<TABLE BORDER="1" CELLPADDING="4">
+<TR>
+<TH><B>参数名称</B></TH>
+<TH><B>数据类型</B></TH>
+<TH><B>是否必填</B></TH>
+<TH><B>默认</B></TH>
+<TH COLSPAN="2"><B>参数说明</B></TH>
+</TR>
+<TR>
+<TD>站点ID</TD>
+<TD>String</TD>
+<TD>是</TD>
+<TD>无</TD>
+<TD>三级域名(大于3小于20的字母数字的串)</TD>
+</TR>
+<TR>
+<TD>用户ID</TD>
+<TD>String</TD>
+<TD>是</TD>
+<TD>无</TD>
+<TD>用户帐号</TD>
+</TR>
+</TABLE>
+
+<UL>
+<LI>语法
+<PRE>
+  /**
+   * 获取指定站点指定用户权限
+   *  
+   * @param string $site_id
+   * @param string $user_id
+   * @return string
+   **/
+  site_who_is($site_id,$user_id)
+</PRE>
+
+<P></P>
+<LI>例子:
+<P></P>
+<PRE>
+  //
+</PRE>
+
+<P></P>
+<LI>返回结果
+<P></P>
+<PRE>
+  //
+</PRE>
+
+</UL>
+
+<A NAME="toc40"></A>
+<H2>黑白名单(IP过滤)</H2>
+
+<A NAME="toc41"></A>
+<H3>获取指定站点的IP过滤设置(site_get_blackwhite)</H3>
+
+<UL>
+<LI>接口名称: site_get_blackwhite
+<LI>接口说明: 获取指定站点的IP过滤设置
+<P></P>
+</UL>
+
+<TABLE BORDER="1" CELLPADDING="4">
+<TR>
+<TH><B>参数名称</B></TH>
+<TH><B>数据类型</B></TH>
+<TH><B>是否必填</B></TH>
+<TH><B>默认</B></TH>
+<TH COLSPAN="2"><B>参数说明</B></TH>
+</TR>
+<TR>
+<TD>站点ID</TD>
+<TD>String</TD>
+<TD>是</TD>
+<TD>无</TD>
+<TD>三级域名(大于3小于20的字母数字的串)</TD>
+</TR>
+</TABLE>
+
+<UL>
+<LI>语法
+<PRE>
+  /**
+   * 获取指定站点的IP过滤设置
+   *  
+   * @param string $site_id
+   * @return array // 第一次取为空 设置后再取 array("black/white",array(xxx,xxx,xxx,....))
+   **/
+  site_get_blackwhite($site_id)
+</PRE>
+
+<P></P>
+<LI>例子:
+<P></P>
+<PRE>
+  //
+</PRE>
+
+<P></P>
+<LI>返回结果
+<P></P>
+<PRE>
+  //
+</PRE>
+
+</UL>
+
+<A NAME="toc42"></A>
+<H3>设置指定站点的IP过滤(site_set_blackwhite)</H3>
+
+<UL>
+<LI>接口名称: site_set_blackwhite
+<LI>接口说明: 设置指定站点的IP过滤
+<P></P>
+</UL>
+
+<TABLE BORDER="1" CELLPADDING="4">
+<TR>
+<TH><B>参数名称</B></TH>
+<TH><B>数据类型</B></TH>
+<TH><B>是否必填</B></TH>
+<TH><B>默认</B></TH>
+<TH COLSPAN="2"><B>参数说明</B></TH>
+</TR>
+<TR>
+<TD>站点ID</TD>
+<TD>String</TD>
+<TD>是</TD>
+<TD>无</TD>
+<TD>三级域名(大于3小于20的字母数字的串)</TD>
+</TR>
+<TR>
+<TD>名单类型</TD>
+<TD>String</TD>
+<TD>是</TD>
+<TD>无</TD>
+<TD>名单类型 black|white</TD>
+</TR>
+<TR>
+<TD>IP列表</TD>
+<TD>Array</TD>
+<TD>是</TD>
+<TD>无</TD>
+<TD>IP列表</TD>
+</TR>
+</TABLE>
+
+<UL>
+<LI>语法
+<PRE>
+  /**
+   * 设置指定站点的IP过滤
+   *  
+   * @param string $site_id
+   * @param string $type    // white|black
+   * @param array  $ip      // 
+   * @return boolean
+   **/
+  site_set_blackwhite($site_id,$type,$ip)
+</PRE>
+
+<P></P>
+<LI>例子:
+<P></P>
+<PRE>
+  //
+</PRE>
+
+<P></P>
+<LI>返回结果
+<P></P>
+<PRE>
+  //
+</PRE>
+
+</UL>
+
+<A NAME="toc43"></A>
+<H1>相关备注</H1>
+
+<A NAME="toc44"></A>
+<H1>更新日志</H1>
+
+<OL>
+<LI>2012.02.29 文档生成
+<LI>2012.04.24 域名,发布,任务,用户 相关api
+</OL>
+
+<!-- html code generated by txt2tags 2.6 (http://txt2tags.org) -->
+<!-- cmdline: txt2tags -t html -\-toc agent-site.t2t -->
+</BODY></HTML>

@@ -1,0 +1,149 @@
+<form method="post" id='app-form'  action="index.php?app=partner&ctl=admin_application&act=save&finder_id=<{$env.get.finder_id}>">
+<input type='hidden' name='data[app_id]' value="<{$data.id}>"/>
+<div id="x-app-basic" class="tableform">
+    <div class="division">
+    <table width=98%>
+        <tr>
+            <th><font color="red">*</font><{t}>应用名称<{/t}>:</th>
+            <td><input type='text' value='<{$data.name}>' name="data[name]" vtype="required" style="width:150px;" maxlength=20/></td>
+            <{if empty($data)}><td><span>&nbsp;&nbsp;</span></td><{/if}>
+        </tr>
+
+        <tr>
+            <th><font color="red">*</font><{t}>应用类型<{/t}>:</th>
+            <td>
+                <{if isset($data)}>
+                    <{if $data.type == 'saas'}>
+                        SAAS
+                    <{elseif $data.type == 'paas'}>
+                        PAAS
+                    <{/if}>
+                    <input type="hidden" name="data[scm_type]" value="<{$data.type}>"/>
+                <{else}>
+                    <label><input type="radio" name="data[scm_type]" value="saas" checked />SAAS&nbsp;</label>
+                    <label><input type="radio" name="data[scm_type]" value="paas" />PAAS&nbsp;</label>
+                <{/if}>
+            </td>
+            <{if empty($data)}><td><span>&nbsp;&nbsp; <font color="green">注意:</font>&nbsp;&nbsp;保存后不能修改</span></td><{/if}>
+        </tr>
+
+        <tr>
+            <th><font color="red">*</font><{t}>源站点<{/t}>:</th>
+            <td> 
+                <{if $data}>
+                    <span><{$data.site}></span>
+                    <input type='hidden' name='data[site_id]' value="<{$data.site}>" />
+                <{else}>
+                    <select vtype="required" id="app-site-select" name="data[site_id]" style="width:150px;">
+                        <option value="">请选择...</option>
+                        <{foreach from=$site item=item}>
+                        <option value="<{$item.id}>" ><{$item.name}>(<{$item.domain}>)</option>
+                        <{/foreach}>
+                    </select>
+                <{/if}>
+            </td>
+            <{if empty($data)}><td><span>&nbsp;&nbsp; <font color="green">注意:</font>&nbsp;&nbsp;保存后不能修改</span></td><{/if}>
+        </tr>
+
+        <tr>
+            <th><font color="red">*</font><{t}>发布路径<{/t}>:</th>
+            <td>
+                <{if $data}>
+                    <{if $data.path.0 == "/"}>
+                        <{$data.path}>
+                        <input type='hidden' name='data[path]' value="<{$data.path}>"/>
+                    <{else}>
+                        /<{$data.path}>
+                        <input type='hidden' name='data[path]' value="/<{$data.path}>"/>
+                    <{/if}>
+                <{else}>
+                    <input type="text" name="data[path]" vtype="required" value="<{$data.path|default:'/trunk'}>" style="width:146px;" />
+                <{/if}>
+            </td>
+            <{if empty($data)}><td><span>&nbsp;&nbsp; <font color="green">注意:</font>&nbsp;&nbsp;保存后不能修改</span></td><{/if}>
+        </tr>
+
+        <tr>
+            <th><font color="red">*</font><{t}>路径版本号<{/t}>:</th>
+            <td>
+                <input type="text" name="data[ver]" vtype="required&&number" value="<{$data.version|default:'1'}>" style="width:146px;" />
+            </td>
+            <{if empty($data)}><td><span>&nbsp;&nbsp;</span></td><{/if}>
+        </tr>
+
+        <tr>
+            <th><font color="red">*</font><{t}>应用状态<{/t}>:</th>
+            <td>
+                <label><input type="radio" name="data[status]" value="up" <{if !isset($data.status) || $data.status == "up" }>checked<{/if}>/>上架</label>
+                <label><input type="radio" name="data[status]" value="down" <{if isset($data.status) && $data.status == "down" }>checked<{/if}>/>下架</label>
+            </td>
+            <{if empty($data)}><td><span>&nbsp;&nbsp;</span></td><{/if}>
+        </tr>
+
+        <tr>
+            <th><font color="red">*</font><{t}>应用价格<{/t}>:</th>
+            <td><input type='text' value='<{$data.price}>' name="data[price]" vtype="required&&number"  style="width:146px;" /></td>
+            <{if empty($data)}><td><span>&nbsp;&nbsp;</span></td><{/if}>
+        </tr>
+        
+        <tr>
+            <th><{t}>应用简介<{/t}>:</th>
+            <td> <textarea name='data[intro]' cols="60" rows="5" maxlength=50 placeholder="50字以内描述"><{$data.desc}></textarea></td>
+            <{if empty($data)}><td><span>&nbsp;&nbsp;</span></td><{/if}>
+        </tr>
+
+    </table>
+    </div>
+</div>
+
+<div>
+    <div class="table-action">
+        <{button type="submit" label=$___partner="保存"|t:'' id='app-form-submit'}>&nbsp;&nbsp;
+        <{button type="button" label=$___partner="取消"|t:'' id='app-form-exit'}>
+    </div>
+</div>
+</div>
+
+</form>
+<script>
+(function(){
+    var _form = $('app-form');
+    var btn =$('app-form-submit');
+    var finder = finderGroup['<{$env.get.finder_id}>'];
+    
+    _form.store('target',{
+        onComplete:function() {
+        },
+        onSuccess:function(response) {
+            var hash_res_obj = JSON.decode(response);
+            if (hash_res_obj.success != undefined && hash_res_obj.success != "") {
+                try {
+                    var _dialogIns = btn.getParent('.dialog').retrieve('instance');
+                } catch(e){}
+                
+                if(_dialogIns) {
+                    _dialogIns.close();
+                    finder.refresh.delay(400,finder);
+                }
+            }else{
+                //alert(hash_res_obj.error);
+            }            
+        }
+    });
+    
+    btn.addEvent('click',function() {
+        _form.fireEvent('submit',{stop:$empty});
+    });
+
+    $("app-form-exit").addEvent('click',function() {
+        try {
+            var _dialogIns = btn.getParent('.dialog').retrieve('instance');
+        } catch(e){}
+        
+        if(_dialogIns) {
+            _dialogIns.close();
+        } 
+    });
+    
+})();
+</script>

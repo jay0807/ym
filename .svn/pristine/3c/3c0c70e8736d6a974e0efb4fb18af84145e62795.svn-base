@@ -1,0 +1,156 @@
+<{if $static}>
+静态站点没有发布功能
+<{else}>
+<div class="spage-main-box tableform">
+
+    <h3>发布分支列表</h3>
+    <div class="division" >
+    <form id="publish-form">
+        <table  width=100% cellspacing="2" id="publish-table">
+            <tr>
+                <td width="30">&nbsp;</td>
+                <td><b><{t}>svn路径<{/t}></b></td>
+                <td><b><{t}>cookie<{/t}></b></td>
+                <td width="80"><b><{t}>版本<{/t}></b></td>
+                <td width="80"><b><{t}>访问概率<{/t}></b></td>
+                <td width="50"><b><{t}>操作<{/t}></b></td>
+            </tr>
+            <{foreach from=$data item=item key=key }>    
+            <tr>
+                <td><input type="radio" name="default_publish" value="<{$key}>" class="publish-radio" <{if $item.path == $default_publish.path && $item.ver == $default_publish.ver }>checked<{/if}> /></td>
+                <td><input type="text" value="<{$item.path}>" name="publish[<{$key}>][path]" class="item-path" style="width:200px" /></td>
+                <td><{if $item.cookie }><a href="http://<{$site_url}>/?!!cookie=<{$item.cookie}>" title="<{t}>查看指定发布点<{/t}>" target="_open"><{$item.cookie}><{/if}></a></td>
+                <td><input type="text" value="<{$item.ver}>" name="publish[<{$key}>][ver]"   class="item-ver" style="width:60px" /></td>  
+                <td>
+                    <input type="text" name="publish[<{$key}>][rate]" id="" value="<{$item.rate}>" vtype="number" class="item-rate" style="width:40px" />
+                </td>
+                <td>&nbsp;<a class="publish-delete" href="javascript:void(0);">删除</a></td>
+            </tr>
+            <{/foreach}>
+        </table>
+    </form>
+    </div>
+
+    <h3 id="publish-add" style="cursor:pointer;">+<{t}>添加分支<{/t}></h3>
+    <div class="division" id="publish-add-form" style="display:none;">
+        <table width=100%>
+            <tr>
+                <td><b><{t}>svn路径<{/t}>:</b><input size="30" id="txt-publish-path" type="text" maxlength="50" value="/trunk" /></td>
+                <td><b><{t}>版本<{/t}>:</b>   <input size="5"  id="txt-publish-ver"  type="text" maxlength="5"  value="HEAD" /></td>
+                <td width="300">&nbsp;</td>
+            </tr>
+        </table>
+        <div>
+            <div class="table-action"><{button type="button" label=$___partner="添加"|t:'' id='site-publish-add'}></div>
+        </div>
+    </div>
+
+</div>
+<{capture name='footbar'}>
+<table cellspacing="0" cellpadding="0" class="table-action">
+    <tbody>
+        <tr valign="middle"><td>
+        <{assign var="___c"  value=$___partner='确定退出?'|t:'partner'}>
+        <{button type="button" label=$___partner="保存"|t:'' id='site-publish-form-submit'}>
+        <{button label=$___partner="关闭"|t:'partner' class="btn-secondary" type="button" onclick="if(confirm('{$___c}'))window.close()"}>
+        </td></tr>
+    </tbody>
+</table>
+
+<script>
+// 添加发布点
+if( $('publish-add') ) {
+    $('publish-add').addEvent("click",function(e){
+        var form   = $("publish-add-form");
+        var status = form.getStyle("display");
+        if(status == "none") {
+            form.setStyle("display","block");
+            this.set("html","-<{t}>添加分支<{/t}>");
+        } else {
+            form.setStyle("display","none");
+            this.set("html","+<{t}>添加分支<{/t}>");
+        }
+    }); 
+}
+
+var p_i = <{$data|count}>;
+if( $('site-publish-add') ) {
+    $('site-publish-add').addEvent('click',function(e) {
+        var path = $("txt-publish-path").get("value").trim();
+        var ver = $("txt-publish-ver").get("value").trim();
+        if( path =="" || ver == "" )  { alert("svn路径或版片不能为空!"); return false;}
+     
+        var trs = $("publish-table").getElements("tr");
+        if(trs.length >=6) { alert("只允许5个发布点哦"); return false;}
+
+        
+        var base_tr = trs.getLast();
+        var tr = new Element("tr");
+        var i = p_i++; // 发布点在增加
+        tr.set("html","<td><input type=\"radio\" name=\"default_publish\" value="+ i +" class=\"publish-radio\" /></td> \
+            <td><input type=\"text\" value=\""+ path +"\" name=\"publish[" + i + "][path]\" class=\"item-path\" style=\"width:200px\" /></td> \
+            <td></td> \
+            <td><input type=\"text\" value=\"" + ver +"\" name=\"publish[" + i + "][ver]\" class=\"item-ver\" style=\"width:60px\" /></td>  \
+            <td> \
+                <input type=\"text\" name=\"publish["+ i +"][rate]\"  value=\"0\" vtype=\"number\" class=\"item-rate\" style=\"width:40px\" /> \
+            </td> \
+            <td>&nbsp;<a class=\"publish-delete\" href=\"javascript:void(0);\">删除</a></td>").inject(base_tr,"after");
+        delete_publish();
+        return false;
+    });
+}
+
+if( $('site-publish-form-submit') ){
+    $('site-publish-form-submit').addEvent('click',function(e){
+        if(!confirm("提交保存!?")) return false;
+        this.set('_v',this.value);
+        this.set('value','loading...');
+        this.disabled = true;
+        var e = this;
+        new Request({
+                url: '<{link app="partner" ctl="admin_site" act="publish"}>&p[0]=<{$site_id}>',
+                method: 'post',
+                evalScripts:true,
+                data:$('publish-form'),
+                async:false,
+                onRequest : function(){
+                    e.disabled = true;
+                },
+                onComplete: function(re){
+                    e.disabled = false;
+                    e.set('value',e.get('_v'));
+                    var json;
+                    try{
+                        json = JSON.decode(re);
+                    }catch(e){ alert(e) }
+                    
+                    if(json && json.success){
+                        MessageBox.success(json.success);
+                        top.location.reload();
+                    }else{
+                        if(json.error) MessageBox.error(json.error);
+                    }
+                }
+            }).send();
+        return false;
+    });
+}
+
+var delete_publish = function() {
+    if($$(".publish-delete")) {
+        $$(".publish-delete").removeEvents('click');
+        $$(".publish-delete").addEvent("click",function(item) {
+            var p = this.getParent("tr");
+            if(p.getElement("input[type=radio]").get("checked")) {
+                alert("默认发布点不能被删除");
+            } else {
+                p.remove();
+            }
+        });
+    }
+}
+delete_publish();
+</script>
+<{/capture}>
+
+<{/if}>

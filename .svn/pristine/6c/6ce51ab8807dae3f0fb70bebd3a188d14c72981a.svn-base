@@ -1,0 +1,73 @@
+<div class="tableform">
+    <form method="post" id='domain-form'  action="index.php?app=partner&ctl=admin_domain&act=add&finder_id=<{$env.get.finder_id}>">
+    <div class="division">
+        <table width=98%>
+            <tr>
+                <th>&nbsp;</th>
+                <td>
+<div id="domain-msg-info" style="color:red;">独立域名绑定需要验证,请RTX联系chenxiaoxiao</div>
+                </td>
+            </tr>
+            <tr>
+                <th><font color="red">*</font><{t}>绑定站点<{/t}>:</th>
+                <td>
+                    <{input type='object' breakpoint=0 textcol="name" object="site" name='data[site_id]' vtype="required" }>
+                </td>
+            </tr> 
+            <tr>
+                <th><font color="red">*</font><{t}>域名<{/t}>:</th>
+                <td>
+                    http://<input type='text' name="data[domain]"  vtype="required" size=50 maxlength=100 />
+                </td>
+            </tr>
+
+        </table>
+    </div>
+
+    <div>
+        <div class="table-action">
+            <{button type="submit" label=$___partner="保存"|t:'' id='domain-form-submit'}>&nbsp;&nbsp;
+            <{button type="button" label=$___partner="关闭"|t:'' id='domain-form-exit'}>
+        </div>
+    </div>
+    </form>
+</div>
+<script>
+(function(){
+    var _form = $('domain-form');
+    var btn =$('domain-form-submit');
+    var finder = finderGroup['<{$env.get.finder_id}>'];
+    
+    _form.store('target',{
+        onComplete:function() {
+        },
+        onSuccess:function(response) {
+            var hash_res_obj = JSON.decode(response);
+            if (hash_res_obj.success != undefined && hash_res_obj.success != "") {
+                try {
+                    var _dialogIns = btn.getParent('.dialog').retrieve('instance');
+                } catch(e){}
+                
+                if(_dialogIns) {
+                    _dialogIns.close();
+                    finder.refresh.delay(400,finder);
+                }
+            }else{
+                //alert(hash_res_obj.error);
+            } 
+        }
+    });
+    
+    btn.addEvent('click',function(){
+        _form.fireEvent('submit',{stop:$empty});
+    });
+
+    $("domain-form-exit").addEvent('click',function() {
+        try {
+            var _dialogIns = btn.getParent('.dialog').retrieve('instance');
+        } catch(e){} 
+        if(_dialogIns) _dialogIns.close();
+    });
+
+})();
+</script>

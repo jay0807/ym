@@ -1,0 +1,13 @@
+<div class="tableform">
+	<{foreach from=$data item=item key=key}>
+    <h3><{$key}></h3>
+	<table width=98% cellspacing="2" border="1">
+    	<{foreach from=$item item=r key=k}>
+		<tr>
+			<th style="width:200px"><{$k}>:</th>
+			<td><{$r}></td>
+		</tr>
+	    <{/foreach}>
+	</table>
+    <{/foreach}>
+</div>

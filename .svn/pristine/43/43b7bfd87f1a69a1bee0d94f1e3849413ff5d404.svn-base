@@ -1,0 +1,9 @@
+<div class="tableform">
+    <table width="98%">
+        <{foreach from=$data.service item=item}>
+        <tr>
+            <td><{$item}></td>
+        </tr>
+        <{/foreach}>
+    </table>
+</div>

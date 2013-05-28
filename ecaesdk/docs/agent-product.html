@@ -1,0 +1,1484 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<META NAME="generator" CONTENT="http://txt2tags.org">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=utf-8">
+<TITLE>ECAE Platform Agent API文档(产品相关)</TITLE>
+</HEAD><BODY BGCOLOR="white" TEXT="black">
+<CENTER>
+<H1>ECAE Platform Agent API文档(产品相关)</H1>
+<FONT SIZE="4"><I>bluefrog(wubin@shopex.cn)</I></FONT><BR>
+<FONT SIZE="4">since: 04-24-2012</FONT>
+</CENTER>
+
+<P></P>
+<HR NOSHADE SIZE=1>
+<P></P>
+
+  <UL>
+  <LI><A HREF="#toc1">API接口定义</A>
+    <UL>
+    <LI><A HREF="#toc2">应用相关(apps)</A>
+      <UL>
+      <LI><A HREF="#toc3">添加应用(goods_apps_add)</A>
+      <LI><A HREF="#toc4">应用上架(goods_apps_up)</A>
+      <LI><A HREF="#toc5">应用下架(goods_apps_down)</A>
+      <LI><A HREF="#toc6">应用设置价格(goods_apps_set_price)</A>
+      <LI><A HREF="#toc7">应用设置简介(goods_apps_set_introduction)</A>
+      <LI><A HREF="#toc8">应用设置扩展信息(goods_apps_set_attr)</A>
+      <LI><A HREF="#toc9">应用设置详细信息(goods_apps_set_info)</A>
+      <LI><A HREF="#toc10">应用获取详细信息(goods_apps_get_info)</A>
+      <LI><A HREF="#toc11">应用获取所有扩展信息(goods_apps_dump_attr)</A>
+      <LI><A HREF="#toc12">应用获取指定扩展信息(goods_apps_get_attr)</A>
+      <LI><A HREF="#toc13">应用列表(goods_apps_list)</A>
+      </UL>
+    <LI><A HREF="#toc14">商品相关(products)</A>
+      <UL>
+      <LI><A HREF="#toc15">添加商品(goods_products_add)</A>
+      <LI><A HREF="#toc16">商品上架(goods_products_up)</A>
+      <LI><A HREF="#toc17">商品下架(goods_products_down)</A>
+      <LI><A HREF="#toc18">商品设置价格(goods_products_set_price)</A>
+      <LI><A HREF="#toc19">商品设置简介(goods_products_set_introduction)</A>
+      <LI><A HREF="#toc20">商品设置扩展信息(goods_products_set_attr)</A>
+      <LI><A HREF="#toc21">商品设置详细信息(goods_products_set_info)</A>
+      <LI><A HREF="#toc22">商品获取详细信息(goods_products_get_info)</A>
+      <LI><A HREF="#toc23">商品获取所有扩展信息(goods_products_dump_attr)</A>
+      <LI><A HREF="#toc24">商品获取指定扩展信息(goods_products_get_attr)</A>
+      <LI><A HREF="#toc25">商品列表(goods_products_list)</A>
+      </UL>
+    <LI><A HREF="#toc26">资源相关(parts)</A>
+      <UL>
+      <LI><A HREF="#toc27">被授权的资源/应用列表(goods_auth_list_my_goods)</A>
+      </UL>
+    <LI><A HREF="#toc28">授权相关(auth)</A>
+    </UL>
+  <LI><A HREF="#toc29">相关备注</A>
+  <LI><A HREF="#toc30">更新日志</A>
+  </UL>
+
+<P></P>
+<HR NOSHADE SIZE=1>
+<P></P>
+
+<A NAME="toc1"></A>
+<H1>API接口定义</H1>
+
+<A NAME="toc2"></A>
+<H2>应用相关(apps)</H2>
+
+<A NAME="toc3"></A>
+<H3>添加应用(goods_apps_add)</H3>
+
+<UL>
+<LI>接口名称: goods_apps_add
+<LI>接口说明: 添加应用
+<P></P>
+</UL>
+
+<TABLE BORDER="1" CELLPADDING="4">
+<TR>
+<TH><B>参数名称</B></TH>
+<TH><B>数据类型</B></TH>
+<TH><B>是否必填</B></TH>
+<TH><B>默认</B></TH>
+<TH COLSPAN="2"><B>参数说明</B></TH>
+</TR>
+<TR>
+<TD>应用名称</TD>
+<TD>String</TD>
+<TD>是</TD>
+<TD>无</TD>
+<TD></TD>
+</TR>
+<TR>
+<TD>源站点</TD>
+<TD>String</TD>
+<TD>是</TD>
+<TD>无</TD>
+<TD></TD>
+</TR>
+<TR>
+<TD>svn路径</TD>
+<TD>String</TD>
+<TD>是</TD>
+<TD>无</TD>
+<TD>/trunk,/branches/current,/tags/1.0</TD>
+</TR>
+<TR>
+<TD>svn版本</TD>
+<TD>Int</TD>
+<TD>是</TD>
+<TD>无</TD>
+<TD>搞应用生成的站点就是源站点svn路径相应版本的代码</TD>
+</TR>
+<TR>
+<TD>scm类型</TD>
+<TD>Enum</TD>
+<TD>是</TD>
+<TD>无</TD>
+<TD>paas|saas|fork|prima</TD>
+</TR>
+<TR>
+<TD>价格</TD>
+<TD>Number</TD>
+<TD>是</TD>
+<TD>无</TD>
+<TD>应用的价格(用于自己看)</TD>
+</TR>
+<TR>
+<TD>资源</TD>
+<TD>Array</TD>
+<TD>是</TD>
+<TD>无</TD>
+<TD>空的array就行,array(array(part_id,(int)max,(int)min),...) 用于产品添加时的提示和约束(未完善)</TD>
+</TR>
+</TABLE>
+
+<UL>
+<LI>语法
+<PRE>
+  /**
+   * 添加应用
+   *  
+   * @param string $appname  // 应用名称
+   * @param string $site     // 源站点(三级域名)
+   * @param string $path     // svn路径
+   * @param string $rev      // svn版本   
+   * @param enum   $scm_type // 应用类型 paas|saas|fork|prima
+   * @param float  $price    // 应用价格(给自己参考的)
+   * @param array  $parts    // 应用必须的资源(提示用的 还未完善) 目前设置为array()就行 array(array(part_id,max,min),...);
+   * @return string(应用ID)
+   **/
+  goods_apps_add($appname,$site,$path,$rev,$scm_type,$price,$parts)
+</PRE>
+
+<P></P>
+<LI>例子:
+<P></P>
+<PRE>
+  //
+</PRE>
+
+<P></P>
+<LI>返回结果
+<P></P>
+<PRE>
+  //
+</PRE>
+
+</UL>
+
+<A NAME="toc4"></A>
+<H3>应用上架(goods_apps_up)</H3>
+
+<UL>
+<LI>接口名称: goods_apps_up
+<LI>接口说明: 应用上架
+<P></P>
+</UL>
+
+<TABLE BORDER="1" CELLPADDING="4">
+<TR>
+<TH><B>参数名称</B></TH>
+<TH><B>数据类型</B></TH>
+<TH><B>是否必填</B></TH>
+<TH><B>默认</B></TH>
+<TH COLSPAN="2"><B>参数说明</B></TH>
+</TR>
+<TR>
+<TD>应用ID</TD>
+<TD>String</TD>
+<TD>是</TD>
+<TD>无</TD>
+<TD></TD>
+</TR>
+</TABLE>
+
+<UL>
+<LI>语法
+<PRE>
+  /**
+   * 应用上架
+   *  
+   * @param string $app_id  // 应用ID
+   * @return boolean
+   **/
+  goods_apps_up($app_id)
+</PRE>
+
+<P></P>
+<LI>例子:
+<P></P>
+<PRE>
+  //
+</PRE>
+
+<P></P>
+<LI>返回结果
+<P></P>
+<PRE>
+  //
+</PRE>
+
+</UL>
+
+<A NAME="toc5"></A>
+<H3>应用下架(goods_apps_down)</H3>
+
+<UL>
+<LI>接口名称: goods_apps_down
+<LI>接口说明: 应用下架
+<P></P>
+</UL>
+
+<TABLE BORDER="1" CELLPADDING="4">
+<TR>
+<TH><B>参数名称</B></TH>
+<TH><B>数据类型</B></TH>
+<TH><B>是否必填</B></TH>
+<TH><B>默认</B></TH>
+<TH COLSPAN="2"><B>参数说明</B></TH>
+</TR>
+<TR>
+<TD>应用ID</TD>
+<TD>String</TD>
+<TD>是</TD>
+<TD>无</TD>
+<TD></TD>
+</TR>
+</TABLE>
+
+<UL>
+<LI>语法
+<PRE>
+  /**
+   * 应用下架
+   *  
+   * @param string $app_id  // 应用ID
+   * @return boolean
+   **/
+  goods_apps_down($app_id)
+</PRE>
+
+<P></P>
+<LI>例子:
+<P></P>
+<PRE>
+  //
+</PRE>
+
+<P></P>
+<LI>返回结果
+<P></P>
+<PRE>
+  //
+</PRE>
+
+</UL>
+
+<A NAME="toc6"></A>
+<H3>应用设置价格(goods_apps_set_price)</H3>
+
+<UL>
+<LI>接口名称: goods_apps_set_price
+<LI>接口说明: 应用设置价格
+<P></P>
+</UL>
+
+<TABLE BORDER="1" CELLPADDING="4">
+<TR>
+<TH><B>参数名称</B></TH>
+<TH><B>数据类型</B></TH>
+<TH><B>是否必填</B></TH>
+<TH><B>默认</B></TH>
+<TH COLSPAN="2"><B>参数说明</B></TH>
+</TR>
+<TR>
+<TD>应用ID</TD>
+<TD>String</TD>
+<TD>是</TD>
+<TD>无</TD>
+<TD></TD>
+</TR>
+<TR>
+<TD>价格</TD>
+<TD>Number</TD>
+<TD>是</TD>
+<TD>无</TD>
+<TD></TD>
+</TR>
+</TABLE>
+
+<UL>
+<LI>语法
+<PRE>
+  /**
+   * 应用设置价格
+   *  
+   * @param string $app_id  // 应用ID
+   * @param float  $price   // 价格
+   * @return boolean
+   **/
+  goods_apps_set_price($app_id,$price)
+</PRE>
+
+<P></P>
+<LI>例子:
+<P></P>
+<PRE>
+  //
+</PRE>
+
+<P></P>
+<LI>返回结果
+<P></P>
+<PRE>
+  //
+</PRE>
+
+</UL>
+
+<A NAME="toc7"></A>
+<H3>应用设置简介(goods_apps_set_introduction)</H3>
+
+<UL>
+<LI>接口名称: goods_apps_set_introduction
+<LI>接口说明: 应用设置简介
+<P></P>
+</UL>
+
+<TABLE BORDER="1" CELLPADDING="4">
+<TR>
+<TH><B>参数名称</B></TH>
+<TH><B>数据类型</B></TH>
+<TH><B>是否必填</B></TH>
+<TH><B>默认</B></TH>
+<TH COLSPAN="2"><B>参数说明</B></TH>
+</TR>
+<TR>
+<TD>应用ID</TD>
+<TD>String</TD>
+<TD>是</TD>
+<TD>无</TD>
+<TD></TD>
+</TR>
+<TR>
+<TD>简介</TD>
+<TD>string</TD>
+<TD>是</TD>
+<TD>无</TD>
+<TD></TD>
+</TR>
+</TABLE>
+
+<UL>
+<LI>语法
+<PRE>
+  /**
+   * 应用设置简介
+   *  
+   * @param string $app_id  // 应用ID
+   * @param string $intro   // 简介
+   * @return boolean
+   **/
+  goods_apps_set_introduction($app_id,$intro)
+</PRE>
+
+<P></P>
+<LI>例子:
+<P></P>
+<PRE>
+  //
+</PRE>
+
+<P></P>
+<LI>返回结果
+<P></P>
+<PRE>
+  //
+</PRE>
+
+</UL>
+
+<A NAME="toc8"></A>
+<H3>应用设置扩展信息(goods_apps_set_attr)</H3>
+
+<UL>
+<LI>接口名称: goods_apps_set_attr
+<LI>接口说明: 应用设置扩展信息
+<P></P>
+</UL>
+
+<TABLE BORDER="1" CELLPADDING="4">
+<TR>
+<TH><B>参数名称</B></TH>
+<TH><B>数据类型</B></TH>
+<TH><B>是否必填</B></TH>
+<TH><B>默认</B></TH>
+<TH COLSPAN="2"><B>参数说明</B></TH>
+</TR>
+<TR>
+<TD>应用ID</TD>
+<TD>String</TD>
+<TD>是</TD>
+<TD>无</TD>
+<TD></TD>
+</TR>
+<TR>
+<TD>key</TD>
+<TD>String</TD>
+<TD>是</TD>
+<TD>无</TD>
+<TD>要设置的Key</TD>
+</TR>
+<TR>
+<TD>value</TD>
+<TD>Mix</TD>
+<TD>是</TD>
+<TD>无</TD>
+<TD>要设置的值</TD>
+</TR>
+</TABLE>
+
+<UL>
+<LI>语法
+<PRE>
+  /**
+   * 应用设置扩展信息
+   *  
+   * @param string $app_id  // 应用ID
+   * @param string $key     // key
+   * @param mix    $value   // 要设置的值
+   * @return boolean
+   **/
+  goods_apps_set_attr($app_id,$key,$value)
+</PRE>
+
+<P></P>
+<LI>例子:
+<P></P>
+<PRE>
+  //
+</PRE>
+
+<P></P>
+<LI>返回结果
+<P></P>
+<PRE>
+  //
+</PRE>
+
+</UL>
+
+<A NAME="toc9"></A>
+<H3>应用设置详细信息(goods_apps_set_info)</H3>
+
+<UL>
+<LI>接口名称: goods_apps_set_info
+<LI>接口说明: 应用设置详细信息
+<P></P>
+</UL>
+
+<TABLE BORDER="1" CELLPADDING="4">
+<TR>
+<TH><B>参数名称</B></TH>
+<TH><B>数据类型</B></TH>
+<TH><B>是否必填</B></TH>
+<TH><B>默认</B></TH>
+<TH COLSPAN="2"><B>参数说明</B></TH>
+</TR>
+<TR>
+<TD>应用ID</TD>
+<TD>String</TD>
+<TD>是</TD>
+<TD>无</TD>
+<TD></TD>
+</TR>
+<TR>
+<TD>options</TD>
+<TD>Array</TD>
+<TD>是</TD>
+<TD>无</TD>
+<TD>array(array("price",$price),array("path_rev",array($path,$rev),array("name",$name)))  可以为空的array 可以少任何的array你懂的</TD>
+</TR>
+</TABLE>
+
+<UL>
+<LI>语法
+<PRE>
+  /**
+   * 应用设置详细信息
+   *  
+   * @param string $app_id  // 应用ID
+   * @param array  $options // 看上面的参数说明
+   * @return boolean
+   **/
+  goods_apps_set_info($app_id,$options)
+</PRE>
+
+<P></P>
+<LI>例子:
+<P></P>
+<PRE>
+  //
+</PRE>
+
+<P></P>
+<LI>返回结果
+<P></P>
+<PRE>
+  //
+</PRE>
+
+</UL>
+
+<A NAME="toc10"></A>
+<H3>应用获取详细信息(goods_apps_get_info)</H3>
+
+<UL>
+<LI>接口名称: goods_apps_get_info
+<LI>接口说明: 应用获取详细信息
+<P></P>
+</UL>
+
+<TABLE BORDER="1" CELLPADDING="4">
+<TR>
+<TH><B>参数名称</B></TH>
+<TH><B>数据类型</B></TH>
+<TH><B>是否必填</B></TH>
+<TH><B>默认</B></TH>
+<TH COLSPAN="2"><B>参数说明</B></TH>
+</TR>
+<TR>
+<TD>应用ID</TD>
+<TD>String</TD>
+<TD>是</TD>
+<TD>无</TD>
+<TD></TD>
+</TR>
+</TABLE>
+
+<UL>
+<LI>语法
+<PRE>
+  /**
+   * 应用获取详细信息
+   *  
+   * @param string $app_id  // 应用ID
+   * @return array
+   **/
+  goods_apps_get_info($app_id)
+</PRE>
+
+<P></P>
+<LI>例子:
+<P></P>
+<PRE>
+  //
+</PRE>
+
+<P></P>
+<LI>返回结果
+<P></P>
+<PRE>
+  //
+</PRE>
+
+</UL>
+
+<A NAME="toc11"></A>
+<H3>应用获取所有扩展信息(goods_apps_dump_attr)</H3>
+
+<UL>
+<LI>接口名称: goods_apps_dump_attr
+<LI>接口说明: 应用获取所有扩展信息
+<P></P>
+</UL>
+
+<TABLE BORDER="1" CELLPADDING="4">
+<TR>
+<TH><B>参数名称</B></TH>
+<TH><B>数据类型</B></TH>
+<TH><B>是否必填</B></TH>
+<TH><B>默认</B></TH>
+<TH COLSPAN="2"><B>参数说明</B></TH>
+</TR>
+<TR>
+<TD>应用ID</TD>
+<TD>String</TD>
+<TD>是</TD>
+<TD>无</TD>
+<TD></TD>
+</TR>
+</TABLE>
+
+<UL>
+<LI>语法
+<PRE>
+  /**
+   * 应用获取所有扩展信息
+   *  
+   * @param string $app_id  // 应用ID
+   * @return array
+   **/
+  goods_apps_dump_attr($app_id)
+</PRE>
+
+<P></P>
+<LI>例子:
+<P></P>
+<PRE>
+  //
+</PRE>
+
+<P></P>
+<LI>返回结果
+<P></P>
+<PRE>
+  //
+</PRE>
+
+</UL>
+
+<A NAME="toc12"></A>
+<H3>应用获取指定扩展信息(goods_apps_get_attr)</H3>
+
+<UL>
+<LI>接口名称: goods_apps_get_attr
+<LI>接口说明: 应用获取指定扩展信息
+<P></P>
+</UL>
+
+<TABLE BORDER="1" CELLPADDING="4">
+<TR>
+<TH><B>参数名称</B></TH>
+<TH><B>数据类型</B></TH>
+<TH><B>是否必填</B></TH>
+<TH><B>默认</B></TH>
+<TH COLSPAN="2"><B>参数说明</B></TH>
+</TR>
+<TR>
+<TD>应用ID</TD>
+<TD>String</TD>
+<TD>是</TD>
+<TD>无</TD>
+<TD></TD>
+</TR>
+<TR>
+<TD>Key</TD>
+<TD>String</TD>
+<TD>是</TD>
+<TD>无</TD>
+<TD></TD>
+</TR>
+</TABLE>
+
+<UL>
+<LI>语法
+<PRE>
+  /**
+   * 应用获取指定扩展信息
+   *  
+   * @param string $app_id  // 应用ID
+   * @param string $key
+   * @return string
+   **/
+  goods_apps_get_attr($app_id,$key)
+</PRE>
+
+<P></P>
+<LI>例子:
+<P></P>
+<PRE>
+  //
+</PRE>
+
+<P></P>
+<LI>返回结果
+<P></P>
+<PRE>
+  //
+</PRE>
+
+</UL>
+
+<A NAME="toc13"></A>
+<H3>应用列表(goods_apps_list)</H3>
+
+<UL>
+<LI>接口名称: goods_apps_list
+<LI>接口说明: 应用列表(暂时没有分页)
+<P></P>
+</UL>
+
+<TABLE BORDER="1" CELLPADDING="4">
+<TR>
+<TH><B>参数名称</B></TH>
+<TH><B>数据类型</B></TH>
+<TH><B>是否必填</B></TH>
+<TH><B>默认</B></TH>
+<TH COLSPAN="2"><B>参数说明</B></TH>
+</TR>
+</TABLE>
+
+<UL>
+<LI>语法
+<PRE>
+  /**
+   * 应用列表
+   *  
+   * @return array
+   **/
+  goods_apps_list()
+</PRE>
+
+<P></P>
+<LI>例子:
+<P></P>
+<PRE>
+  //
+</PRE>
+
+<P></P>
+<LI>返回结果
+<P></P>
+<PRE>
+  //
+</PRE>
+
+</UL>
+
+<A NAME="toc14"></A>
+<H2>商品相关(products)</H2>
+
+<A NAME="toc15"></A>
+<H3>添加商品(goods_products_add)</H3>
+
+<UL>
+<LI>接口名称: goods_products_add
+<LI>接口说明: 添加商品
+<P></P>
+</UL>
+
+<TABLE BORDER="1" CELLPADDING="4">
+<TR>
+<TH><B>参数名称</B></TH>
+<TH><B>数据类型</B></TH>
+<TH><B>是否必填</B></TH>
+<TH><B>默认</B></TH>
+<TH COLSPAN="2"><B>参数说明</B></TH>
+</TR>
+<TR>
+<TD>商品名称</TD>
+<TD>String</TD>
+<TD>是</TD>
+<TD>无</TD>
+<TD></TD>
+</TR>
+<TR>
+<TD>应用ID</TD>
+<TD>String</TD>
+<TD>是</TD>
+<TD>无</TD>
+<TD>应用ID</TD>
+</TR>
+<TR>
+<TD>价格</TD>
+<TD>Number</TD>
+<TD>是</TD>
+<TD>无</TD>
+<TD>应用的价格(用于自己看)</TD>
+</TR>
+<TR>
+<TD>资源</TD>
+<TD>Array</TD>
+<TD>是</TD>
+<TD>无</TD>
+<TD>空的array就行,array(array(part_id,(int)num),...) 目前只用于开通站点激活相应的addon</TD>
+</TR>
+</TABLE>
+
+<UL>
+<LI>语法
+<PRE>
+  /**
+   * 添加商品
+   *  
+   * @param string $product_name  // 商品名称
+   * @param string $app_id        // 应用ID
+   * @param float  $price         // 商品价格(给自己参考的)
+   * @param array  $parts         // 按产品开通的站点所开能的资源(目前只用于激活相应的addon 还未完善)  array(array(part_id,num),...);
+   * @return string(商品ID)
+   **/
+  goods_products_add($product_name,$app_id,$price,$parts)
+</PRE>
+
+<P></P>
+<LI>例子:
+<P></P>
+<PRE>
+  //
+</PRE>
+
+<P></P>
+<LI>返回结果
+<P></P>
+<PRE>
+  //
+</PRE>
+
+</UL>
+
+<A NAME="toc16"></A>
+<H3>商品上架(goods_products_up)</H3>
+
+<UL>
+<LI>接口名称: goods_products_up
+<LI>接口说明: 商品上架
+<P></P>
+</UL>
+
+<TABLE BORDER="1" CELLPADDING="4">
+<TR>
+<TH><B>参数名称</B></TH>
+<TH><B>数据类型</B></TH>
+<TH><B>是否必填</B></TH>
+<TH><B>默认</B></TH>
+<TH COLSPAN="2"><B>参数说明</B></TH>
+</TR>
+<TR>
+<TD>商品ID</TD>
+<TD>String</TD>
+<TD>是</TD>
+<TD>无</TD>
+<TD></TD>
+</TR>
+</TABLE>
+
+<UL>
+<LI>语法
+<PRE>
+  /**
+   * 商品上架
+   *  
+   * @param string $product_id  // 商品ID
+   * @return boolean
+   **/
+  goods_products_up($product_id)
+</PRE>
+
+<P></P>
+<LI>例子:
+<P></P>
+<PRE>
+  //
+</PRE>
+
+<P></P>
+<LI>返回结果
+<P></P>
+<PRE>
+  //
+</PRE>
+
+</UL>
+
+<A NAME="toc17"></A>
+<H3>商品下架(goods_products_down)</H3>
+
+<UL>
+<LI>接口名称: goods_products_down
+<LI>接口说明: 商品下架
+<P></P>
+</UL>
+
+<TABLE BORDER="1" CELLPADDING="4">
+<TR>
+<TH><B>参数名称</B></TH>
+<TH><B>数据类型</B></TH>
+<TH><B>是否必填</B></TH>
+<TH><B>默认</B></TH>
+<TH COLSPAN="2"><B>参数说明</B></TH>
+</TR>
+<TR>
+<TD>商品ID</TD>
+<TD>String</TD>
+<TD>是</TD>
+<TD>无</TD>
+<TD></TD>
+</TR>
+</TABLE>
+
+<UL>
+<LI>语法
+<PRE>
+  /**
+   * 商品下架
+   *  
+   * @param string $product_id  // 商品ID
+   * @return boolean
+   **/
+  goods_products_down($product_id)
+</PRE>
+
+<P></P>
+<LI>例子:
+<P></P>
+<PRE>
+  //
+</PRE>
+
+<P></P>
+<LI>返回结果
+<P></P>
+<PRE>
+  //
+</PRE>
+
+</UL>
+
+<A NAME="toc18"></A>
+<H3>商品设置价格(goods_products_set_price)</H3>
+
+<UL>
+<LI>接口名称: goods_products_set_price
+<LI>接口说明: 商品设置价格
+<P></P>
+</UL>
+
+<TABLE BORDER="1" CELLPADDING="4">
+<TR>
+<TH><B>参数名称</B></TH>
+<TH><B>数据类型</B></TH>
+<TH><B>是否必填</B></TH>
+<TH><B>默认</B></TH>
+<TH COLSPAN="2"><B>参数说明</B></TH>
+</TR>
+<TR>
+<TD>商品ID</TD>
+<TD>String</TD>
+<TD>是</TD>
+<TD>无</TD>
+<TD></TD>
+</TR>
+<TR>
+<TD>价格</TD>
+<TD>Number</TD>
+<TD>是</TD>
+<TD>无</TD>
+<TD></TD>
+</TR>
+</TABLE>
+
+<UL>
+<LI>语法
+<PRE>
+  /**
+   * 商品设置价格
+   *  
+   * @param string $product_id  // 商品ID
+   * @param float  $price       // 价格
+   * @return boolean
+   **/
+  goods_products_set_price($product_id,$price)
+</PRE>
+
+<P></P>
+<LI>例子:
+<P></P>
+<PRE>
+  //
+</PRE>
+
+<P></P>
+<LI>返回结果
+<P></P>
+<PRE>
+  //
+</PRE>
+
+</UL>
+
+<A NAME="toc19"></A>
+<H3>商品设置简介(goods_products_set_introduction)</H3>
+
+<UL>
+<LI>接口名称: goods_products_set_introduction
+<LI>接口说明: 商品设置简介
+<P></P>
+</UL>
+
+<TABLE BORDER="1" CELLPADDING="4">
+<TR>
+<TH><B>参数名称</B></TH>
+<TH><B>数据类型</B></TH>
+<TH><B>是否必填</B></TH>
+<TH><B>默认</B></TH>
+<TH COLSPAN="2"><B>参数说明</B></TH>
+</TR>
+<TR>
+<TD>商品ID</TD>
+<TD>String</TD>
+<TD>是</TD>
+<TD>无</TD>
+<TD></TD>
+</TR>
+<TR>
+<TD>简介</TD>
+<TD>string</TD>
+<TD>是</TD>
+<TD>无</TD>
+<TD></TD>
+</TR>
+</TABLE>
+
+<UL>
+<LI>语法
+<PRE>
+  /**
+   * 商品设置简介
+   *  
+   * @param string $product_id  // 商品ID
+   * @param string $intro   // 简介
+   * @return boolean
+   **/
+  goods_products_set_introduction($product_id,$intro)
+</PRE>
+
+<P></P>
+<LI>例子:
+<P></P>
+<PRE>
+  //
+</PRE>
+
+<P></P>
+<LI>返回结果
+<P></P>
+<PRE>
+  //
+</PRE>
+
+</UL>
+
+<A NAME="toc20"></A>
+<H3>商品设置扩展信息(goods_products_set_attr)</H3>
+
+<UL>
+<LI>接口名称: goods_products_set_attr
+<LI>接口说明: 商品设置扩展信息
+<P></P>
+</UL>
+
+<TABLE BORDER="1" CELLPADDING="4">
+<TR>
+<TH><B>参数名称</B></TH>
+<TH><B>数据类型</B></TH>
+<TH><B>是否必填</B></TH>
+<TH><B>默认</B></TH>
+<TH COLSPAN="2"><B>参数说明</B></TH>
+</TR>
+<TR>
+<TD>商品ID</TD>
+<TD>String</TD>
+<TD>是</TD>
+<TD>无</TD>
+<TD></TD>
+</TR>
+<TR>
+<TD>key</TD>
+<TD>String</TD>
+<TD>是</TD>
+<TD>无</TD>
+<TD>要设置的Key</TD>
+</TR>
+<TR>
+<TD>value</TD>
+<TD>Mix</TD>
+<TD>是</TD>
+<TD>无</TD>
+<TD>要设置的值</TD>
+</TR>
+</TABLE>
+
+<UL>
+<LI>语法
+<PRE>
+  /**
+   * 商品设置扩展信息
+   *  
+   * @param string $product_id  // 商品ID
+   * @param string $key         // key
+   * @param mix    $value       // 要设置的值
+   * @return boolean
+   **/
+  goods_products_set_attr($product_id,$key,$value)
+</PRE>
+
+<P></P>
+<LI>例子:
+<P></P>
+<PRE>
+  //
+</PRE>
+
+<P></P>
+<LI>返回结果
+<P></P>
+<PRE>
+  //
+</PRE>
+
+</UL>
+
+<A NAME="toc21"></A>
+<H3>商品设置详细信息(goods_products_set_info)</H3>
+
+<UL>
+<LI>接口名称: goods_products_set_info
+<LI>接口说明: 商品设置详细信息
+<P></P>
+</UL>
+
+<TABLE BORDER="1" CELLPADDING="4">
+<TR>
+<TH><B>参数名称</B></TH>
+<TH><B>数据类型</B></TH>
+<TH><B>是否必填</B></TH>
+<TH><B>默认</B></TH>
+<TH COLSPAN="2"><B>参数说明</B></TH>
+</TR>
+<TR>
+<TD>商品ID</TD>
+<TD>String</TD>
+<TD>是</TD>
+<TD>无</TD>
+<TD></TD>
+</TR>
+<TR>
+<TD>options</TD>
+<TD>Array</TD>
+<TD>是</TD>
+<TD>无</TD>
+<TD>array(array("price",$price),array("status","down|up"),array("name",$name),array("parts",array(array(part_id,num),...) ))  可以为空的array 可以少任何的array你懂的</TD>
+</TR>
+</TABLE>
+
+<UL>
+<LI>语法
+<PRE>
+  /**
+   * 商品设置详细信息
+   *  
+   * @param string $product_id  // 商品ID
+   * @param array  $options     // 看上面的参数说明 name|price|parts|status
+   * @return boolean
+   **/
+  goods_products_set_info($product_id,$options)
+</PRE>
+
+<P></P>
+<LI>例子:
+<P></P>
+<PRE>
+  //
+</PRE>
+
+<P></P>
+<LI>返回结果
+<P></P>
+<PRE>
+  //
+</PRE>
+
+</UL>
+
+<A NAME="toc22"></A>
+<H3>商品获取详细信息(goods_products_get_info)</H3>
+
+<UL>
+<LI>接口名称: goods_products_get_info
+<LI>接口说明: 商品获取详细信息
+<P></P>
+</UL>
+
+<TABLE BORDER="1" CELLPADDING="4">
+<TR>
+<TH><B>参数名称</B></TH>
+<TH><B>数据类型</B></TH>
+<TH><B>是否必填</B></TH>
+<TH><B>默认</B></TH>
+<TH COLSPAN="2"><B>参数说明</B></TH>
+</TR>
+<TR>
+<TD>商品ID</TD>
+<TD>String</TD>
+<TD>是</TD>
+<TD>无</TD>
+<TD></TD>
+</TR>
+</TABLE>
+
+<UL>
+<LI>语法
+<PRE>
+  /**
+   * 商品获取详细信息
+   *  
+   * @param string $product_id  // 商品ID
+   * @return array
+   **/
+  goods_products_get_info($product_id)
+</PRE>
+
+<P></P>
+<LI>例子:
+<P></P>
+<PRE>
+  //
+</PRE>
+
+<P></P>
+<LI>返回结果
+<P></P>
+<PRE>
+  //
+</PRE>
+
+</UL>
+
+<A NAME="toc23"></A>
+<H3>商品获取所有扩展信息(goods_products_dump_attr)</H3>
+
+<UL>
+<LI>接口名称: goods_products_dump_attr
+<LI>接口说明: 商品获取所有扩展信息
+<P></P>
+</UL>
+
+<TABLE BORDER="1" CELLPADDING="4">
+<TR>
+<TH><B>参数名称</B></TH>
+<TH><B>数据类型</B></TH>
+<TH><B>是否必填</B></TH>
+<TH><B>默认</B></TH>
+<TH COLSPAN="2"><B>参数说明</B></TH>
+</TR>
+<TR>
+<TD>商品ID</TD>
+<TD>String</TD>
+<TD>是</TD>
+<TD>无</TD>
+<TD></TD>
+</TR>
+</TABLE>
+
+<UL>
+<LI>语法
+<PRE>
+  /**
+   * 商品获取所有扩展信息
+   *  
+   * @param string $product_id  // 商品ID
+   * @return array
+   **/
+  goods_products_dump_attr($product_id)
+</PRE>
+
+<P></P>
+<LI>例子:
+<P></P>
+<PRE>
+  //
+</PRE>
+
+<P></P>
+<LI>返回结果
+<P></P>
+<PRE>
+  //
+</PRE>
+
+</UL>
+
+<A NAME="toc24"></A>
+<H3>商品获取指定扩展信息(goods_products_get_attr)</H3>
+
+<UL>
+<LI>接口名称: goods_products_get_attr
+<LI>接口说明: 商品获取指定扩展信息
+<P></P>
+</UL>
+
+<TABLE BORDER="1" CELLPADDING="4">
+<TR>
+<TH><B>参数名称</B></TH>
+<TH><B>数据类型</B></TH>
+<TH><B>是否必填</B></TH>
+<TH><B>默认</B></TH>
+<TH COLSPAN="2"><B>参数说明</B></TH>
+</TR>
+<TR>
+<TD>商品ID</TD>
+<TD>String</TD>
+<TD>是</TD>
+<TD>无</TD>
+<TD></TD>
+</TR>
+<TR>
+<TD>Key</TD>
+<TD>String</TD>
+<TD>是</TD>
+<TD>无</TD>
+<TD></TD>
+</TR>
+</TABLE>
+
+<UL>
+<LI>语法
+<PRE>
+  /**
+   * 商品获取指定扩展信息
+   *  
+   * @param string $product_id  // 商品ID
+   * @param string $key
+   * @return string
+   **/
+  goods_products_get_attr($product_id,$key)
+</PRE>
+
+<P></P>
+<LI>例子:
+<P></P>
+<PRE>
+  //
+</PRE>
+
+<P></P>
+<LI>返回结果
+<P></P>
+<PRE>
+  //
+</PRE>
+
+</UL>
+
+<A NAME="toc25"></A>
+<H3>商品列表(goods_products_list)</H3>
+
+<UL>
+<LI>接口名称: goods_products_list
+<LI>接口说明: 商品列表(暂时没有分页)
+<P></P>
+</UL>
+
+<TABLE BORDER="1" CELLPADDING="4">
+<TR>
+<TH><B>参数名称</B></TH>
+<TH><B>数据类型</B></TH>
+<TH><B>是否必填</B></TH>
+<TH><B>默认</B></TH>
+<TH COLSPAN="2"><B>参数说明</B></TH>
+</TR>
+</TABLE>
+
+<UL>
+<LI>语法
+<PRE>
+  /**
+   * 商品列表
+   *  
+   * @return array
+   **/
+  goods_products_list()
+</PRE>
+
+<P></P>
+<LI>例子:
+<P></P>
+<PRE>
+  //
+</PRE>
+
+<P></P>
+<LI>返回结果
+<P></P>
+<PRE>
+  //
+</PRE>
+
+</UL>
+
+<A NAME="toc26"></A>
+<H2>资源相关(parts)</H2>
+
+<A NAME="toc27"></A>
+<H3>被授权的资源/应用列表(goods_auth_list_my_goods)</H3>
+
+<UL>
+<LI>接口名称: goods_auth_list_my_goods
+<LI>接口说明: 被授权的资源/应用列表(没有分页)
+<P></P>
+</UL>
+
+<TABLE BORDER="1" CELLPADDING="4">
+<TR>
+<TH><B>参数名称</B></TH>
+<TH><B>数据类型</B></TH>
+<TH><B>是否必填</B></TH>
+<TH><B>默认</B></TH>
+<TH COLSPAN="2"><B>参数说明</B></TH>
+</TR>
+<TR>
+<TD>类型</TD>
+<TD>Enum</TD>
+<TD>是</TD>
+<TD>无</TD>
+<TD ALIGN="center">parts|apps parts资源,apps应用</TD>
+</TR>
+</TABLE>
+
+<UL>
+<LI>语法
+<PRE>
+  /**
+   * 被授权的资源/应用列表(没有分页)
+   * 
+   * @param string $type // parts|apps
+   * @return array
+   **/
+  goods_auth_list_my_goods()
+</PRE>
+
+<P></P>
+<LI>例子:
+<P></P>
+<PRE>
+  //
+</PRE>
+
+<P></P>
+<LI>返回结果
+<P></P>
+<PRE>
+  //
+</PRE>
+
+</UL>
+
+<A NAME="toc28"></A>
+<H2>授权相关(auth)</H2>
+
+<A NAME="toc29"></A>
+<H1>相关备注</H1>
+
+<A NAME="toc30"></A>
+<H1>更新日志</H1>
+
+<OL>
+<LI>2012.04.24 文档生成
+</OL>
+
+<!-- html code generated by txt2tags 2.6 (http://txt2tags.org) -->
+<!-- cmdline: txt2tags -t html -\-toc docs/agent-product.t2t -->
+</BODY></HTML>

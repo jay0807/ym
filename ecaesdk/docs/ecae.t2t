@@ -1,0 +1,570 @@
+ECAE Platform API文档
+bluefrog(wubin@shopex.cn)
+since: %%date(%m-%d-%Y)
+
+%!encoding:utf-8
+%!Target:html
+
+= API接口定义 =
+ == Cache相关(内存存储) ==
+
+ 需要先开启Memcache服务 Memcache服务是ECAE平台上提供的一个内存存储的解决方案
+ 
+  === 获取指定key的值(ecae_cache_read) ===
+- 接口名称: ecae_cache_read
+- 接口说明: 获取指定key的值
+
+|| **参数名称** | **数据类型** | **是否必填** | **默认**               | **参数说明**                         ||
+ | $key         | String       | 是           | 无                     | key                           |
+ 
+- 语法
+```
+/**
+ * 获取指定key的值
+ *  
+ * @param string $key
+ * @return string
+ **/
+ecae_cache_read($key)
+```
+
+- 例子:
+
+```
+<?php 
+    $key = 'newid'; 
+    $val = "abcde"; 
+    ecae_cache_write($key,$val); 
+
+    var_dump(ecae_cache_read($key));
+```
+
+- 运行结果
+
+```
+string(5) "abcde"
+```
+
+
+  === 设置指定key的值(ecae_cache_write) ===
+- 接口名称: ecae_cache_write
+- 接口说明: 设置指定key的值
+
+|| **参数名称** | **数据类型** | **是否必填** | **默认**               | **参数说明**                         ||
+ | $key         | String       | 是           | 无                     | 取回时所需的key                      |
+ | $value       | String       | 是           | 无                     | 要存储的值                           |
+
+ 
+- 语法
+```
+/**
+ * 设置指定key的值
+ *  
+ * @param string $key
+ * @param string $value
+ * @return boolean
+ **/
+ecae_cache_write($key,$value)
+```
+
+- 例子:
+
+```
+<?php 
+    $key = 'newid'; 
+    $val = time(); 
+    var_dump(ecae_cache_write($key,$val)); 
+```
+
+- 运行结果
+
+```
+bool(true)
+```
+
+
+  === 获取当前memcache的状态(ecae_cache_stats) ===
+- 接口名称: ecae_cache_stats
+- 接口说明: 获取当前memcache的状态
+
+|| **参数名称** | **数据类型** | **是否必填** | **默认**               | **参数说明**                         ||
+ |   无参数                                                                                                         | 
+- 语法
+```
+/**
+ *  获取当前memcache的状态
+ *  
+ * @return array
+ **/
+ecae_cache_stats()
+```
+
+- 例子:
+
+```
+<?php 
+    var_dump(ecae_cache_stats()); 
+```
+
+- 运行结果
+
+```
+array(2) {
+  ["192.168.11.10:20022"]=>
+  array(39) {
+    ["pid"]=>
+    string(5) "15380"
+    ["uptime"]=>
+    string(5) "81155"
+    ["time"]=>
+	...
+```
+
+- 返回结果相关信息说明
+
+|| **返回数组的key**     | **相关说明**                                                       ||
+ | pid	                 | Process id of this server process                                   |
+ | uptime	             | Number of seconds this server has been running                      |
+ | rime	                 | Current UNIX time according to the server                           |
+ | version	             | Version string of this server                                       |
+ | rusage_user	         | Accumulated user time for this process                              |
+ | rusage_system	     | Accumulated system time for this process                            |
+ | curr_items	         | Current number of items stored by the server                        |
+ | total_items	         | Total number of items stored by this server ever since it started   |
+ | bytes	             | Current number of bytes used by this server to store items          |
+ | curr_connections	     | Number of open connections                                          |
+ | total_connections     | Total number of connections opened since the server started running |
+ | connection_structures | Number of connection structures allocated by the server             |
+ | cmd_get	             | Cumulative number of retrieval requests                             |
+ | cmd_set               | Cumulative number of storage requests                               |
+ | get_hits	             | Number of keys that have been requested and found present           |
+ | get_misses	         | Number of items that have been requested and not found              |
+ | bytes_read	         | Total number of bytes read by this server from network              |
+ | bytes_written	     | Total number of bytes sent by this server to network                |
+ | limit_maxbytes	     | Number of bytes this server is allowed to use for storage           |
+
+
+ == KVStore相关(K-V永久存储) ==
+
+ 需要先开启KVDB服务, KVDB是 ECAE平台提供的key-value永久存储的解决方案
+ 
+  === 获取指定key的值(ecae_kvstore_read) ===
+- 接口名称: ecae_kvstore_read
+- 接口说明: 获取指定key的值
+
+|| **参数名称** | **数据类型** | **是否必填** | **默认**               | **参数说明**                         ||
+ | $key         | String       | 是           | 无                     | key                                  |
+ | $value       | Mix          | 是           | 无                     | 值以引用的方式返回                   |
+
+ 
+- 语法
+```
+/**
+ * 获取指定key的值
+ *  
+ * @param string $key
+ * @param string &$value // 值以引用返回
+ * @return boolean
+ **/
+ecae_kvstore_read($key,&$value)
+```
+
+- 例子:
+
+```
+<?php 
+    $key = 'newid'; 
+    $val = "abcde"; 
+    ecae_kvstore_write($key,$val); 
+
+	$value = null;
+    var_dump(ecae_kvstore_read($key,$value));
+	var_dump($value);
+```
+
+- 运行结果
+
+```
+bool(true)
+string(5) "abcde"
+```
+
+
+  === 设置指定key的值(ecae_kvstore_write) ===
+- 接口名称: ecae_kvstore_write
+- 接口说明: 设置指定key的值
+
+|| **参数名称** | **数据类型** | **是否必填** | **默认**               | **参数说明**                         ||
+ | $key         | String       | 是           | 无                     | key                                  |
+ | $value       | Mix          | 是           | 无                     | 值以引用的方式返回                   |
+
+ 
+- 语法
+```
+/**
+ * 获取指定key的值
+ *  
+ * @param string $key
+ * @param string $value
+ * @return boolean
+ **/
+ecae_kvstore_write($key,$value)
+```
+
+- 例子:
+
+```
+<?php 
+    $key = 'newid'; 
+    $val = "abcde"; 
+    var_dump(ecae_kvstore_write($key,$val)); 
+```
+
+- 运行结果
+
+```
+bool(true)
+```
+
+
+  === 删除指定key的值(ecae_kvstore_delete) ===
+- 接口名称: ecae_kvstore_delete
+- 接口说明: 删除指定key的值
+
+|| **参数名称** | **数据类型** | **是否必填** | **默认**               | **参数说明**                         ||
+ | $key         | String       | 是           | 无                     | key                                  |
+
+ 
+- 语法
+```
+/**
+ * 删除指定key的值
+ *  
+ * @param string $key
+ * @return boolean
+ **/
+ecae_kvstore_delete($key)
+```
+
+- 例子:
+
+```
+<?php 
+    $key = 'newid'; 
+    $val = "abcde"; 
+    var_dump(ecae_kvstore_write($key,$val)); 
+	var_dump(ecae_kvstore_delete($key));
+
+	$value = "1234";
+	ecae_kvstore_read($key,$value);
+	var_dump($value);
+```
+
+- 运行结果
+
+```
+bool(true)
+bool(true)
+null
+```
+
+
+ == Storage相关(文件存储) ==
+
+     需要先开启Storage服务, Storage是 ECAE平台提供的一个文件永久存储的解决方案
+ 开启Storage服务,默认创建"public","private","images"三个bucket
+ 如果需要其它的bucket,自己在后台进行添加
+ 默认开通的bucket属性及相关说明如下
+ ||  **bucket名称** | **属性** | **说明**                                                                      ||
+  |  public         | public   | 公有的bucket ECstore/shopex485上传的文件将存储于此                            | 
+  |  private        | private  | 私有的bucket ecae_file_url不能生成公开访问URL,只能使用ecae_file_fetch进行获取 | 
+  |  images         | public   | 公有的bucket ECstore/shopex485上传的图片将存储于此                            | 
+ 注: 删除bucket bucket相关存储文件将被删除,请谨慎删除bucket
+
+  === 将文件保存在指定的bucket里(ecae_file_save) ===
+- 接口名称: ecae_file_save
+- 接口说明: 将文件保存在指定的bucket里
+
+|| **参数名称** | **数据类型** | **是否必填** | **默认**               | **参数说明**                           ||
+ | $bucket      | String       | 是           | 无                     | 要将文件存放的bucket                   |
+ | $file        | String       | 是           | 无                     | 文件所在地址如$_FILES[file][tmp_name]  |
+ | $options     | array        | 否           | null                   | name:要保存的文件名,path:要保存的路径  |
+
+
+ 
+- 语法
+```
+/**
+ * 将文件保存在指定的bucket里
+ *  
+ * @param string $bucket     // 大于3小于30的字母数字的串
+ * @param string $file       // 要上传的文件 
+ * @param array  $options    // 默认为null 详细说明查看例子 
+ * @return string
+ **/
+ecae_file_save($bucket,$file,$options = null)
+```
+
+- 例子:
+
+```
+<?php 
+    $options = array("name"=>"new.txt","path"=>"php");
+    var_dump(ecae_file_save("public",__FILE__,$options));
+```
+
+- 运行结果
+
+```
+string(18) "public:php/new.txt"
+```
+
+
+  === 将指定文件替换为新的文件(ecae_file_replace) ===
+- 接口名称: ecae_file_replace
+- 接口说明: 将指定文件替换为新的文件
+
+|| **参数名称** | **数据类型** | **是否必填** | **默认**               | **参数说明**                           ||
+ | $file_id     | String       | 是           | 无                     | 保存在Storage上的编号                  |
+ | $local_file  | String       | 是           | 无                     | 文件所在地址如$_FILES[file][tmp_name]  |
+
+
+ 
+- 语法
+```
+/**
+ * 将指定文件替换为新的文件
+ *  
+ * @param string $file_id    
+ * @param string $local_file // 要替换成的文件 
+ * @return string
+ **/
+ecae_file_replace($file_id,$file)
+```
+
+- 例子:
+
+```
+<?php 
+	$options = array("name"=>"new.txt","path"=>"php");
+    $file_id = ecae_file_save("public",__FILE__,$options);
+	ecae_file_replace($file_id,dirname(__FILE__)."/test.txt");
+	var_dump(ecae_file_fetch($file_id));
+```
+
+- 运行结果
+
+```
+//运行程序目录下test.txt文件里的内容
+```
+
+
+  === 删除指定文件(ecae_file_delete) ===
+- 接口名称: ecae_file_delete
+- 接口说明: 删除指定文件
+
+|| **参数名称** | **数据类型** | **是否必填** | **默认**               | **参数说明**                           ||
+ | $file_id     | String       | 是           | 无                     | 保存在Storage上的编号                  |
+
+
+ 
+- 语法
+```
+/**
+ * 删除指定文件
+ *  
+ * @param string $file_id    
+ * @return boolean
+ **/
+ecae_file_delete($file_id)
+```
+
+- 例子:
+
+```
+<?php 
+	$options = array("name"=>"new.txt","path"=>"php");
+    $file_id = ecae_file_save("public",__FILE__,$options);
+	var_dump(ecae_file_delete($file_id));
+```
+
+- 运行结果
+
+```
+bool(true)
+```
+
+  === 获取指定文件的内容(ecae_file_fetch) ===
+- 接口名称: ecae_file_fetch
+- 接口说明: 获取指定文件的内容
+
+|| **参数名称** | **数据类型** | **是否必填** | **默认**               | **参数说明**                           ||
+ | $file_id     | String       | 是           | 无                     | 保存在Storage上的编号                  |
+
+- 语法
+```
+/**
+ * 获取指定文件的内容
+ *  
+ * @param string $file_id    
+ * @return string
+ **/
+ecae_file_fetch($file_id)
+```
+
+- 例子:
+
+```
+<?php 
+	$options = array("name"=>"new.txt","path"=>"php");
+    $file_id = ecae_file_save("public",__FILE__,$options);
+	var_dump(ecae_file_fetch($file_id));
+```
+
+- 运行结果
+
+```
+// 为测试文件的内容
+```
+
+
+  === 获取指定文件的访问地址(ecae_file_url) ===
+- 接口名称: ecae_file_url
+- 接口说明: 获取指定文件的访问地址(只有是公开的bucket下的文件可以生成访问地址)
+
+|| **参数名称** | **数据类型** | **是否必填** | **默认**               | **参数说明**                           ||
+ | $file_id     | String       | 是           | 无                     | 保存在Storage上的编号                  |
+
+- 语法
+```
+/**
+ * 获取指定文件的访问地址(只有是公开的bucket下的文件可以生成访问地址)
+ *  
+ * @param string $file_id    
+ * @return string
+ **/
+ecae_file_url($file_id)
+```
+
+- 例子:
+
+```
+<?php 
+	$options = array("name"=>"new.txt","path"=>"php");
+    $file_id = ecae_file_save("public",__FILE__,$options);
+	var_dump(ecae_file_url($file_id));
+```
+
+- 运行结果
+
+```
+http://xxx-public.s3.ec-ae.com/php/new.txt
+```
+
+
+ == Crypto (加解密服务) ==
+
+     需要先开启Crypto服务, Crypto是 ECAE平台提供的一个安全加解密的服务
+
+   === 初始化密钥 (ecae_rsa_init) ===
+- 接口名称: ecae_rsa_init
+- 接口说明: 初始化密钥
+
+|| **参数名称** | **数据类型** | **是否必填** | **默认**               | **参数说明**                         ||
+ |  无参数                                                                                                    |
+
+ 
+- 语法
+```
+/**
+ * 初始化密钥
+ *  
+ **/
+ecae_rsa_init()
+```
+
+- 例子:
+
+```
+<?php 
+	ecae_rsa_init(); 
+```
+
+ 
+  === 对传入的字串进行加密处理 (ecae_rsa_encrypt) ===
+- 接口名称: ecae_rsa_encrypt
+- 接口说明: 对传入的字串进行加密处理
+
+|| **参数名称** | **数据类型** | **是否必填** | **默认**               | **参数说明**                         ||
+ | $encode      | String       | 是           | 无                     | 要进行加密的字符串                   |
+
+- 语法
+```
+/**
+ * 对传入的字串进行加密处理
+ *  
+ * @param string $encode
+ * @return string(bin)
+ **/
+ecae_ras_encrypt($encode)
+```
+
+- 例子:
+
+```
+<?php 
+    // 初始化 
+    ecae_rsa_init(); 
+
+    $str = "中华人民共和国"; 
+
+    // 加密 
+    $str_v = ecae_rsa_encrypt($str);  
+```
+
+
+  === 对传入的字串进行解密处理 (ecae_rsa_decrypt) ===
+- 接口名称: ecae_rsa_decrypt
+- 接口说明: 对传入的字串进行解密处理
+
+|| **参数名称** | **数据类型** | **是否必填** | **默认**               | **参数说明**                         ||
+ | $encode      | String(bin)  | 是           | 无                     | 要进行解密的字符串                   |
+
+- 语法
+```
+/**
+ * 对传入的字串进行解密处理
+ *  
+ * @param string(bin) $decode
+ * @return string
+ **/
+ecae_ras_decrypt($decode)
+```
+
+- 例子:
+
+```
+<?php 
+    // 初始化 
+    ecae_rsa_init(); 
+    $str = "中华人民共和国"; 
+    // 加密 
+    $str_v = ecae_rsa_encrypt($str);  
+	//解密
+	ecae_rsa_decrypt($str_v);
+```
+
+
+ == Image相关(ECAE 图片处理服务) ==
+
+ 需要开启ECAE Image 相关服务 ECAE Image 是 ECAE平台提供的一个图片处理服务,用于 图片的缩放,水印,锐化等处理
+
+
+= 相关备注 =
+
+= 更新日志 =
+
++ 2012.02.24 文档生成
++ 2012.02.24 Cache,KVStore API文档完成
++ 2012.02.25 Crypto API文档完成
++ 2012.02.29 Storage API文档完成

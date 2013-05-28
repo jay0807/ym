@@ -1,0 +1,10 @@
+<div class="header">
+    <h5 class="buglet"><{$setting.title}></h5>
+</div>
+<ul>
+    <{if $data }>
+    <{foreach from=$data item=item key=key}>
+    <li><a href="<{link app='yunmall' ctl='site_notice' act='index' arg0=$item.link_id }>" alt="<{$item.title|escape:html}>"><{$item.title|cut:$setting.max_length}></a></li>
+    <{/foreach}>
+    <{/if}>
+</ul>

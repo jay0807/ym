@@ -1,0 +1,12 @@
+<div class="article">
+    <div class="ArticleDetailsWrap">
+
+      <h2 class="textcenter"><{$data.title}></h2>
+
+      <div class=" textcenter fontnormal font-gray pubdate"><{t}>发布日期：<{/t}><{$data.pubtime|date:'Y-m-d H:i'}></div>
+      <hr  />
+
+      <p><{$data.content}></p>
+
+    </div>
+</div>

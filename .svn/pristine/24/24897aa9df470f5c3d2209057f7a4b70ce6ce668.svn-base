@@ -1,0 +1,21 @@
+<form action="<{$post_url}>" method="post" id="partner-single-form">
+  <div>
+     <{include file="admin/common/page.html" app=partner}>
+  </div>
+</form>
+<script>
+$('partner-single-form').retrieve('setTabs',function(){
+		 var gtabs=$ES('#menu-desktop .spage-side-nav li.l-handle');
+		 new ItemAgg(gtabs,$ES('#partner-single-form .spage-main-box'),{
+			activeName:'cur',
+			onActive:function(tab,item){
+				 var anotherItems=$$($A(this.items).remove(item));
+                  if(tab.hasClass('all')){
+                     anotherItems.show();
+                  }else{
+                     anotherItems.hide();
+                  }
+        	}
+		 });
+}());
+</script>

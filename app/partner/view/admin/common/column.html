@@ -1,0 +1,14 @@
+<div class="optBtn">
+	<span class="opt-handle" dropmenu="x-drop-menu"><b>操作</b></span>
+	<{if $arr_link}>
+	<ul class="x-drop-menu">
+		<{foreach from=$arr_link item=link}>
+			<li class="cur">
+			<a href="<{$link.href}>"
+				<{if $link.submit}> url="<{$link.submit}>"<{/if}> <{if $link.confirm}>confirm="<{$link.confirm}>"<{/if}> 
+				target="<{$link.target}>"><{$link.label}></a>
+			</li>
+		<{/foreach}>
+	</ul>
+	<{/if}>
+</div>

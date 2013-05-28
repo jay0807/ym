@@ -1,0 +1,775 @@
+ECAE Platform Agent API文档(产品相关)
+bluefrog(wubin@shopex.cn)
+since: %%date(%m-%d-%Y)
+
+%!encoding:utf-8
+%!Target:html
+
+= API接口定义 =
+
+  == 应用相关(apps) ==
+
+  === 添加应用(goods_apps_add) ===
+- 接口名称: goods_apps_add
+- 接口说明: 添加应用
+
+|| **参数名称** | **数据类型** | **是否必填** | **默认**               | **参数说明**                         ||
+ | 应用名称     | String       | 是           | 无                     |                                      |
+ | 源站点       | String       | 是           | 无                     |                                      |
+ | svn路径      | String       | 是           | 无                     | /trunk,/branches/current,/tags/1.0   |
+ | svn版本      | Int          | 是           | 无                     | 搞应用生成的站点就是源站点svn路径相应版本的代码 |
+ | scm类型      | Enum         | 是           | 无                     | paas|saas|fork|prima                 |
+ | 价格         | Number       | 是           | 无                     | 应用的价格(用于自己看)               |
+ | 资源         | Array        | 是           | 无                     | 空的array就行,array(array(part_id,(int)max,(int)min),...) 用于产品添加时的提示和约束(未完善) |
+
+- 语法
+```
+/**
+ * 添加应用
+ *  
+ * @param string $appname  // 应用名称
+ * @param string $site     // 源站点(三级域名)
+ * @param string $path     // svn路径
+ * @param string $rev      // svn版本   
+ * @param enum   $scm_type // 应用类型 paas|saas|fork|prima
+ * @param float  $price    // 应用价格(给自己参考的)
+ * @param array  $parts    // 应用必须的资源(提示用的 还未完善) 目前设置为array()就行 array(array(part_id,max,min),...);
+ * @return string(应用ID)
+ **/
+goods_apps_add($appname,$site,$path,$rev,$scm_type,$price,$parts)
+```
+
+- 例子:
+
+```
+//
+```
+
+- 返回结果
+
+```
+//
+```
+
+
+  === 应用上架(goods_apps_up) ===
+- 接口名称: goods_apps_up
+- 接口说明: 应用上架
+
+|| **参数名称** | **数据类型** | **是否必填** | **默认**               | **参数说明**                         ||
+ | 应用ID       | String       | 是           | 无                     |                                      |
+
+- 语法
+```
+/**
+ * 应用上架
+ *  
+ * @param string $app_id  // 应用ID
+ * @return boolean
+ **/
+goods_apps_up($app_id)
+```
+
+- 例子:
+
+```
+//
+```
+
+- 返回结果
+
+```
+//
+```
+
+
+  === 应用下架(goods_apps_down) ===
+- 接口名称: goods_apps_down
+- 接口说明: 应用下架
+
+|| **参数名称** | **数据类型** | **是否必填** | **默认**               | **参数说明**                         ||
+ | 应用ID       | String       | 是           | 无                     |                                      |
+
+- 语法
+```
+/**
+ * 应用下架
+ *  
+ * @param string $app_id  // 应用ID
+ * @return boolean
+ **/
+goods_apps_down($app_id)
+```
+
+- 例子:
+
+```
+//
+```
+
+- 返回结果
+
+```
+//
+```
+
+
+  === 应用设置价格(goods_apps_set_price) ===
+- 接口名称: goods_apps_set_price
+- 接口说明: 应用设置价格
+
+|| **参数名称** | **数据类型** | **是否必填** | **默认**               | **参数说明**                         ||
+ | 应用ID       | String       | 是           | 无                     |                                      |
+ | 价格         | Number       | 是           | 无                     |                                      |
+
+- 语法
+```
+/**
+ * 应用设置价格
+ *  
+ * @param string $app_id  // 应用ID
+ * @param float  $price   // 价格
+ * @return boolean
+ **/
+goods_apps_set_price($app_id,$price)
+```
+
+- 例子:
+
+```
+//
+```
+
+- 返回结果
+
+```
+//
+```
+
+
+  === 应用设置简介(goods_apps_set_introduction) ===
+- 接口名称: goods_apps_set_introduction
+- 接口说明: 应用设置简介
+
+|| **参数名称** | **数据类型** | **是否必填** | **默认**               | **参数说明**                         ||
+ | 应用ID       | String       | 是           | 无                     |                                      |
+ | 简介         | string       | 是           | 无                     |                                      |
+
+- 语法
+```
+/**
+ * 应用设置简介
+ *  
+ * @param string $app_id  // 应用ID
+ * @param string $intro   // 简介
+ * @return boolean
+ **/
+goods_apps_set_introduction($app_id,$intro)
+```
+
+- 例子:
+
+```
+//
+```
+
+- 返回结果
+
+```
+//
+```
+
+
+  === 应用设置扩展信息(goods_apps_set_attr) ===
+- 接口名称: goods_apps_set_attr
+- 接口说明: 应用设置扩展信息
+
+|| **参数名称** | **数据类型** | **是否必填** | **默认**               | **参数说明**                         ||
+ | 应用ID       | String       | 是           | 无                     |                                      |
+ | key          | String       | 是           | 无                     | 要设置的Key                          |
+ | value        | Mix          | 是           | 无                     | 要设置的值                           |
+
+- 语法
+```
+/**
+ * 应用设置扩展信息
+ *  
+ * @param string $app_id  // 应用ID
+ * @param string $key     // key
+ * @param mix    $value   // 要设置的值
+ * @return boolean
+ **/
+goods_apps_set_attr($app_id,$key,$value)
+```
+
+- 例子:
+
+```
+//
+```
+
+- 返回结果
+
+```
+//
+```
+
+
+  === 应用设置详细信息(goods_apps_set_info) ===
+- 接口名称: goods_apps_set_info
+- 接口说明: 应用设置详细信息
+
+|| **参数名称** | **数据类型** | **是否必填** | **默认**               | **参数说明**                         ||
+ | 应用ID       | String       | 是           | 无                     |                                      |
+ | options      | Array        | 是           | 无                     | array(array("price",$price),array("path_rev",array($path,$rev),array("name",$name)))  可以为空的array 可以少任何的array你懂的 |
+
+- 语法
+```
+/**
+ * 应用设置详细信息
+ *  
+ * @param string $app_id  // 应用ID
+ * @param array  $options // 看上面的参数说明
+ * @return boolean
+ **/
+goods_apps_set_info($app_id,$options)
+```
+
+- 例子:
+
+```
+//
+```
+
+- 返回结果
+
+```
+//
+```
+
+
+  === 应用获取详细信息(goods_apps_get_info) ===
+- 接口名称: goods_apps_get_info
+- 接口说明: 应用获取详细信息
+
+|| **参数名称** | **数据类型** | **是否必填** | **默认**               | **参数说明**                         ||
+ | 应用ID       | String       | 是           | 无                     |                                      |
+
+- 语法
+```
+/**
+ * 应用获取详细信息
+ *  
+ * @param string $app_id  // 应用ID
+ * @return array
+ **/
+goods_apps_get_info($app_id)
+```
+
+- 例子:
+
+```
+//
+```
+
+- 返回结果
+
+```
+//
+```
+
+
+  === 应用获取所有扩展信息(goods_apps_dump_attr) ===
+- 接口名称: goods_apps_dump_attr
+- 接口说明: 应用获取所有扩展信息
+
+|| **参数名称** | **数据类型** | **是否必填** | **默认**               | **参数说明**                         ||
+ | 应用ID       | String       | 是           | 无                     |                                      |
+
+- 语法
+```
+/**
+ * 应用获取所有扩展信息
+ *  
+ * @param string $app_id  // 应用ID
+ * @return array
+ **/
+goods_apps_dump_attr($app_id)
+```
+
+- 例子:
+
+```
+//
+```
+
+- 返回结果
+
+```
+//
+```
+
+
+  === 应用获取指定扩展信息(goods_apps_get_attr) ===
+- 接口名称: goods_apps_get_attr
+- 接口说明: 应用获取指定扩展信息
+
+|| **参数名称** | **数据类型** | **是否必填** | **默认**               | **参数说明**                         ||
+ | 应用ID       | String       | 是           | 无                     |                                      |
+ | Key          | String       | 是           | 无                     |                                      |
+
+- 语法
+```
+/**
+ * 应用获取指定扩展信息
+ *  
+ * @param string $app_id  // 应用ID
+ * @param string $key
+ * @return string
+ **/
+goods_apps_get_attr($app_id,$key)
+```
+
+- 例子:
+
+```
+//
+```
+
+- 返回结果
+
+```
+//
+```
+
+
+  === 应用列表(goods_apps_list) ===
+- 接口名称: goods_apps_list
+- 接口说明: 应用列表(暂时没有分页)
+
+|| **参数名称** | **数据类型** | **是否必填** | **默认**               | **参数说明**                         ||
+
+- 语法
+```
+/**
+ * 应用列表
+ *  
+ * @return array
+ **/
+goods_apps_list()
+```
+
+- 例子:
+
+```
+//
+```
+
+- 返回结果
+
+```
+//
+```
+
+
+ == 商品相关(products) ==
+
+
+  === 添加商品(goods_products_add) ===
+- 接口名称: goods_products_add
+- 接口说明: 添加商品
+
+|| **参数名称** | **数据类型** | **是否必填** | **默认**               | **参数说明**                         ||
+ | 商品名称     | String       | 是           | 无                     |                                      |
+ | 应用ID       | String       | 是           | 无                     | 应用ID                               |
+ | 价格         | Number       | 是           | 无                     | 应用的价格(用于自己看)               |
+ | 资源         | Array        | 是           | 无                     | 空的array就行,array(array(part_id,(int)num),...) 目前只用于开通站点激活相应的addon |
+
+- 语法
+```
+/**
+ * 添加商品
+ *  
+ * @param string $product_name  // 商品名称
+ * @param string $app_id        // 应用ID
+ * @param float  $price         // 商品价格(给自己参考的)
+ * @param array  $parts         // 按产品开通的站点所开能的资源(目前只用于激活相应的addon 还未完善)  array(array(part_id,num),...);
+ * @return string(商品ID)
+ **/
+goods_products_add($product_name,$app_id,$price,$parts)
+```
+
+- 例子:
+
+```
+//
+```
+
+- 返回结果
+
+```
+//
+```
+
+
+  === 商品上架(goods_products_up) ===
+- 接口名称: goods_products_up
+- 接口说明: 商品上架
+
+|| **参数名称** | **数据类型** | **是否必填** | **默认**               | **参数说明**                         ||
+ | 商品ID       | String       | 是           | 无                     |                                      |
+
+- 语法
+```
+/**
+ * 商品上架
+ *  
+ * @param string $product_id  // 商品ID
+ * @return boolean
+ **/
+goods_products_up($product_id)
+```
+
+- 例子:
+
+```
+//
+```
+
+- 返回结果
+
+```
+//
+```
+
+
+  === 商品下架(goods_products_down) ===
+- 接口名称: goods_products_down
+- 接口说明: 商品下架
+
+|| **参数名称** | **数据类型** | **是否必填** | **默认**               | **参数说明**                         ||
+ | 商品ID       | String       | 是           | 无                     |                                      |
+
+- 语法
+```
+/**
+ * 商品下架
+ *  
+ * @param string $product_id  // 商品ID
+ * @return boolean
+ **/
+goods_products_down($product_id)
+```
+
+- 例子:
+
+```
+//
+```
+
+- 返回结果
+
+```
+//
+```
+
+
+  === 商品设置价格(goods_products_set_price) ===
+- 接口名称: goods_products_set_price
+- 接口说明: 商品设置价格
+
+|| **参数名称** | **数据类型** | **是否必填** | **默认**               | **参数说明**                         ||
+ | 商品ID       | String       | 是           | 无                     |                                      |
+ | 价格         | Number       | 是           | 无                     |                                      |
+
+- 语法
+```
+/**
+ * 商品设置价格
+ *  
+ * @param string $product_id  // 商品ID
+ * @param float  $price       // 价格
+ * @return boolean
+ **/
+goods_products_set_price($product_id,$price)
+```
+
+- 例子:
+
+```
+//
+```
+
+- 返回结果
+
+```
+//
+```
+
+
+  === 商品设置简介(goods_products_set_introduction) ===
+- 接口名称: goods_products_set_introduction
+- 接口说明: 商品设置简介
+
+|| **参数名称** | **数据类型** | **是否必填** | **默认**               | **参数说明**                         ||
+ | 商品ID       | String       | 是           | 无                     |                                      |
+ | 简介         | string       | 是           | 无                     |                                      |
+
+- 语法
+```
+/**
+ * 商品设置简介
+ *  
+ * @param string $product_id  // 商品ID
+ * @param string $intro   // 简介
+ * @return boolean
+ **/
+goods_products_set_introduction($product_id,$intro)
+```
+
+- 例子:
+
+```
+//
+```
+
+- 返回结果
+
+```
+//
+```
+
+
+  === 商品设置扩展信息(goods_products_set_attr) ===
+- 接口名称: goods_products_set_attr
+- 接口说明: 商品设置扩展信息
+
+|| **参数名称** | **数据类型** | **是否必填** | **默认**               | **参数说明**                         ||
+ | 商品ID       | String       | 是           | 无                     |                                      |
+ | key          | String       | 是           | 无                     | 要设置的Key                          |
+ | value        | Mix          | 是           | 无                     | 要设置的值                           |
+
+- 语法
+```
+/**
+ * 商品设置扩展信息
+ *  
+ * @param string $product_id  // 商品ID
+ * @param string $key         // key
+ * @param mix    $value       // 要设置的值
+ * @return boolean
+ **/
+goods_products_set_attr($product_id,$key,$value)
+```
+
+- 例子:
+
+```
+//
+```
+
+- 返回结果
+
+```
+//
+```
+
+
+  === 商品设置详细信息(goods_products_set_info) ===
+- 接口名称: goods_products_set_info
+- 接口说明: 商品设置详细信息
+
+|| **参数名称** | **数据类型** | **是否必填** | **默认**               | **参数说明**                         ||
+ | 商品ID       | String       | 是           | 无                     |                                      |
+ | options      | Array        | 是           | 无                     | array(array("price",$price),array("status","down|up"),array("name",$name),array("parts",array(array(part_id,num),...) ))  可以为空的array 可以少任何的array你懂的 |
+
+- 语法
+```
+/**
+ * 商品设置详细信息
+ *  
+ * @param string $product_id  // 商品ID
+ * @param array  $options     // 看上面的参数说明 name|price|parts|status
+ * @return boolean
+ **/
+goods_products_set_info($product_id,$options)
+```
+
+- 例子:
+
+```
+//
+```
+
+- 返回结果
+
+```
+//
+```
+
+
+  === 商品获取详细信息(goods_products_get_info) ===
+- 接口名称: goods_products_get_info
+- 接口说明: 商品获取详细信息
+
+|| **参数名称** | **数据类型** | **是否必填** | **默认**               | **参数说明**                         ||
+ | 商品ID       | String       | 是           | 无                     |                                      |
+
+- 语法
+```
+/**
+ * 商品获取详细信息
+ *  
+ * @param string $product_id  // 商品ID
+ * @return array
+ **/
+goods_products_get_info($product_id)
+```
+
+- 例子:
+
+```
+//
+```
+
+- 返回结果
+
+```
+//
+```
+
+
+  === 商品获取所有扩展信息(goods_products_dump_attr) ===
+- 接口名称: goods_products_dump_attr
+- 接口说明: 商品获取所有扩展信息
+
+|| **参数名称** | **数据类型** | **是否必填** | **默认**               | **参数说明**                         ||
+ | 商品ID       | String       | 是           | 无                     |                                      |
+
+- 语法
+```
+/**
+ * 商品获取所有扩展信息
+ *  
+ * @param string $product_id  // 商品ID
+ * @return array
+ **/
+goods_products_dump_attr($product_id)
+```
+
+- 例子:
+
+```
+//
+```
+
+- 返回结果
+
+```
+//
+```
+
+
+  === 商品获取指定扩展信息(goods_products_get_attr) ===
+- 接口名称: goods_products_get_attr
+- 接口说明: 商品获取指定扩展信息
+
+|| **参数名称** | **数据类型** | **是否必填** | **默认**               | **参数说明**                         ||
+ | 商品ID       | String       | 是           | 无                     |                                      |
+ | Key          | String       | 是           | 无                     |                                      |
+
+- 语法
+```
+/**
+ * 商品获取指定扩展信息
+ *  
+ * @param string $product_id  // 商品ID
+ * @param string $key
+ * @return string
+ **/
+goods_products_get_attr($product_id,$key)
+```
+
+- 例子:
+
+```
+//
+```
+
+- 返回结果
+
+```
+//
+```
+
+
+  === 商品列表(goods_products_list) ===
+- 接口名称: goods_products_list
+- 接口说明: 商品列表(暂时没有分页)
+
+|| **参数名称** | **数据类型** | **是否必填** | **默认**               | **参数说明**                         ||
+
+- 语法
+```
+/**
+ * 商品列表
+ *  
+ * @return array
+ **/
+goods_products_list()
+```
+
+- 例子:
+
+```
+//
+```
+
+- 返回结果
+
+```
+//
+```
+
+
+ == 资源相关(parts) ==
+
+
+  === 被授权的资源/应用列表(goods_auth_list_my_goods) ===
+- 接口名称: goods_auth_list_my_goods
+- 接口说明: 被授权的资源/应用列表(没有分页)
+
+|| **参数名称** | **数据类型** | **是否必填** | **默认**               | **参数说明**                         ||
+ | 类型         | Enum         | 是           | 无                     |  parts|apps parts资源,apps应用       |
+
+- 语法
+```
+/**
+ * 被授权的资源/应用列表(没有分页)
+ * 
+ * @param string $type // parts|apps
+ * @return array
+ **/
+goods_auth_list_my_goods()
+```
+
+- 例子:
+
+```
+//
+```
+
+- 返回结果
+
+```
+//
+```
+
+
+ == 授权相关(auth) ==
+
+
+= 相关备注 =
+
+= 更新日志 =
++ 2012.04.24 文档生成

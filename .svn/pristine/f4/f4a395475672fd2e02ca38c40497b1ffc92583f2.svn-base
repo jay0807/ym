@@ -1,0 +1,164 @@
+<div class="tableform">
+    <form method="post" id='site-form'  action="index.php?app=partner&ctl=admin_site&act=save&finder_id=<{$env.get.finder_id}>">
+    <input type="hidden" name="data[site_id]" value='' />
+    <div class="division">
+        <table width=98%>
+            <tr>
+                <th><font color="red">*</font><{t}>站点名称<{/t}>:</th>
+                <td><input type='text' value='<{$data.name}>' name="data[title]" vtype="required" style="width:146px;" /></td>
+                <{if $data}><{else}><td><span></span></td><{/if}>
+            </tr>
+
+            <tr>
+                <th><font color="red">*</font><{t}>所属会员<{/t}>:</th>
+                <td>
+                    <{if $data}>
+                        <{$data.user}>
+                        <input type="hidden" name="data[user_id]" value="<{$data.user}>"/>
+                    <{else}>
+                        <{input type="object" object="user" value="admin" name="data[user_id]" vtype="required" }>
+                    <{/if}>
+                </td>
+                <{if $data}><{else}><td><span>&nbsp;&nbsp; <font color="green">注意:</font>&nbsp;&nbsp;保存后不能修改</span></td><{/if}>
+            </tr>
+            
+            <tr>
+                <th><{t}>选择应用<{/t}>:</th>
+                <td>
+                    <{if $data}>
+                        <{if $data.app}>
+                            <{$data.app}>
+                            <input type="hidden" name="data[app]" value="<{$data.app}>"/>
+                        <{else}>
+                            <{t}>没有选择应用进行开通<{/t}>
+                        <{/if}>
+                    <{else}>
+                        <{input type="object" object="application" name="data[app]" }>
+                    <{/if}>
+                </td>
+                <{if $data}><{else}><td><span>&nbsp;&nbsp; <font color="green">注意:</font>&nbsp;&nbsp;保存后不能修改</span></td><{/if}>
+            </tr>
+
+            <tr>
+                <th><font color="red">*</font><{t}>选择套餐<{/t}>:</th>
+                <td>
+                    <{if $data}>
+                        <{$data.package}>
+                        <input type="hidden" name="data[package]" value="<{$data.package}>"/>
+                    <{else}>
+                        <{input type="object" object="package" name="data[package]" vtype="required" }>
+                    <{/if}>
+                </td>
+                <{if $data}><{else}><td><span>&nbsp;&nbsp; <font color="green">注意:</font>&nbsp;&nbsp;保存后不能修改</span></td><{/if}>
+            </tr>
+            
+            <{if $data}>
+            <{else}>
+            <tr>
+                <th><font color="red">*</font><{t}>开通时间<{/t}>:</th>
+                <td>
+                    <label><input type="radio" name="create_time_type"  class="site-starttime" value="1" checked  />保存后立即开通</label>
+                    <label><input type="radio" name="create_time_type"  class="site-starttime" value="0"  />指定开通时间</label>
+                </td>
+                <td><span>&nbsp;&nbsp; <font color="green">注意:</font>&nbsp;&nbsp;保存后不能修改</span></td>
+            </tr>
+            <tr>
+                <th>&nbsp;</th>
+                <td colspan="2"><span id="site-starttime" style="display:none"><{input type='time' name='starttime' value=$now }></span></td>
+            </tr>
+            <{/if}>
+
+            <tr>
+                <th><font color="red">*</font><{t}>站点有效期<{/t}>:</th>
+                <td>
+                    <{if $data}>
+                        <{$data.period}>月
+                    <{else}>
+                    <input type='text' name='data[period]' value="<{$data.period}>" vtype="required&&number" maxlength=2 style="width:146px;" />月
+                    <{/if}>
+                </td>
+                <{if $data}><{else}><td><span>&nbsp;&nbsp; <font color="green">注意:</font>&nbsp;&nbsp;保存后不能修改</span></td><{/if}>
+            </tr>
+
+            <tr>
+                <th><font color="red">*</font><{t}>初始访问状态<{/t}>:</th>
+                <td>
+                    <label><input type="radio" name="data[status]" value=1  <{if !isset($data) || $data.status }>checked<{/if}>/>开启访问</label>
+                    <label><input type="radio" name="data[status]" value=0  <{if isset($data) && !$data.status }>checked<{/if}>/>关闭访问</label>
+                </td>
+                <{if $data}><{else}><td><span></span></td><{/if}>
+            </tr>
+
+            <tr>
+                <th><font color="red">*</font><{t}>域名<{/t}>:</th>
+                <td>
+                    <input type='text' name="data[name]" value='<{$data.domain}>' vtype="required&&alphaint" <{if $data}>readonly<{/if}> size=30 maxlength=50 />
+                    .<span id="site-agent-domain"><{$domain}></span>
+                </td>
+                <{if $data}><{else}><td><span>&nbsp;&nbsp; <font color="green">注意:</font>&nbsp;&nbsp;保存后不能修改</span></td><{/if}>
+            </tr>
+
+            <tr>
+                <th><{t}>站点描述<{/t}>:</th>
+                <td><textarea name="data[intro]" cols="60" rows="5" maxlength=50 placeholder="50字以内描述"><{$data.desc}></textarea></td>
+                <{if $data}><{else}><td><span></span></td><{/if}>
+            </tr>
+
+        </table>
+    </div>
+
+    <div>
+        <div class="table-action">
+            <{button type="submit" label=$___partner="保存"|t:'' id='site-form-submit'}>&nbsp;&nbsp;
+            <{button type="button" label=$___partner="关闭"|t:'' id='site-form-exit'}>
+        </div>
+    </div>
+    </form>
+</div>
+<script>
+(function(){
+    var _form = $('site-form');
+    var btn =$('site-form-submit');
+    var finder = finderGroup['<{$env.get.finder_id}>'];
+    
+    _form.store('target',{
+        onComplete:function() {
+        },
+        onSuccess:function(response) {
+            var hash_res_obj = JSON.decode(response);
+            if (hash_res_obj.success != undefined && hash_res_obj.success != "") {
+                try {
+                    var _dialogIns = btn.getParent('.dialog').retrieve('instance');
+                } catch(e){}
+                
+                if(_dialogIns) {
+                    _dialogIns.close();
+                    finder.refresh.delay(400,finder);
+                }
+            }else{
+                //alert(hash_res_obj.error);
+            }            
+        }
+    });
+    
+    btn.addEvent('click',function(){
+        _form.fireEvent('submit',{stop:$empty});
+    });
+
+    if($$(".site-starttime")) {
+        $$(".site-starttime").each(function(item) {
+            item.addEvent('click',function(e) {
+                $("site-starttime").setStyle("display",(item.get("value") == 1)? 'none':'block');
+            });
+        });
+    }
+
+    $("site-form-exit").addEvent('click',function() {
+        try {
+            var _dialogIns = btn.getParent('.dialog').retrieve('instance');
+        } catch(e){} 
+        if(_dialogIns) _dialogIns.close();
+    });
+
+})();
+</script>

@@ -1,0 +1,1 @@
+<?php exit(); ?>a:3:{s:5:"value";a:5:{s:3:"key";s:28:"desktop_finder.site_mdl_link";s:6:"prefix";s:7:"service";s:5:"value";a:1:{s:4:"list";a:1:{s:16:"site_finder_link";s:16:"site_finder_link";}}s:3:"ttl";i:0;s:8:"dateline";i:1369721282;}s:3:"ttl";i:0;s:8:"dateline";i:1369721282;}

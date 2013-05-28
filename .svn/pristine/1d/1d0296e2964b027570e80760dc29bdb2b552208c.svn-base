@@ -1,0 +1,52 @@
+<div class="tableform">
+    <table width=98%>
+        <tr>
+            <th><{t}>用户ID<{/t}>:</th>
+            <td><{$data.user.id.1}></td>
+        </tr>
+        <tr>
+            <th><{t}>姓名<{/t}>:</th>
+            <td><{$data.attr.username}></td>
+        </tr>
+        <tr>
+            <th><{t}>邮箱<{/t}>:</th>
+            <td><{$data.attr.email}></td>
+        </tr>
+        <tr>
+            <th><{t}>联系地址<{/t}>:</th>
+            <td><{$data.attr.address}></td>
+        </tr>
+        <tr>
+            <th><{t}>联系电话<{/t}>:</th>
+            <td><{$data.attr.tel}></td>
+        </tr>
+    </table>
+</div>
+
+<div class="tableform">
+    <table width=98%>
+        <tr>
+            <th><{t}>可创建站点数<{/t}>:</th>
+            <td><{$alter.period}>
+                <{if $alter.period_type == "day"}>天<{elseif $alter.period_type == "year"}>年<{else}>月<{/if}>内可创建<{$alter.max_num}>站点
+            </td>
+        </tr>
+        <tr>
+            <th><{t}>周期内已创建站点数<{/t}>:</th>
+            <td><{$alter.create_num}></td>
+        </tr>
+    </table>
+</div>
+
+<div class="tableform">
+    <table width=98%>
+        <tr>
+            <th><{t}>注册时间<{/t}>:</th>
+            <td><{$data.attr.createtime|cdate}></td>
+        </tr>
+        <tr>
+            <th><{t}>帐号状态<{/t}>:</th>
+            <td><{if $data.user.active}> <font color="green">已启用</font> <{else}> <font color="red">已禁用</font> <{/if}></td>
+        </tr>
+    </table>
+</div>

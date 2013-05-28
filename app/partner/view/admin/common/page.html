@@ -1,0 +1,64 @@
+<{capture name="sidebar"}>
+<div class="side-bx spage-side">
+    <div class="spage-side-nav">
+        <ul>
+            <li class="l-handle all" ><span><{t}>基本信息<{/t}></span></li>
+            <{foreach from=$sections item=section name="sec"}>
+                <{if $env.foreach.sec.iteration neq 1}>
+                <li class="l-handle" ><span><{$section.label}></span></li>
+                <{/if}>
+            <{/foreach}>
+        </ul>
+    </div>
+</div>
+
+<{/capture}>
+
+
+<{foreach from=$sections item=section}>
+<div class="spage-main-box">
+  <{include file=$section.file app=$section.app}>
+</div>
+<{/foreach}>
+<{capture name='footbar'}>
+<table cellspacing="0" cellpadding="0" class="table-action">
+      <tbody><tr valign="middle">
+        <td>
+        <{assign var="___a"  value="关  闭"}>
+        <{assign var="___c"  value=$___partner='确定退出?'|t:'partner'}>
+            <{button label=$___partner="保存并关闭窗口"|t:'partner' class="btn-primary" type="button" id="submitForm" onclick="submitForm(event,2)"}>
+            <!--<{button label="保  存" class="btn-primary" onclick="submitForm(event,1)"}>-->
+            <{button label=$___content=$___a|t:'content' class="btn-secondary" type="button" onclick="if(confirm('{$___c}'))window.close()"}>
+        </td>
+        </tr>
+        </tbody>
+</table>
+
+<script>
+var submitForm = function (event,sign){
+       var _form=$('partner-single-form');
+       
+        switch (sign){
+            case 1:
+                var target={
+                    onComplete:function(){
+                        location.reload();
+                }};
+            break;
+            case 2:
+                var target={
+                    onComplete:function(rs){
+                        if(rs&&!!JSON.decode(rs).success){
+                          try{
+                              window.opener.finderGroup['<{$env.get.finder_id}>'].refresh();
+							  window.close();
+                          }catch(e){}
+                        }
+                    }};
+            break;
+       }
+       _form.store('target',target);
+       _form.fireEvent('submit',new Event(event));
+    };
+</script>
+<{/capture}>

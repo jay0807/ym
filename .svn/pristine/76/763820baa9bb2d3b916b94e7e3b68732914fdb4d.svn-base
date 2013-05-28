@@ -1,0 +1,46 @@
+<div class="tableform">
+    <table width=98%>
+        <tr>
+            <th><{t}>套餐名称<{/t}>:</th>
+            <td><{$data.name}></td>
+        </tr>
+        <tr>
+            <th><{t}>流量<{/t}>:</th>
+            <td><{$data.network}>T/月</td>
+        </tr>
+        <tr>
+            <th><{t}>进程<{/t}>:</th>
+            <td><{$data.worker}>个</td>
+        </tr>
+        <tr>
+            <th><{t}>数据库大小<{/t}>:</th>
+            <td><{$data.db_size}>M</td>
+        </tr>
+        <tr>
+            <th><{t}>图片空间大小<{/t}>:</th>
+            <td><{$data.image_size}>G</td>
+        </tr>
+        <tr>
+            <th><{t}>代码空间大小<{/t}>:</th>
+            <td><{$data.code_size}>M</td>
+        </tr>
+        <tr>
+            <th><{t}>套餐价格<{/t}>:</th>
+            <td><{$data.price}></td>
+        </tr>
+        <tr>
+            <th><{t}>套餐状态<{/t}>:</th>
+            <td>
+                <{if $data.status == "up"}>
+                    <font color="green">已上架</font>
+                <{else}>
+                    <font color="red">已下架</font>
+                <{/if}>
+            </td>
+        </tr>
+        <tr>
+            <th><{t}>套餐描述<{/t}>:</th>
+            <td><{$data.desc}></td>
+        </tr>
+    </table>
+</div>

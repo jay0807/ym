@@ -1,0 +1,65 @@
+<div class="tableform">
+    <table width=98%>
+        <tr>
+            <th><{t}>svn目录<{/t}>:</th>
+            <td><{$data.scm_url}></td>
+        </tr>
+        <tr>
+            <th><{t}>站点名称<{/t}>:</th>
+            <td><{$data.name}></td>
+        </tr>
+        <tr>
+            <th><{t}>所属会员<{/t}>:</th>
+            <td><{$data.user}></td>
+        </tr>
+        <tr>
+            <th><{t}>使用应用<{/t}>:</th>
+            <td><{$data.app}></td>
+        </tr>
+        <tr>
+            <th><{t}>使用套餐<{/t}>:</th>
+            <td><{$data.package}></td>
+        </tr>
+        <tr>
+            <th><{t}>开通周期<{/t}>:</th>
+            <td><{$data.period}>个月</td>
+        </tr>
+        <tr>
+            <th><{t}>域名<{/t}>:</th>
+            <td>
+                <{foreach from=$domain item=item key=key}>
+                    <{if $item.active}>
+                        <a href="http://<{$item.url}>" target="_open">http://<{$item.url}></a>&nbsp;&nbsp;<font color=green>激活</font><br/>            
+                    <{else}>
+                        http://<{$item.url}>&nbsp;&nbsp;<font color=red>关闭</font><br/>
+                    <{/if}>
+                <{/foreach}>
+            </td>
+        </tr>
+        <tr>
+            <th><{t}>开通时间<{/t}>:</th>
+            <td><{$data.starttime|cdate}></td>
+        </tr>
+        <tr>
+            <th><{t}>到期时间<{/t}>:</th>
+            <td><{$data.deadline|cdate}></td>
+        </tr>
+        <tr>
+            <th><{t}>创建时间<{/t}>:</th>
+            <td><{$data.creattime|cdate}></td>
+        </tr>
+        <tr>
+            <th><{t}>状态<{/t}>:</th>
+            <td><{if ($data.status === "delete")}><font color="blue">已删除</font>
+                <{elseif $data.status}><font color="green">已开启</font>
+                <{else}><font color="red">已关闭</font>
+                <{/if}>
+            </td>
+        </tr>
+        <tr>
+            <th><{t}>站点描述<{/t}>:</th>
+            <td><{$data.desc}></td>
+        </tr>
+
+    </table>
+</div>

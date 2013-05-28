@@ -1,0 +1,20 @@
+    <div id="footer">
+        <div class="position">
+            <{footer}>
+            <p>Copyright&nbsp;&copy;2013&nbsp;-&nbsp;2014 上海商派网络科技有限公司&nbsp;&nbsp;沪ICP备：05002918号</p>
+        </div>
+    </div>
+</div>
+<script>
+    window.addEvent('domready', function() {
+        if($("ym-welcome")) {
+
+            if(Cookie.read("nickname")) {
+                $("ym-welcome").set("html","欢迎您：<em>" + Cookie.read("nickname") + "</em>");
+            }
+        }
+    });
+</script>
+
+</body>
+</html>

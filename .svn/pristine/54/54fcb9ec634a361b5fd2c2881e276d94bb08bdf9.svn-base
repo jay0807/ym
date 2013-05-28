@@ -1,0 +1,47 @@
+<form method="post" id='member-form'  action="index.php?app=partner&ctl=admin_user&act=password&p[0]=<{$user_id}>&p[1]=1&finder_id=<{$env.get.finder_id}>">
+<input type="hidden" name="data[user_id]" value='<{$user_id}>'/>
+<div class="division">
+	<!--<table width=98%>
+		<tr>
+			<th><font color="red">*</font><{t}>新的密码<{/t}>:</th>
+			<td><input type='password' name="data[password]" vtype="required" /></td>
+		</tr>
+		<tr>
+			<th><font color="red">*</font><{t}>确认密码<{/t}>:</th>
+			<td><input type='password' name="data[confirm_password]" vtype="required" /></td>
+		</tr>
+	</table>-->
+	<input type="text" value="" readonly size="31"/>
+</div>
+
+<div>
+	<div class="table-action"><{button type="button" label=$___partner="重置密码"|t:'' id='member-form-submit'}></div>
+</div>
+
+</form>
+<script>
+(function(){
+    var _form = $('member-form');
+    var btn =$('member-form-submit');
+    var finder = finderGroup['<{$env.get.finder_id}>'];
+	var input = $ES("input[type=text]",_form)[0];
+
+    btn.addEvent('click',function(){
+		_form.send({
+			url:_form.action,
+ 			onComplete:function() {
+        	},
+        	onSuccess:function(response) {
+            	var hash_res_obj = JSON.decode(response);
+			
+				if (hash_res_obj.password != undefined && hash_res_obj.password != "") {
+                	input.set('value',hash_res_obj.password);
+            	}else{
+                	alert(hash_res_obj.error);
+            	}           
+        	}
+		});
+	});
+    
+})();
+</script>

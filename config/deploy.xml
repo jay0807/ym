@@ -1,0 +1,47 @@
+<deploy>
+
+        <licence file="license.txt" />
+
+        <product_name>ECAE代理商平台</product_name>
+        <product_version>0.2</product_version>
+        <product_key>ecos.ecae.partner</product_key>
+        <product_desc>ECAE代理商平台</product_desc>
+
+        <installer>
+
+                <title>ECAE代理商平台 安装</title>
+
+                <banner><![CDATA[
+                <h1 id="ECstore-ver">ECAE Partner<sup style="color:red;font-size:12px"></sup></h1>
+                ]]></banner>
+
+                <style><![CDATA[
+                ]]></style>
+
+                <finish>
+                        <message><![CDATA[
+                        <div>安装顺利完成！
+						<p style="margin-top:20px;">进入ECAE代理商平台:</p>
+						<p><a href="%BASE_URL%">%BASE_URL%/index.php/admin</a></p>
+						</div>
+
+                        ]]></message>
+                </finish>
+                <writeable_check>
+                        <dir>config</dir>
+                        <dir>app</dir>
+                </writeable_check>
+        </installer>
+
+        <package>
+                <app id="partner" />
+                <app id="ecaeapi" />
+                <app id="content" />
+        </package>
+
+        <setting app="desktop" key="banner">ECAE代理商平台</setting>
+        <setting app="desktop" key="logo">ECAE代理商平台</setting>
+        <setting app="desktop" key="logo_desc">ECAE代理商平台</setting>
+
+</deploy>
+                                    

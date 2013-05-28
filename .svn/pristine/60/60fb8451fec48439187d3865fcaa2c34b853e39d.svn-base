@@ -1,0 +1,81 @@
+<div class="spage-main-box">
+<form id="site-phpini-form">
+    <div id="x-phpini-basic" class="tableform">
+        <h3><{t}>PHP设置<{/t}></h3>
+        <div class="division">
+        <table width=98%>
+            <tr>
+                <td width="200"><b>参数</b></td>
+                <td><b>值</b></td>
+            </tr>
+            <{foreach from=$php_ini key=key item=item}>
+            <tr class="first">
+                <td><{$key}></td>
+                <td>
+                    <{if is_array($item.val)}>
+                    <select name="phpini[<{$key}>]" class="w200">
+                    <{foreach from=$item.val item=val}>
+                        <option value="<{$val}>" <{if $val==$item.default}>selected="selected"<{/if}>><{$val}></option>
+                    <{/foreach}>
+                    </select>
+                    <{else}>
+                    <{input type="text" name="phpini[{$key}]" value=$item.default|default:$item.val }>
+                    <{/if}>
+                </td>
+            </tr>
+            <{/foreach}>
+            </table>
+        </div>
+    </div>
+    </form>
+</div>
+
+<{capture name='footbar'}>
+<table cellspacing="0" cellpadding="0" class="table-action">
+    <tbody>
+        <tr valign="middle"><td>
+            <{assign var="___c"  value=$___partner='确定退出?'|t:'partner'}>
+            <{button type="button" label=$___partner="提交保存"|t:'partner' id='site-phpini-form-submit'}>
+            <{button label=$___partner="关闭"|t:'partner' class="btn-secondary" type="button" onclick="if(confirm('{$___c}'))window.close()"}>
+        </td></tr>
+    </tbody>
+</table>
+<script>
+if($("site-phpini-form-submit")) {
+    $("site-phpini-form-submit").addEvent("click",function(e){    
+        var e = this;
+        e.set('_v',e.value);
+        e.set('value','loading...');
+        e.disabled = true;
+          new Request({
+                url: '<{link app="partner" ctl="admin_site" act="phpini"}>&p[0]=<{$site_id}>',
+                method: 'post',
+                evalScripts:true,
+                data:$("site-phpini-form"),
+                async:false,
+                onRequest : function(){
+                    e.disabled = true;
+                },
+                onComplete: function(re){
+                    e.disabled = false;
+                    e.set('value',e.get('_v'));
+                    var json;
+                    try{
+                        json = JSON.decode(re);
+                    }catch(e){}
+                    
+                    if(json && json.success){
+                        MessageBox.success(json.success);
+                        window.close();
+                        //location.reload();
+                    }else{
+                        if(json.error) MessageBox.error(json.error);
+                    }
+                }
+            }).send();
+ 
+        return false;
+    });
+}
+</script>
+<{/capture}>

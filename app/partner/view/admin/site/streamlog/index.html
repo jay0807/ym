@@ -1,0 +1,10 @@
+<div class="tableform">
+<{tabber}>
+    <{foreach from=$sections item=item key=key}>
+    <{tab name=$item.label}>
+        <{assign var="log_type" value=$key}>
+       <{include file="admin/site/streamlog/search.html"}>
+    <{/tab}>
+    <{/foreach}>
+<{/tabber}>
+</div>
